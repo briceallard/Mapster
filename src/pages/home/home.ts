@@ -36,6 +36,11 @@ export class HomePage {
 
   loadMap() {
  
+    Environment.setEnv({
+      'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyCO8ryKRAkT2zPwSJLWJQKsQVr-JHSqAYY',
+      'API_KEY_FOR_BROWSER_DEBUG': 'AIzaSyCO8ryKRAkT2zPwSJLWJQKsQVr-JHSqAYY'
+    });
+    
     let mapOptions: GoogleMapOptions = {
       camera: {
          target: {
