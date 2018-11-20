@@ -180,7 +180,7 @@ export class ProfilePage {
         }
       }
     } catch (e) {
-      this.alert.create({ title: 'Error!', subTitle: 'Image Not Uploaded.', buttons: ['OK'] }).present();
+      this.alert.create({ title: 'Error!', subTitle: e, buttons: ['OK'] }).present();
     }
 
   }

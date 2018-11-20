@@ -91,7 +91,7 @@ export class UserDataProvider {
   }
 
   async uploadProfileImage(image: string) {
-this.storage
+    this.storage
     let user = await this.auth.getAuthenticatedUser();
     const imageRef = this.storage.ref(`users/${user.uid}/publicImages/image_${Date.now()}`); // Make a reference
 

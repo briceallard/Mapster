@@ -28,6 +28,7 @@ import { MessagesProvider } from '../providers/messages/messages';
 import { UtilitiesProvider } from '../providers/utilities/utilities';
 import { FriendsProvider } from '../providers/friends/friends';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 @NgModule({
   declarations: [
@@ -63,7 +64,8 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
     FriendsProvider,
     Camera,
     ImagePicker,
-    Crop
+    Crop,
+    AndroidPermissions
   ]
 })
 
