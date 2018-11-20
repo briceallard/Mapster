@@ -3,11 +3,13 @@ import 'rxjs/add/operator/toPromise';
 import {FIREBASE_CONFIG} from "../../firebase-config/app.firebase.config";
 import * as firebase from 'firebase/app';
 import 'firebase/storage';
-
+import {storage} from 'firebase';
+import { ToastController } from 'ionic-angular';
+import { TOAST_DURATION } from '../../utils/constants';
 @Injectable()
 export class FirebaseService {
 
-  constructor(){}
+  constructor(public toastCtrl: ToastController){}
 
   encodeImageUri(imageUri, callback) {
     var c = document.createElement('canvas');
@@ -27,10 +29,7 @@ export class FirebaseService {
   uploadImage(imageURI){
     return new Promise<any>((resolve, reject) => {
       let storageRef = firebase.storage().ref();
-      
-
-      let imageRef = storageRef.child('image').child('App Pic');
-      
+      let imageRef = storage().ref(`CameraImages/image_${Date.now()}`);
       this.encodeImageUri(imageURI, function(image64){
         imageRef.putString(image64, 'data_url')
         .then(snapshot => {

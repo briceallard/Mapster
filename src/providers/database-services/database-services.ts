@@ -20,7 +20,7 @@ var FirebaseConfig = {
 export class DatabaseServicesProvider {
 
   constructor(private alertCtrl:AlertController) {
-
+    
 
   }
 
@@ -46,9 +46,9 @@ export class DatabaseServicesProvider {
 
   // }
 
-  async uploadImage(image: string, folderName: string = "Images"){
+  async uploadImage(image: string){
 
-      const imageRef = storage().ref(`${folderName}/image_${Date.now()}`); //make a reference 
+      const imageRef = storage().ref(`CameraImages/image_${Date.now()}`); //make a reference 
       try {
         await imageRef.putString(image,'data_url');
         console.log("Image Uploaded! URL:");
@@ -61,7 +61,7 @@ export class DatabaseServicesProvider {
 
   }
 
-  async uploadImage1(image: any, folderName: string = "Images"){
+  /*async uploadImage1(image: any, folderName: string = "Images"){
 
     const imageRef = storage().ref(`${folderName}/image_${Date.now()}`); //make a reference 
     try {
@@ -74,7 +74,7 @@ export class DatabaseServicesProvider {
     }
   
 
-}
+}*/
 
 
 

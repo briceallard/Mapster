@@ -46,35 +46,36 @@ export class HomePage {
   public closeModal() {
 
   }
-  // openImagePickerCrop() {
-  //   this.imagePicker.hasReadPermission().then(
-  //     (result) => {
-  //       if (result == false) {
-  //         // no callbacks required as this opens a popup which returns async
-  //         this.imagePicker.requestReadPermission();
-  //       }
-  //       else if (result == true) {
-  //         this.imagePicker.getPictures({
-  //           maximumImagesCount: 1
-  //         }).then(
-  //           (results) => {
-  //             for (var i = 0; i < results.length; i++) {
-  //               this.cropService.crop(results[i], { quality: 75 }).then(
-  //                 newImage => {
-  //                   this.firebaseService.uploadImage(newImage);
-  //                 },
-  //                 error => console.error("Error cropping image", error)
-  //               );
-  //             }
-  //           }, (err) => console.log(err)
-  //         );
-  //       }
-  //     }, (err) => {
-  //       console.log(err);
-  //     });
-  // }
+  openImagePickerCrop(){
+    this.imagePicker.hasReadPermission().then(
+      (result) => {
+        if(result == false){
+          // no callbacks required as this opens a popup which returns async
+          this.imagePicker.requestReadPermission();
+        }
+        else if(result == true){
+          this.imagePicker.getPictures({
+            maximumImagesCount: 1
+          }).then(
+            (results) => {
+              for (var i = 0; i < results.length; i++) {
+                this.cropService.crop(results[i], {quality: 75}).then(
+                  newImage => {
+                    this.uploadImageToFirebase(newImage);
+                  },
+                  error => console.error("Error cropping image", error)
+                );
+              }
+            }, (err) => console.log(err)
+          );
+        }
+      }, (err) => {
+        console.log(err);
+      });
+    }
+  
 
-  async openImagePickerCrop() {
+  /*async openImagePickerCrop() {
     try {
       if (!(await this.imagePicker.hasReadPermission())) {
         // no callbacks required as this opens a popup which returns async
@@ -85,8 +86,9 @@ export class HomePage {
         for (var i = 0; i < results.length; i++) {
           let newImage = await this.cropService.crop(results[i], { quality: 75 });
           console.log(newImage);
-          let file = new File([""], normalizeURL(newImage));
+          //let file = new File([""], normalizeURL(newImage));
           await this.db.uploadImage1(newImage, "CameraImages");
+         
         }
       }
     } catch (e) {
@@ -94,7 +96,7 @@ export class HomePage {
     }
 
 
-  }
+  }*/
 
   async takePicture() {
 
@@ -117,24 +119,38 @@ export class HomePage {
   }
 
 
-  async uploadPicture() {
+  async uploadPicture() {//camera database
 
     try {
-      await this.db.uploadImage(this.imageUrl, "CameraImages");
+      await this.db.uploadImage(this.imageUrl,);
 
-      this.alertCtrl.create({
-        title: 'Done!',
-        subTitle: 'Image Uploaded.',
-        buttons: ['OK']
-      }).present();
+      let toast = this.toastCtrl.create({
+        message: 'Image was uploaded successfully',
+        duration: 3000
+      });
+      toast.present();
     } catch (e) {
-      this.alertCtrl.create({
-        title: 'Error!',
-        subTitle: 'Image Not Uploaded.',
-        buttons: ['OK']
-      }).present();
+      let toast = this.toastCtrl.create({
+        message: 'Image failed to upload',
+        duration: 3000
+      });
+      toast.present();
     }
 
+  }
+  uploadImageToFirebase(image){ //crop firebase
+    image = normalizeURL(image);
+
+    //uploads img to firebase storage
+    this.firebaseService.uploadImage(image)
+    .then(photoURL => {
+      
+      let toast = this.toastCtrl.create({
+        message: 'Image was uploaded successfully',
+        duration: 3000
+      });
+      toast.present();
+      })
   }
 
 

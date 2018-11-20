@@ -10,7 +10,7 @@
           "NSCameraUsageDescription": [
             {
               "xml": "<string>You can upload your offer/article picture using your camera</string>",
-              "count": 15
+              "count": 28
             }
           ],
           "NSPhotoLibraryUsageDescription": [
