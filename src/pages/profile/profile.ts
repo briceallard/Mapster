@@ -163,14 +163,14 @@ export class ProfilePage {
 
   async takePicture() {
 
-    this.cameraOptions = {
+    const cameraOptions: CameraOptions = {
       quality: 100,
       destinationType: this.camera.DestinationType.DATA_URL,
       targetWidth: 400,
       //targetHeight: 400,
     }
 
-    let imageData = await this.camera.getPicture(this.cameraOptions);
+    let imageData = await this.camera.getPicture(cameraOptions);
     // imageData is either a base64 encoded string or a file URI
     // If it's base64 (DATA_URL):
     let base64Image = 'data:image/jpeg;base64,' + imageData;
