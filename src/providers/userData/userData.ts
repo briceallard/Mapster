@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { User } from '../../models/users/user.interface';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AuthProvider } from '../auth/auth';
+import { storage, initializeApp } from 'firebase';
+
 
 @Injectable()
 export class UserDataProvider {
@@ -27,11 +29,11 @@ export class UserDataProvider {
 
         // get user object
         .valueChanges().subscribe((profile: any) => {
-          
+
           // check if profile exists
           console.log(profile);
           if (profile !== undefined && profile.firstName !== null) {
-            
+
             resolve(profile);
           }
           else
@@ -52,7 +54,7 @@ export class UserDataProvider {
     try {
       await this.getAuthenticatedUserProfile();
       return true;
-    } catch(e) {
+    } catch (e) {
       return false;
     }
   }
@@ -81,6 +83,21 @@ export class UserDataProvider {
     try {
       let user = await this.auth.getAuthenticatedUser();
       await this.data.doc<User>(`users/${user.uid}`).update(profile);
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
+
+  async uploadImage(image: string) {
+
+    let user = await this.auth.getAuthenticatedUser();
+    const imageRef = storage().ref(`users/${user.uid}/publicImages/image_${Date.now()}`); // Make a reference
+
+    try {
+      await imageRef.putString(image, 'data_url');
+      console.log("Image Saved! URL:");
+
     } catch (e) {
       console.log(e);
       throw e;

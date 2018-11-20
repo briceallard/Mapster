@@ -11,11 +11,11 @@
     <img class="profile-image" src="assets/icon/profile_image_placeholder.svg">
 
     <div>
-    <button small ion-button outline round icon-start>
+    <button ion-button outline round icon-start (click)="takePicture()">
       <ion-icon name="camera"></ion-icon>
       Take Picture
     </button>
-    <button small ion-button outline round icon-start>
+    <button ion-button outline round icon-start (click)="openImagePickerCrop()">
       <ion-icon name="image"></ion-icon>
       Edit Picture
     </button>
