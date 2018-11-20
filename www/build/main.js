@@ -22,32 +22,32 @@ webpackEmptyAsyncContext.id = 196;
 
 var map = {
 	"../pages/home/home.module": [
+		506,
+		0
+	],
+	"../pages/login/login.module": [
 		509,
 		5
 	],
-	"../pages/login/login.module": [
+	"../pages/messages/messages.module": [
 		505,
 		4
 	],
-	"../pages/messages/messages.module": [
-		506,
-		3
-	],
 	"../pages/modal-profile/modal-profile.module": [
 		508,
-		2
+		3
 	],
 	"../pages/new-message/new-message.module": [
 		507,
 		6
 	],
 	"../pages/profile/profile.module": [
-		510,
-		1
+		511,
+		2
 	],
 	"../pages/register/register.module": [
-		511,
-		0
+		510,
+		1
 	]
 };
 function webpackAsyncContext(req) {
@@ -386,13 +386,13 @@ var AppModule = /** @class */ (function () {
                 __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
                 __WEBPACK_IMPORTED_MODULE_2_ionic_angular__["c" /* IonicModule */].forRoot(__WEBPACK_IMPORTED_MODULE_5__app_component__["a" /* MyApp */], {}, {
                     links: [
-                        { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/messages/messages.module#MessagesPageModule', name: 'MessagesPage', segment: 'messages', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/home/home.module#HomePageModule', name: 'HomePage', segment: 'home', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/new-message/new-message.module#NewMessagePageModule', name: 'NewMessagePage', segment: 'new-message', priority: 'low', defaultHistory: [] },
                         { loadChildren: '../pages/modal-profile/modal-profile.module#ModalProfilePageModule', name: 'ModalProfilePage', segment: 'modal-profile', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/home/home.module#HomePageModule', name: 'HomePage', segment: 'home', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/profile/profile.module#ProfilePageModule', name: 'ProfilePage', segment: 'profile', priority: 'low', defaultHistory: [] },
-                        { loadChildren: '../pages/register/register.module#RegisterPageModule', name: 'RegisterPage', segment: 'register', priority: 'low', defaultHistory: [] }
+                        { loadChildren: '../pages/login/login.module#LoginPageModule', name: 'LoginPage', segment: 'login', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/register/register.module#RegisterPageModule', name: 'RegisterPage', segment: 'register', priority: 'low', defaultHistory: [] },
+                        { loadChildren: '../pages/profile/profile.module#ProfilePageModule', name: 'ProfilePage', segment: 'profile', priority: 'low', defaultHistory: [] }
                     ]
                 }),
                 __WEBPACK_IMPORTED_MODULE_7_angularfire2__["AngularFireModule"].initializeApp(__WEBPACK_IMPORTED_MODULE_9__firebase_config_app_firebase_config__["a" /* FIREBASE_CONFIG */]),
@@ -690,10 +690,9 @@ var MessagesProvider = /** @class */ (function () {
     }
     MessagesProvider = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_1__angular_core__["A" /* Injectable */])(),
-        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]) === "function" && _a || Object])
+        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_0__angular_common_http__["a" /* HttpClient */]])
     ], MessagesProvider);
     return MessagesProvider;
-    var _a;
 }());
 
 //# sourceMappingURL=messages.js.map

@@ -1,14 +1,14 @@
 webpackJsonp([0],{
 
-/***/ 511:
+/***/ 506:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "RegisterPageModule", function() { return RegisterPageModule; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "HomePageModule", function() { return HomePageModule; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__register__ = __webpack_require__(519);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__home__ = __webpack_require__(515);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -18,23 +18,23 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 
 
 
-var RegisterPageModule = /** @class */ (function () {
-    function RegisterPageModule() {
+var HomePageModule = /** @class */ (function () {
+    function HomePageModule() {
     }
-    RegisterPageModule = __decorate([
+    HomePageModule = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["I" /* NgModule */])({
             declarations: [
-                __WEBPACK_IMPORTED_MODULE_2__register__["a" /* RegisterPage */],
+                __WEBPACK_IMPORTED_MODULE_2__home__["a" /* HomePage */],
             ],
             imports: [
-                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__register__["a" /* RegisterPage */]),
+                __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__home__["a" /* HomePage */]),
             ],
         })
-    ], RegisterPageModule);
-    return RegisterPageModule;
+    ], HomePageModule);
+    return HomePageModule;
 }());
 
-//# sourceMappingURL=register.module.js.map
+//# sourceMappingURL=home.module.js.map
 
 /***/ }),
 
@@ -58,6 +58,8 @@ var Pages = /** @class */ (function () {
     Pages.HOME_PAGE = 'HomePage';
     Pages.PROFILE_PAGE = 'ProfilePage';
     Pages.MODAL_PROFILE = 'ModalProfilePage';
+    Pages.MESSAGES_PAGE = 'MessagesPage';
+    Pages.NEW_MESSAGE_PAGE = 'NewMessagePage';
     return Pages;
 }());
 
@@ -90,16 +92,14 @@ var SuccessMessages = /** @class */ (function () {
 
 /***/ }),
 
-/***/ 519:
+/***/ 515:
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return RegisterPage; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return HomePage; });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(88);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__ = __webpack_require__(89);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__providers_utilities_utilities__ = __webpack_require__(286);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__utils_constants__ = __webpack_require__(512);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__utils_constants__ = __webpack_require__(512);
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -109,113 +109,44 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __generator = (this && this.__generator) || function (thisArg, body) {
-    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
-    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
-    function verb(n) { return function (v) { return step([n, v]); }; }
-    function step(op) {
-        if (f) throw new TypeError("Generator is already executing.");
-        while (_) try {
-            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [0, t.value];
-            switch (op[0]) {
-                case 0: case 1: t = op; break;
-                case 4: _.label++; return { value: op[1], done: false };
-                case 5: _.label++; y = op[1]; op = [0]; continue;
-                case 7: op = _.ops.pop(); _.trys.pop(); continue;
-                default:
-                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
-                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
-                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
-                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
-                    if (t[2]) _.ops.pop();
-                    _.trys.pop(); continue;
-            }
-            op = body.call(thisArg, _);
-        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
-        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
-    }
-};
 
 
 
-
-
-var RegisterPage = /** @class */ (function () {
-    function RegisterPage(navCtrl, auth, utilities) {
+/**
+ * Generated class for the HomePage page.
+ *
+ * See https://ionicframework.com/docs/components/#navigation for more info on
+ * Ionic pages and navigation.
+ */
+var HomePage = /** @class */ (function () {
+    function HomePage(navCtrl, navParams, modal) {
         this.navCtrl = navCtrl;
-        this.auth = auth;
-        this.utilities = utilities;
-        this.account = {};
-        this.account.email = this.account.password = this.password = '';
+        this.navParams = navParams;
+        this.modal = modal;
     }
-    RegisterPage.prototype.ionViewDidLoad = function () {
-        console.log('ionViewDidLoad RegisterPage');
+    HomePage.prototype.ionViewDidLoad = function () {
+        console.log('ionViewDidLoad HomePage');
     };
-    RegisterPage.prototype.register = function () {
-        return __awaiter(this, void 0, void 0, function () {
-            var loader, e_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        loader = this.utilities.getLoading(__WEBPACK_IMPORTED_MODULE_4__utils_constants__["b" /* LoadingMessages */].LOGIN);
-                        if (!this.validate()) return [3 /*break*/, 7];
-                        if (!this.validatePassword()) return [3 /*break*/, 5];
-                        _a.label = 1;
-                    case 1:
-                        _a.trys.push([1, 3, , 4]);
-                        loader.present();
-                        // create account
-                        return [4 /*yield*/, this.auth.createUserWithEmailAndPassword(this.account)];
-                    case 2:
-                        // create account
-                        _a.sent();
-                        loader.dismiss();
-                        this.utilities.showToast(__WEBPACK_IMPORTED_MODULE_4__utils_constants__["d" /* SuccessMessages */].REGISTER, __WEBPACK_IMPORTED_MODULE_4__utils_constants__["e" /* TOAST_DURATION */]);
-                        this.navCtrl.pop();
-                        return [3 /*break*/, 4];
-                    case 3:
-                        e_1 = _a.sent();
-                        loader.dismiss();
-                        this.utilities.showToast(e_1, __WEBPACK_IMPORTED_MODULE_4__utils_constants__["e" /* TOAST_DURATION */]);
-                        return [3 /*break*/, 4];
-                    case 4: return [3 /*break*/, 6];
-                    case 5:
-                        this.utilities.showToast(__WEBPACK_IMPORTED_MODULE_4__utils_constants__["a" /* ErrorMessages */].PASSWORD_MISMATCH, __WEBPACK_IMPORTED_MODULE_4__utils_constants__["e" /* TOAST_DURATION */]);
-                        _a.label = 6;
-                    case 6: return [3 /*break*/, 8];
-                    case 7:
-                        this.utilities.showToast(__WEBPACK_IMPORTED_MODULE_4__utils_constants__["a" /* ErrorMessages */].EMPTY_FIELDS, __WEBPACK_IMPORTED_MODULE_4__utils_constants__["e" /* TOAST_DURATION */]);
-                        _a.label = 8;
-                    case 8: return [2 /*return*/];
-                }
-            });
-        });
+    HomePage.prototype.openProfileModal = function () {
+        var profileModal = this.modal.create(__WEBPACK_IMPORTED_MODULE_2__utils_constants__["c" /* Pages */].MODAL_PROFILE);
+        profileModal.present();
     };
-    RegisterPage.prototype.validate = function () {
-        return this.account.email !== '' && this.account.password !== '' && this.account.password !== '';
+    HomePage.prototype.openMessagesPage = function () {
+        this.navCtrl.push(__WEBPACK_IMPORTED_MODULE_2__utils_constants__["c" /* Pages */].MESSAGES_PAGE);
     };
-    RegisterPage.prototype.validatePassword = function () {
-        return this.account.password === this.password;
+    HomePage.prototype.closeModal = function () {
     };
-    RegisterPage = __decorate([
+    HomePage = __decorate([
         Object(__WEBPACK_IMPORTED_MODULE_0__angular_core__["m" /* Component */])({
-            selector: 'page-register',template:/*ion-inline-start:"C:\Users\Travis\Documents\School_Related\4443-Mobile-Apps-rowe\Mapster\src\pages\register\register.html"*/'<!--\n\n  Generated template for the RegisterPage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar>\n\n    <ion-title>Registration</ion-title>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n<ion-content padding>\n\n\n\n  <ion-list>\n\n  \n\n    <ion-item class="item">\n\n      <ion-label floating>Email</ion-label>\n\n      <ion-input type="text" class="email" [(ngModel)]="account.email" ></ion-input>\n\n    </ion-item>\n\n  \n\n    <ion-item class="item">\n\n      <ion-label floating>Password</ion-label>\n\n      <ion-input type="password" class="password" [(ngModel)]="account.password"></ion-input>\n\n    </ion-item>\n\n  \n\n    <ion-item class="item">\n\n      <ion-label floating>Verify Password</ion-label>\n\n      <ion-input type="password" class="password" [(ngModel)]="password" ></ion-input>\n\n    </ion-item>\n\n  \n\n    <button ion-button round (click)="register()" class="submit">\n\n      Submit\n\n    </button>\n\n  \n\n  </ion-list>\n\n\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\Travis\Documents\School_Related\4443-Mobile-Apps-rowe\Mapster\src\pages\register\register.html"*/,
+            selector: 'page-home',template:/*ion-inline-start:"C:\Users\Travis\Documents\School_Related\4443-Mobile-Apps-rowe\Mapster\src\pages\home\home.html"*/'<!--\n\n  Generated template for the HomePage page.\n\n\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n\n  Ionic pages and navigation.\n\n-->\n\n<ion-header>\n\n\n\n  <ion-navbar no-border>\n\n    <button ion-button icon-only menuToggle>\n\n      <ion-icon name="menu"></ion-icon>\n\n    </button>\n\n\n\n    <ion-title>\n\n      HomePage\n\n    </ion-title>\n\n\n\n    <ion-buttons end>\n\n      <button ion-button icon-only (click)="openProfileModal()">\n\n        <ion-icon name="contact"></ion-icon>\n\n      </button>\n\n    </ion-buttons>\n\n  </ion-navbar>\n\n\n\n</ion-header>\n\n\n\n\n\n<ion-content padding>\n\n\n\n  <button ion-button round (click) = "openMessagesPage()">\n\n    Messages\n\n  </button>\n\n</ion-content>\n\n'/*ion-inline-end:"C:\Users\Travis\Documents\School_Related\4443-Mobile-Apps-rowe\Mapster\src\pages\home\home.html"*/,
         }),
-        __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */], __WEBPACK_IMPORTED_MODULE_2__providers_auth_auth__["a" /* AuthProvider */], __WEBPACK_IMPORTED_MODULE_3__providers_utilities_utilities__["a" /* UtilitiesProvider */]])
-    ], RegisterPage);
-    return RegisterPage;
+        __metadata("design:paramtypes", [typeof (_a = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavController */]) === "function" && _a || Object, typeof (_b = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* NavParams */]) === "function" && _b || Object, typeof (_c = typeof __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* ModalController */] !== "undefined" && __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* ModalController */]) === "function" && _c || Object])
+    ], HomePage);
+    return HomePage;
+    var _a, _b, _c;
 }());
 
-//# sourceMappingURL=register.js.map
+//# sourceMappingURL=home.js.map
 
 /***/ })
 

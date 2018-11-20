@@ -9,6 +9,8 @@ export class Pages {
     public static readonly HOME_PAGE: string = 'HomePage'
     public static readonly PROFILE_PAGE: string = 'ProfilePage'
     public static readonly MODAL_PROFILE: string = 'ModalProfilePage'
+    public static readonly MESSAGES_PAGE: string = 'MessagesPage'
+    public static readonly NEW_MESSAGE_PAGE: string = 'NewMessagePage'
 }
 
 export class LoadingMessages {

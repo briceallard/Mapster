@@ -32,7 +32,7 @@ export class HomePage {
 
   public openMessagesPage()
   {
-    this.navCtrl.push(MessagesPage)
+    this.navCtrl.push(Pages.MESSAGES_PAGE);
   }
 
   public closeModal() {

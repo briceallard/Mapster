@@ -27,7 +27,7 @@ export class MessagesPage {
   //navigate to newMessagePage
   newMessageClick() 
   {
-    this.navCtrl.push(NewMessagePage) //page for drafting a new message
+    this.navCtrl.push(Pages.NEW_MESSAGE_PAGE); //page for drafting a new message
   }
 
   //TODO: Click on users to view conversations with them

@@ -14,5 +14,20 @@
 
 
 <ion-content padding>
+    <ion-list>
+        <!-- To label -->
+        <ion-label color = "primary">Recipient</ion-label>
+        <!-- To field -->
+        <ion-input placeholder = "To whom does this concern?"></ion-input>
 
+        <!-- Message label -->
+        <ion-label color = "primary">Message</ion-label>
+        <!-- Message field -->
+        <ion-input placeholder = "Say it with ya chest!"></ion-input>
+
+        <!-- Send button  -->
+        <button ion-button round float-right (click)="sendMessageClick()" class="sendMsg">
+            Send
+        </button>
+    </ion-list>
 </ion-content>
