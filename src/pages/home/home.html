@@ -1,0 +1,88 @@
+<!--
+  Generated template for the HomePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+
+      <button ion-button menuToggle>
+        <ion-icon name="menu" color="primary"></ion-icon>
+      </button>
+
+      <ion-title>
+        Mapster
+      </ion-title>
+
+      <ion-buttons end class="profile">
+        <button ion-button icon-only (click)="openProfileModal()">
+          <ion-icon>
+            <img src="/assets/icon/profile_image_placeholder.svg">
+          </ion-icon>
+        </button>
+      </ion-buttons>
+
+  </ion-navbar>
+
+  <!-- <div align="center" class="grid">
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <button icon-only ion-button clear>
+            <ion-icon name="contact">
+            </ion-icon>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button icon-only ion-button clear>
+            <ion-icon name="contacts">
+            </ion-icon>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button icon-only ion-button clear>
+            <ion-icon color="primary" name="search">
+            </ion-icon>
+          </button>
+        </ion-col>
+        <ion-col>
+          <button icon-only ion-button clear>
+            <ion-icon color="primary" name="star">
+            </ion-icon>
+          </button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div> -->
+
+</ion-header>
+
+
+<ion-content>
+
+  <div id="map_canvas">
+    <!-- <h2 style="text-align: center">
+      RE-ENABLE MAPS!
+    </h2> -->
+  </div>
+
+  <ion-fab right bottom>
+    <button ion-fab color="primary">
+      <ion-icon name="add"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab>
+        <ion-icon color="primary" name="image"></ion-icon>
+      </button>
+      <button ion-fab>
+        <ion-icon color="primary" name="compass"></ion-icon>
+      </button>
+      <button ion-fab>
+        <ion-icon color="primary" name="paper"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+
+</ion-content>

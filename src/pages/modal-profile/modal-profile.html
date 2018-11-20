@@ -1,0 +1,66 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-buttons item-start>
+      <button ion-button (click)="close()">Close</button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+
+  <ion-list class="list">
+
+    <ion-list-header>
+      Profile
+      <ion-icon small name="contact" item-end></ion-icon>
+    </ion-list-header>
+
+    <ion-item-group>
+
+      <button ion-item (click)=friendsClicked()>
+        <ion-icon color="primary" item-start name="people"></ion-icon>
+        Friends
+      </button>
+
+      <button ion-item>
+        <ion-icon color="primary" item-start name="chatboxes"></ion-icon>
+        Messages
+      </button>
+
+      <button ion-item>
+        <ion-icon color="primary" item-start name="images"></ion-icon>
+        My Pictures
+      </button>
+
+    </ion-item-group>
+
+    <ion-list-header>
+      Settings
+      <ion-icon small name="settings" item-end></ion-icon>
+    </ion-list-header>
+
+    <ion-item-group>
+
+      <button ion-item (click)=profileClicked()>
+        <ion-icon color="primary" item-start name="contact"></ion-icon>
+        Edit Profile
+      </button>
+
+      <button ion-item>
+        <ion-icon color="primary" item-start name="lock"></ion-icon>
+        Privacy
+      </button>
+
+      <button ion-item (click)=logoutConfirm()>
+        <ion-icon color="primary" item-start name="log-out"></ion-icon>
+        Logout
+      </button>
+
+    </ion-item-group>
+
+  </ion-list>
+
+</ion-content>

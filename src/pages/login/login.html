@@ -1,0 +1,56 @@
+<!--
+  Generated template for the LoginPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+
+<!-- No header on the Login Page!
+  <ion-header>
+  </ion-header> 
+-->
+
+<ion-content padding>
+
+  <ion-list>
+
+    <div class="row">
+      <div class="logo-row">
+        <img src="../../assets/imgs/logo.png" alt="logo" class="logo">
+      </div>
+    </div>
+
+    <ion-item class="item">
+      <ion-label floating>Email Address</ion-label>
+      <ion-input type="text" class="username" [(ngModel)]="account.email"></ion-input>
+    </ion-item>
+
+    <ion-item class="item">
+      <ion-label floating>Password</ion-label>
+      <ion-input type="password" class="password" [(ngModel)]="account.password"></ion-input>
+    </ion-item>
+
+
+    <div align="center">
+      <div>
+        <button ion-button round (click)="login()" class="login">
+          Login
+        </button>
+      </div>
+
+      <h4>Don't have an account yet?</h4>
+
+      <div>
+        <button ion-button round outline (click)="register()" class="register">
+          Register
+        </button>
+      </div>
+    </div>
+
+    <!-- <div>
+      <a class="forgot" float-right>Forgot Password?</a>
+    </div> -->
+
+  </ion-list>
+
+</ion-content>

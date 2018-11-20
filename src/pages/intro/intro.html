@@ -1,0 +1,59 @@
+<ion-content>
+
+  <ion-slides pager (ionSlideDidChange)="slideChanged()" (ionSlideDrag)="slideMoved()">
+
+    <ion-slide class="slide1">
+      <div class="diag">
+        <ion-img class="logo" src="assets/imgs/logo.png" [@bounce]='state' (@bounce.done)="animationDone($event)"></ion-img>
+      </div>
+      <div>
+        <h2>Welcome to Mapster</h2>
+        <p>A location based social media experience to bring you closer to all your friends.</p>
+      </div>
+      <button ion-button small color="primary" (click)="skip()" class="skip">
+        Skip
+      </button>
+    </ion-slide>
+
+    <ion-slide class="slide2">
+      <div class="diag">
+        <ion-icon name="map" color="primary" [@bounce]='state' (@bounce.done)="animationDone($event)"></ion-icon>
+      </div>
+      <div>
+        <h2>Find friends nearby</h2>
+        <p>Find new spots to hangout and upload your favorites.</p>
+      </div>
+      <button ion-button small color="primary" (click)="skip()" class="skip">
+        Skip
+      </button>
+    </ion-slide>
+
+    <ion-slide class="slide3">
+      <div class="diag">
+        <ion-icon name="camera" color="primary" [@bounce]='state' (@bounce.done)="animationDone($event)"></ion-icon>
+      </div>
+      <div>
+        <h2>Upload your images</h2>
+        <p>Share your favorite locations with an image to capture all the details.</p>
+      </div>
+      <button ion-button small color="primary" (click)="skip()" class="skip">
+        Skip
+      </button>
+    </ion-slide>
+
+    <ion-slide class="slide4">
+      <div class="diag">
+        <ion-icon name="chatboxes" color="primary" [@bounce]='state' (@bounce.done)="animationDone($event)"></ion-icon>
+      </div>
+      <div>
+        <h2>Chat with others</h2>
+        <p>Communicate with your friends or make new ones that are nearby.</p>
+      </div>
+      <button ion-button small color="primary" (click)="skip()" class="skip">
+        Get started now
+      </button>
+    </ion-slide>
+
+  </ion-slides>
+
+</ion-content>
