@@ -11,7 +11,6 @@ import { AngularFireAuthModule } from 'angularfire2/auth';
 import { FIREBASE_CONFIG } from '../firebase-config/app.firebase.config';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { GoogleMaps } from '@ionic-native/google-maps'
 
 // My Providers
 import { DataProvider } from '../providers/data/data';
@@ -25,6 +24,7 @@ import { UtilitiesProvider } from '../providers/utilities/utilities';
 import { FriendsProvider } from '../providers/friends/friends';
 
 import {GoogleMaps} from '@ionic-native/google-maps';
+
 @NgModule({
   declarations: [
     MyApp,
@@ -35,8 +35,7 @@ import {GoogleMaps} from '@ionic-native/google-maps';
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    BrowserAnimationsModule,
-    IonicStorageModule
+    BrowserAnimationsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

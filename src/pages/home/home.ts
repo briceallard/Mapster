@@ -35,28 +35,6 @@ export class HomePage {
   }
 
   loadMap() {
-
-    Environment.setEnv({
-      'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyCO8ryKRAkT2zPwSJLWJQKsQVr-JHSqAYY',
-      'API_KEY_FOR_BROWSER_DEBUG': 'AIzaSyCO8ryKRAkT2zPwSJLWJQKsQVr-JHSqAYY'
-    });
-
-    let mapOptions: GoogleMapOptions = {
-      camera: {
-         target: {
-           lat: 38.8979,
-           lng: -77.0365
-         },
-         zoom: 18,
-         tilt: 0
-       }
-    };
-
-    this.map = GoogleMaps.create('map_canvas', mapOptions);
-  }
-
-  loadMap() {
-
  
     let mapOptions: GoogleMapOptions = {
       camera: {
@@ -84,6 +62,11 @@ export class HomePage {
     marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
       alert('Message');
     });
+  }
+
+  public openProfileModal() {
+    let profileModal = this.modal.create(Pages.MODAL_PROFILE);
+    profileModal.present();
   }
   
 }
