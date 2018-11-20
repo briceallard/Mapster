@@ -12,6 +12,10 @@ import { FIREBASE_CONFIG } from '../firebase-config/app.firebase.config';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GoogleMaps } from '@ionic-native/google-maps'
+import { Camera } from '@ionic-native/camera'
+import { ImagePicker } from '@ionic-native/image-picker';
+import { Crop } from '@ionic-native/crop';
+
 
 // My Providers
 import { DataProvider } from '../providers/data/data';
@@ -54,7 +58,10 @@ import { FriendsProvider } from '../providers/friends/friends';
     UtilitiesProvider,
     BrowserAnimationsModule,
     GoogleMaps,
-    FriendsProvider
+    FriendsProvider,
+    Camera,
+    ImagePicker,
+    Crop
   ]
 })
 
