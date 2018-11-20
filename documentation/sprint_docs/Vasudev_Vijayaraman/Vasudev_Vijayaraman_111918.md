@@ -1,28 +1,22 @@
 # Personal Sprint Doc
 ### Name: Vasudev Vijayaraman
-### Date: 11/17/18
+### Date: 11/19/18
 
 ## Files Worked On
 
 - https://github.com/briceallard/Mapster/tree/camera/src/pages/home (HTML and TS)
 - https://github.com/briceallard/Mapster/blob/camera/src/pages/service/firebase.service.ts (might get deleted later on)
 - https://github.com/briceallard/Mapster/blob/camera/src/providers/database-services/database-services.ts 
-- https://github.com/briceallard/Mapster/blob/camera/src/app/app.module.ts
 
 
 ## Approximate Time Worked
 
 | Description                                                                               |   Hrs  |
 | :---------------------------------------------------------------------------------------- |   ---: |
-| Set up Enviroment                                                                         |    2   |
-| Began work on Camera                                                                      |    2   |
-| Ran into a bug that wasted a lot of time and prevented us from building (Shady fixed it)  |   10   |
-| Made some adjustments to the camera                                                       |    4   |
-| Total                                                                                     |   18   |
+| Fixed Camera and added Toasts                                                             |    3   |
+| Total                                                                                     |    3   |
+
 
 ## Description of Sprint
-Zac and I set up our project and began working on the camera portion. We ran into several 
-errors with both xcode and building in ionic. We spent several days trying to fix the building bug,
-and Shady helped us figure it out. After fixing the bug we got the camera's basic functionalities to work. 
-The camera does not work as intended yet, but will be finished in the next sprint. I commited mine and Vasudev's code
-to the camera branch of the main repo.
+Zac and I fixed the camera where it uploads everything into one folder on firebase. Then we added toasts when you 
+upload to let you know the image uploaded successfully.
