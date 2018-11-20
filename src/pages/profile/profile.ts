@@ -28,11 +28,10 @@ export class ProfilePage {
   imageUrl: string;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, private utilities: UtilitiesProvider, private data: UserDataProvider, 
-    //public imagePicker: ImagePicker, 
-    //public crop: Crop,
+    public imagePicker: ImagePicker, 
+    public crop: Crop,
     public toast: ToastController, 
-    //public camera: Camera, 
-    //public cameraOptions: CameraOptions
+    public camera: Camera, 
     ) {
 
   }
@@ -134,85 +133,85 @@ export class ProfilePage {
     return this.profile.firstName !== '' && this.profile.lastName !== '' && this.profile.userName !== '' && this.profile.email !== '';
   }
 
-  // openImagePickerCrop() {
-  //   this.imagePicker.hasReadPermission().then(
-  //     (result) => {
-  //       if (result == false) {
-  //         // no callbacks required as this opens a popup which returns async
-  //         this.imagePicker.requestReadPermission();
-  //       }
-  //       else if (result == true) {
-  //         this.imagePicker.getPictures({
-  //           maximumImagesCount: 1
-  //         }).then(
-  //           (results) => {
-  //             for (var i = 0; i < results.length; i++) {
-  //               this.crop.crop(results[i], { quality: 75 }).then(
-  //                 newImage => {
-  //                   this.uploadImageToFirebase(newImage);
-  //                 },
-  //                 error => console.error("Error cropping image", error)
-  //               );
-  //             }
-  //           }, (err) => console.log(err)
-  //         );
-  //       }
-  //     }, (err) => {
-  //       console.log(err);
-  //     });
-  // }
+  openImagePickerCrop() {
+    this.imagePicker.hasReadPermission().then(
+      (result) => {
+        if (result == false) {
+          // no callbacks required as this opens a popup which returns async
+          this.imagePicker.requestReadPermission();
+        }
+        else if (result == true) {
+          this.imagePicker.getPictures({
+            maximumImagesCount: 1
+          }).then(
+            (results) => {
+              for (var i = 0; i < results.length; i++) {
+                this.crop.crop(results[i], { quality: 75 }).then(
+                  newImage => {
+                    this.uploadImageToFirebase(newImage);
+                  },
+                  error => console.error("Error cropping image", error)
+                );
+              }
+            }, (err) => console.log(err)
+          );
+        }
+      }, (err) => {
+        console.log(err);
+      });
+  }
 
-  // async takePicture() {
+  async takePicture() {
 
-  //   this.cameraOptions = {
-  //     quality: 100,
-  //     destinationType: this.camera.DestinationType.DATA_URL,
-  //     targetWidth: 400,
-  //     //targetHeight: 400,
-  //   }
+    this.cameraOptions = {
+      quality: 100,
+      destinationType: this.camera.DestinationType.DATA_URL,
+      targetWidth: 400,
+      //targetHeight: 400,
+    }
 
-  //   let imageData = await this.camera.getPicture(this.cameraOptions);
-  //   // imageData is either a base64 encoded string or a file URI
-  //   // If it's base64 (DATA_URL):
-  //   let base64Image = 'data:image/jpeg;base64,' + imageData;
-  //   this.imageUrl = base64Image;
-  //   await this.uploadPicture();
+    let imageData = await this.camera.getPicture(this.cameraOptions);
+    // imageData is either a base64 encoded string or a file URI
+    // If it's base64 (DATA_URL):
+    let base64Image = 'data:image/jpeg;base64,' + imageData;
+    this.imageUrl = base64Image;
+    await this.uploadPicture();
 
-  // }
+  }
 
-  // async uploadPicture() {//camera database
+  async uploadPicture() {//camera database
 
-  //   try {
-  //     await this.data.uploadImage(this.imageUrl);
+    try {
+      await this.data.uploadImage(this.imageUrl);
 
-  //     let toast = this.toast.create({
-  //       message: 'Image was uploaded successfully',
-  //       duration: 3000
-  //     });
-  //     toast.present();
-  //   } catch (e) {
-  //     let toast = this.toast.create({
-  //       message: 'Image failed to upload',
-  //       duration: 3000
-  //     });
-  //     toast.present();
-  //   }
+      let toast = this.toast.create({
+        message: 'Image was uploaded successfully',
+        duration: 3000
+      });
+      toast.present();
+    } catch (e) {
+      let toast = this.toast.create({
+        message: 'Image failed to upload',
+        duration: 3000
+      });
+      toast.present();
+    }
 
-  // }
+  }
   
-  // uploadImageToFirebase(image){ //crop firebase
-  //   image = normalizeURL(image);
+  uploadImageToFirebase(image){ //crop firebase
+    image = normalizeURL(image);
 
-  //   //uploads img to firebase storage
-  //   this.data.uploadImage(image)
-  //   .then(photoURL => {
+    //uploads img to firebase storage
+    this.data.uploadImage(image)
+    .then(photoURL => {
       
-  //     let toast = this.toast.create({
-  //       message: 'Image was uploaded successfully',
-  //       duration: 3000
-  //     });
-  //     toast.present();
-  //     })
-  // }
+      let toast = this.toast.create({
+        message: 'Image was uploaded successfully',
+        duration: 3000
+      });
+      toast.present();
+      })
+  }
 
 }
