@@ -1,0 +1,7 @@
+{
+  "name": "mapster",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular"
+}
