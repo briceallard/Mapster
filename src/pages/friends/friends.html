@@ -1,0 +1,88 @@
+<!--
+  Generated template for the FriendsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+    <ion-navbar no-border>
+      <button ion-button icon-only menuToggle>
+        <ion-icon name="menu"></ion-icon>
+      </button>
+  
+      <ion-title>
+        Friends
+      </ion-title>
+      <ion-buttons end>
+        <button ion-button icon-only (click)="addFriendClicked()">
+          <ion-icon name="person-add"></ion-icon>
+        </button>
+      </ion-buttons>
+  
+      <!-- <ion-item class="profile">
+        <ion-avatar item-end >
+          <img src="/assets/icon/profile_image_placeholder.png">
+        </ion-avatar>
+      </ion-item> -->
+  
+    </ion-navbar>
+  
+  </ion-header>
+
+
+<ion-content padding>
+
+  <ion-list no-lines>
+
+    <ion-list-header>
+      Online
+      <ion-icon small name="contact" item-end color="online"></ion-icon>
+    </ion-list-header>
+
+    <ion-item-group>
+
+      <button ion-item>
+        <ion-icon item-start name="contact"></ion-icon>
+        Online Test Friend
+      </button>
+
+      <button ion-item>
+        <ion-icon item-start name="contact"></ion-icon>
+        Online Test Friend
+      </button>
+
+      <button ion-item>
+        <ion-icon item-start name="contact"></ion-icon>
+        Online Test Friend
+      </button>
+
+    </ion-item-group>
+
+    <ion-list-header>
+      Offline
+      <ion-icon small name="contact" item-end color="offline"></ion-icon>
+    </ion-list-header>
+
+    <ion-item-group>
+
+      <button ion-item>
+        <ion-icon item-start name="contact"></ion-icon>
+        Offline Test Friend
+      </button>
+
+      <button ion-item>
+        <ion-icon item-start name="contact"></ion-icon>
+        Offline Test Friend
+      </button>
+
+      <button ion-item>
+        <ion-icon item-start name="contact"></ion-icon>
+        Offline Test Friend
+      </button>
+
+    </ion-item-group>
+
+  </ion-list>
+
+</ion-content>

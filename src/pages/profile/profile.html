@@ -1,0 +1,56 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>My Profile</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+
+  <div align="center" class="profile">
+    <img class="profile-image" src="assets/icon/profile_image_placeholder.svg">
+
+    <div>
+    <button ion-button outline round icon-start (click)="takePicture()">
+      <ion-icon name="camera"></ion-icon>
+      Take Picture
+    </button>
+    <button ion-button outline round icon-start (click)="openImagePickerCrop()">
+      <ion-icon name="image"></ion-icon>
+      Edit Picture
+    </button>
+  </div>
+
+  </div>
+
+  <ion-list>
+
+    <ion-item class="item">
+      <ion-label floating>First Name</ion-label>
+      <ion-input type="text" class="firstname" [(ngModel)]="profile.firstName"></ion-input>
+    </ion-item>
+
+    <ion-item class="item">
+      <ion-label floating>Last Name</ion-label>
+      <ion-input type="text" class="lastname" [(ngModel)]="profile.lastName"></ion-input>
+    </ion-item>
+
+    <ion-item class="item">
+      <ion-label floating>Username</ion-label>
+      <ion-input type="text" class="username" [(ngModel)]="profile.userName"></ion-input>
+    </ion-item>
+
+    <ion-item class="item">
+      <ion-label floating>Email Address</ion-label>
+      <ion-input type="text" class="username" [(ngModel)]="profile.email"></ion-input>
+    </ion-item>
+
+    <div class="save" align="center">
+      <button ion-button round (click)="saveProfile()">
+        Save
+      </button>
+    </div>
+
+  </ion-list>
+
+</ion-content>
