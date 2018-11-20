@@ -2,13 +2,14 @@ import { Injectable } from '@angular/core';
 import { User } from '../../models/users/user.interface';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AuthProvider } from '../auth/auth';
-import { storage, initializeApp } from 'firebase';
+import { initializeApp } from 'firebase';
+import { AngularFireStorage } from 'angularfire2/storage'
 
 
 @Injectable()
 export class UserDataProvider {
 
-  constructor(private data: AngularFirestore, private auth: AuthProvider) {
+  constructor(private data: AngularFirestore, private auth: AuthProvider, public storage: AngularFireStorage) {
     console.log('Hello UserDataProvider Provider');
   }
 
@@ -89,10 +90,10 @@ export class UserDataProvider {
     }
   }
 
-  async uploadImage(image: string) {
-
+  async uploadProfileImage(image: string) {
+this.storage
     let user = await this.auth.getAuthenticatedUser();
-    const imageRef = storage().ref(`users/${user.uid}/publicImages/image_${Date.now()}`); // Make a reference
+    const imageRef = this.storage.ref(`users/${user.uid}/publicImages/image_${Date.now()}`); // Make a reference
 
     try {
       await imageRef.putString(image, 'data_url');
