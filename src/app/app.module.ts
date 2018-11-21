@@ -15,6 +15,7 @@ import { GoogleMaps } from '@ionic-native/google-maps'
 import { Camera } from '@ionic-native/camera'
 import { ImagePicker } from '@ionic-native/image-picker';
 import { Crop } from '@ionic-native/crop';
+import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 
 // My Providers
@@ -28,7 +29,6 @@ import { MessagesProvider } from '../providers/messages/messages';
 import { UtilitiesProvider } from '../providers/utilities/utilities';
 import { FriendsProvider } from '../providers/friends/friends';
 import { AngularFireStorageModule } from '@angular/fire/storage';
-import { AndroidPermissions } from '@ionic-native/android-permissions';
 
 @NgModule({
   declarations: [

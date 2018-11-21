@@ -5,7 +5,7 @@ import { UtilitiesProvider } from '../../providers/utilities/utilities';
 import { LoadingMessages, SuccessMessages, TOAST_DURATION, Pages, ErrorMessages } from '../../utils/constants';
 import { UserDataProvider } from '../../providers/userData/userData';
 
-import { ImagePicker } from '@ionic-native/image-picker';
+import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
 import { Crop } from '@ionic-native/crop';
 import { Camera, CameraOptions } from '@ionic-native/camera'
 
@@ -30,7 +30,7 @@ export class ProfilePage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private utilities: UtilitiesProvider,
     private data: UserDataProvider, 
-    public imagePicker: ImagePicker, 
+    public imagePicker: ImagePicker,
     public crop: Crop,
     public toast: ToastController, 
     public camera: Camera, 
@@ -136,50 +136,25 @@ export class ProfilePage {
     return this.profile.firstName !== '' && this.profile.lastName !== '' && this.profile.userName !== '' && this.profile.email !== '';
   }
 
-  // openImagePickerCrop() {
-  //   this.imagePicker.hasReadPermission().then(
-  //     (result) => {
-  //       if (result == false) {
-  //         // no callbacks required as this opens a popup which returns async
-  //         this.imagePicker.requestReadPermission();
-  //       }
-  //       else if (result == true) {
-  //         this.imagePicker.getPictures({
-  //           maximumImagesCount: 1
-  //         }).then(
-  //           (results) => {
-  //             for (var i = 0; i < results.length; i++) {
-  //               this.crop.crop(results[i], { quality: 75 }).then(
-  //                 newImage => {
-  //                   this.uploadImageToFirebase(newImage);
-  //                 },
-  //                 error => console.error("Error cropping image", error)
-  //               );
-  //             }
-  //           }, (err) => console.log(err)
-  //         );
-  //       }
-  //     }, (err) => {
-  //       console.log(err);
-  //     });
-  // }
-
   async openImagePickerCrop() {
+
     try {
 
       if (!(await this.imagePicker.hasReadPermission())) {
+        alert("Request permissions");
         await this.imagePicker.requestReadPermission();
       } else {
-
         let results = await this.imagePicker.getPictures({ maximumImagesCount: 1 });
+        alert("After permissions");
         for (var i = 0; i < results.length; i++) {
           let newImage = await this.crop.crop(results[i], { quality: 100 });
           console.log(newImage);
           let file = new File([""], normalizeURL(newImage));
-          await this.data.uploadProfileImage(newImage);
+          await this.uploadImageToFirebase(newImage);
         }
       }
     } catch (e) {
+      alert("You fucked up!");
       this.alert.create({ title: 'Error!', subTitle: e, buttons: ['OK'] }).present();
     }
 
@@ -223,7 +198,7 @@ export class ProfilePage {
 
   }
   
-  uploadImageToFirebase(image){ //crop firebase
+  async uploadImageToFirebase(image){ //crop firebase
     image = normalizeURL(image);
 
     //uploads img to firebase storage

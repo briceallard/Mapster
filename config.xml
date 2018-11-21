@@ -92,6 +92,11 @@
         <variable name="LOCATION_ALWAYS_USAGE_DESCRIPTION" value="This app wants to get your location always, even this app runs in background." />
     </plugin>
     <plugin name="cordova-plugin-android-permissions" spec="1.0.0" />
+    <plugin name="cordova-plugin-crop" spec="0.4.0" />
+    <plugin name="cordova-plugin-camera" spec="4.0.3" />
+    <plugin name="cordova-plugin-telerik-imagepicker" spec="2.2.2">
+        <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="Mapster is requesting permissions ..." />
+    </plugin>
     <engine name="android" spec="7.1.2" />
     <engine name="ios" spec="4.5.5" />
     <engine name="browser" spec="5.0.4" />
