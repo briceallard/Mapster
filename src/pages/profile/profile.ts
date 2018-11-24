@@ -164,36 +164,35 @@ export class ProfilePage {
 
     const cameraOptions: CameraOptions = {
       quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      targetWidth: 400,
-      //targetHeight: 400,
+      sourceType: this.camera.PictureSourceType.CAMERA,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      correctOrientation: true
     }
 
     let imageData = await this.camera.getPicture(cameraOptions);
-    // imageData is either a base64 encoded string or a file URI
-    // If it's base64 (DATA_URL):
-    let base64Image = 'data:image/jpeg;base64,' + imageData;
-    this.imageUrl = base64Image;
-    await this.uploadPicture();
+    await this.uploadPicture(imageData);
 
   }
 
-  async uploadPicture() {
+  async uploadPicture(image) {
+
+    let loader = this.utilities.getLoading(LoadingMessages.IMAGE);
 
     try {
-      await this.data.uploadProfileImage(this.imageUrl);
 
-      let toast = this.toast.create({
-        message: 'Image was uploaded successfully',
-        duration: 3000
-      });
-      toast.present();
+      loader.present();
+      
+      await this.data.uploadProfileImage(image);
+      this.utilities.showToast(SuccessMessages.IMAGE, TOAST_DURATION);
+
+      loader.dismiss();
+
     } catch (e) {
-      let toast = this.toast.create({
-        message: 'Image failed to upload',
-        duration: 3000
-      });
-      toast.present();
+      loader.dismiss();
+      this.utilities.showToast(ErrorMessages.UPLOAD_FAILED, TOAST_DURATION);
+      this.alert.create({ title: 'Error', subTitle: e.message, buttons: ['OK'] }).present();
     }
 
   }

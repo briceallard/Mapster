@@ -4,12 +4,13 @@ import { AngularFirestore } from 'angularfire2/firestore';
 import { AuthProvider } from '../auth/auth';
 import { initializeApp } from 'firebase';
 import { AngularFireStorage } from 'angularfire2/storage'
+import { AlertController } from 'ionic-angular';
 
 
 @Injectable()
 export class UserDataProvider {
 
-  constructor(private data: AngularFirestore, private auth: AuthProvider, public storage: AngularFireStorage) {
+  constructor(private data: AngularFirestore, private auth: AuthProvider, public storage: AngularFireStorage, public alert: AlertController) {
     console.log('Hello UserDataProvider Provider');
   }
 
@@ -90,19 +91,29 @@ export class UserDataProvider {
     }
   }
 
-  async uploadProfileImage(image: string) {
-    this.storage
+  async uploadProfileImage(image) {
     let user = await this.auth.getAuthenticatedUser();
-    const imageRef = this.storage.ref(`users/${user.uid}/publicImages/image_${Date.now()}`); // Make a reference
+    let imageFile = new File([""], image);
+    const imageRef = this.storage.ref(`profileImages/${user.uid}/profileImage`); // Make a reference
+
+    let metadata = {
+      contentType: 'image/jpeg'
+    };
 
     try {
-      await imageRef.putString(image, 'data_url');
-      console.log("Image Saved! URL:");
+      await imageRef.put(imageFile, metadata);
+      let URL = await imageRef.getDownloadURL();
+      console.log("Image Saved! URL:" + URL);
 
     } catch (e) {
       console.log(e);
       throw e;
     }
+  }
+
+  async getProfilImageURL() {
+    let user = await this.auth.getAuthenticatedUser();
+    return this.storage.storage.ref().child(`profileImages/${user.uid}/profileImage`).getDownloadURL();
   }
 
 }
