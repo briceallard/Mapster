@@ -1,7 +1,7 @@
 export const TOAST_DURATION = 3000;
 
 export const LOADING_STYLE = 'crescent';
-
+export const BASE_64 = 'data:image/jpeg;base64,';
 
 export class Pages {
     public static readonly LOGIN_PAGE: string = 'LoginPage';
