@@ -22,6 +22,8 @@ export class CameraProvider {
     console.log('Hello CameraProvider Provider');
 
     // Different detail levels for higher/lower quality
+
+    // 1080P Resolution
     this.optionsHigh = {
       quality: 100,
       sourceType: this.camera.PictureSourceType.CAMERA,
@@ -35,6 +37,7 @@ export class CameraProvider {
       correctOrientation: true
     };
 
+    // 480P Resolution
     this.optionsLow = {
       quality: 100,
       sourceType: this.camera.PictureSourceType.CAMERA,
@@ -48,6 +51,7 @@ export class CameraProvider {
       correctOrientation: true
     };
 
+    // 480P Resolution, lower quality for small profile images
     this.optionsProfile = {
       quality: 60,
       sourceType: this.camera.PictureSourceType.CAMERA,
@@ -61,6 +65,7 @@ export class CameraProvider {
       correctOrientation: true
     };
 
+    // 1080P from Gallery
     this.optionsGallery = {
       quality: 100,
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
