@@ -5,7 +5,6 @@ import { UtilitiesProvider } from '../../providers/utilities/utilities';
 import { LoadingMessages, SuccessMessages, TOAST_DURATION, Pages, ErrorMessages } from '../../utils/constants';
 import { UserDataProvider } from '../../providers/userData/userData';
 
-import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
 import { Crop } from '@ionic-native/crop';
 import { Camera, CameraOptions } from '@ionic-native/camera'
 
@@ -30,7 +29,6 @@ export class ProfilePage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private utilities: UtilitiesProvider,
     private data: UserDataProvider, 
-    public imagePicker: ImagePicker,
     public crop: Crop,
     public toast: ToastController, 
     public camera: Camera, 
@@ -136,29 +134,29 @@ export class ProfilePage {
     return this.profile.firstName !== '' && this.profile.lastName !== '' && this.profile.userName !== '' && this.profile.email !== '';
   }
 
-  async openImagePickerCrop() {
+  // async openImagePickerCrop() {
 
-    try {
+  //   try {
 
-      if (!(await this.imagePicker.hasReadPermission())) {
-        alert("Request permissions");
-        await this.imagePicker.requestReadPermission();
-      } else {
-        let results = await this.imagePicker.getPictures({ maximumImagesCount: 1 });
-        alert("After permissions");
-        for (var i = 0; i < results.length; i++) {
-          let newImage = await this.crop.crop(results[i], { quality: 100 });
-          console.log(newImage);
-          let file = new File([""], normalizeURL(newImage));
-          await this.uploadImageToFirebase(newImage);
-        }
-      }
-    } catch (e) {
-      alert("You fucked up!");
-      this.alert.create({ title: 'Error!', subTitle: e, buttons: ['OK'] }).present();
-    }
+  //     if (!(await this.imagePicker.hasReadPermission())) {
+  //       alert("Request permissions");
+  //       await this.imagePicker.requestReadPermission();
+  //     } else {
+  //       let results = await this.imagePicker.getPictures({ maximumImagesCount: 1 });
+  //       alert("After permissions");
+  //       for (var i = 0; i < results.length; i++) {
+  //         let newImage = await this.crop.crop(results[i], { quality: 100 });
+  //         console.log(newImage);
+  //         let file = new File([""], normalizeURL(newImage));
+  //         await this.uploadImageToFirebase(newImage);
+  //       }
+  //     }
+  //   } catch (e) {
+  //     alert("You fucked up!");
+  //     this.alert.create({ title: 'Error!', subTitle: e, buttons: ['OK'] }).present();
+  //   }
 
-  }
+  // }
 
   async takePicture() {
 
