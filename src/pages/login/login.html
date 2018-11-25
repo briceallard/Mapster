@@ -30,19 +30,26 @@
       <ion-input type="password" class="password" [(ngModel)]="account.password"></ion-input>
     </ion-item>
 
-    <div>
+
+    <div align="center">
+      <div>
+        <button ion-button round (click)="login()" class="login">
+          Login
+        </button>
+      </div>
+
+      <h4>Don't have an account yet?</h4>
+
+      <div>
+        <button ion-button round outline (click)="register()" class="register">
+          Register
+        </button>
+      </div>
+    </div>
+
+    <!-- <div>
       <a class="forgot" float-right>Forgot Password?</a>
-    </div>
-
-    <div class="button">
-      <button ion-button round (click)="login()" class="login">
-        Login
-      </button>
-
-      <button ion-button round (click)="register()" class="register">
-        Register
-      </button>
-    </div>
+    </div> -->
 
   </ion-list>
 

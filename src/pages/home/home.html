@@ -6,27 +6,53 @@
 -->
 <ion-header>
 
-  <ion-navbar no-border>
-    <button ion-button icon-only menuToggle>
-      <ion-icon name="menu"></ion-icon>
-    </button>
+  <ion-navbar>
 
-    <ion-title>
-      HomePage
-    </ion-title>
-
-    <ion-buttons end>
-      <button ion-button icon-only (click)="openProfileModal()">
-        <ion-icon name="contact"></ion-icon>
+      <button ion-button menuToggle>
+        <ion-icon name="menu" color="primary"></ion-icon>
       </button>
-    </ion-buttons>
+
+      <ion-title>
+        Mapster
+      </ion-title>
+
+      <ion-buttons end class="profile">
+        <button ion-button icon-only (click)="openProfileModal()">
+          <ion-icon>
+            <img *ngIf="!profileImage" class="profileImage" src="/assets/icon/profile_image_placeholder.svg">
+            <img *ngIf="profileImage" class="profileImage" src="{{ profileImage }}">
+          </ion-icon>
+        </button>
+      </ion-buttons>
+
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
+
   <div id="map_canvas">
-    
+    <!-- <h2 style="text-align: center">
+      RE-ENABLE MAPS!
+    </h2> -->
   </div>
+
+  <ion-fab right bottom>
+    <button ion-fab color="primary">
+      <ion-icon name="add"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab>
+        <ion-icon color="primary" name="image"></ion-icon>
+      </button>
+      <button ion-fab>
+        <ion-icon color="primary" name="compass"></ion-icon>
+      </button>
+      <button ion-fab>
+        <ion-icon color="primary" name="paper"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
+
 </ion-content>

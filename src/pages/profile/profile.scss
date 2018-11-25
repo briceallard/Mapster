@@ -1,3 +1,25 @@
 page-profile {
 
+  .profile {
+    margin-bottom: 20px;
+  }
+
+  .profile-image {
+    margin-bottom: 15px;
+    width: 150px;
+    height: 150px;
+    border-radius: 75px;
+  }
+
+  .save {
+    margin-top: 25px;
+  }
+
+  .save button {
+    width: 50%;
+    -webkit-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
+  }
+
 }

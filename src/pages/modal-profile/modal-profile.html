@@ -1,7 +1,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-buttons start>
+    <ion-buttons item-start>
       <button ion-button (click)="close()">Close</button>
     </ion-buttons>
   </ion-navbar>
@@ -11,7 +11,7 @@
 
 <ion-content padding>
 
-  <ion-list>
+  <ion-list class="list">
 
     <ion-list-header>
       Profile
@@ -20,7 +20,7 @@
 
     <ion-item-group>
 
-      <button ion-item>
+      <button ion-item (click)=friendsClicked()>
         <ion-icon color="primary" item-start name="people"></ion-icon>
         Friends
       </button>
@@ -44,7 +44,7 @@
 
     <ion-item-group>
 
-      <button ion-item>
+      <button ion-item (click)=profileClicked()>
         <ion-icon color="primary" item-start name="contact"></ion-icon>
         Edit Profile
       </button>
