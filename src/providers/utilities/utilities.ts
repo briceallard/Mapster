@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ToastController, LoadingController, AlertController } from 'ionic-angular';
+import { TOAST_DURATION } from '../../utils/constants';
 
 @Injectable()
 export class UtilitiesProvider {
@@ -14,7 +15,7 @@ export class UtilitiesProvider {
    * @param {*} duration
    * @memberof UtilitiesProvider
    */
-  showToast(message: string, duration) {
+  showToast(message: string, duration: number = TOAST_DURATION) {
     this.toast.create({
       message: message,
       duration: duration      

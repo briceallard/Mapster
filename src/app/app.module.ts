@@ -13,9 +13,8 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GoogleMaps } from '@ionic-native/google-maps'
 import { Camera } from '@ionic-native/camera'
-import { ImagePicker } from '@ionic-native/image-picker';
 import { Crop } from '@ionic-native/crop';
-
+import { Base64 } from '@ionic-native/base64'
 
 // My Providers
 import { DataProvider } from '../providers/data/data';
@@ -28,6 +27,7 @@ import { MessagesProvider } from '../providers/messages/messages';
 import { UtilitiesProvider } from '../providers/utilities/utilities';
 import { FriendsProvider } from '../providers/friends/friends';
 import { AngularFireStorageModule } from '@angular/fire/storage';
+import { CameraProvider } from '../providers/camera-service/camera-service';
 
 @NgModule({
   declarations: [
@@ -62,8 +62,9 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
     GoogleMaps,
     FriendsProvider,
     Camera,
-    ImagePicker,
-    Crop
+    Crop,
+    CameraProvider,
+    Base64
   ]
 })
 

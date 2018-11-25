@@ -1,10 +1,25 @@
 page-home {
 
+  ion-title {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 0 90px 1px;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+  }
+  
   .profile img {
-    height: 30px;
-    width: auto;
+    height: 40px;
+    width: 40px;
     margin-right: 5px;
     background: transparent;
+  }
+
+  .profileImage {
+    border: 2px solid #0054FE;
+    border-radius: 50%;
   }
 
   .grid {
