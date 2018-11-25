@@ -13,6 +13,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GoogleMaps } from '@ionic-native/google-maps'
 import { Camera } from '@ionic-native/camera'
+import { Geolocation } from '@ionic-native/geolocation';
 import { Crop } from '@ionic-native/crop';
 import { Base64 } from '@ionic-native/base64'
 
@@ -62,6 +63,7 @@ import { CameraProvider } from '../providers/camera-service/camera-service';
     GoogleMaps,
     FriendsProvider,
     Camera,
+    Geolocation,
     Crop,
     CameraProvider,
     Base64

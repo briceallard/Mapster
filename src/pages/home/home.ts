@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
 import { Pages } from '../../utils/constants';
 
 import {
@@ -12,8 +12,11 @@ import {
   Marker,
   Environment
 } from '@ionic-native/google-maps';
+
 import { UserDataProvider } from '../../providers/userData/userData';
 import { Subscription } from 'rxjs';
+import { Geolocation } from '@ionic-native/geolocation';
+import { UtilitiesProvider } from '../../providers/utilities/utilities';
 
 /**
  * Generated class for the HomePage page.
@@ -32,7 +35,12 @@ export class HomePage {
   profileImage: string;
   profileImage$: Subscription;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modal: ModalController, private data: UserDataProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modal: ModalController,
+    private data: UserDataProvider,
+    public utilities: UtilitiesProvider,
+    public alert: AlertController,
+    private geo: Geolocation
+  ) {
   }
 
   ionViewDidLoad() {
@@ -51,25 +59,46 @@ export class HomePage {
       this.profileImage$.unsubscribe();
   }
 
-  loadMap() {
+  async loadMap() {
 
-    Environment.setEnv({
-      'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyCO8ryKRAkT2zPwSJLWJQKsQVr-JHSqAYY',
-      'API_KEY_FOR_BROWSER_DEBUG': 'AIzaSyCO8ryKRAkT2zPwSJLWJQKsQVr-JHSqAYY'
-    });
+    try {
+      Environment.setEnv({
+        'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyCO8ryKRAkT2zPwSJLWJQKsQVr-JHSqAYY',
+        'API_KEY_FOR_BROWSER_DEBUG': 'AIzaSyCO8ryKRAkT2zPwSJLWJQKsQVr-JHSqAYY'
+      });
 
-    let mapOptions: GoogleMapOptions = {
-      camera: {
-        target: {
-          lat: 38.8979,
-          lng: -77.0365
-        },
-        zoom: 18,
-        tilt: 0
-      }
-    };
+      let position = await this.geo.getCurrentPosition({ enableHighAccuracy: true });
 
-    this.map = GoogleMaps.create('map_canvas', mapOptions);
+      let mapOptions: GoogleMapOptions = {
+        camera: {
+          target: {
+            lat: position.coords.latitude,
+            lng: position.coords.longitude
+          },
+          zoom: 18,
+          tilt: 0
+        }
+      };
+
+      this.map = GoogleMaps.create('map_canvas', mapOptions);
+
+      let marker: Marker = this.map.addMarkerSync({
+        title: 'My Location',
+        icon: 'blue',
+        animation: 'DROP',
+        position: {
+          lat: position.coords.latitude,
+          lng: position.coords.longitude
+        }
+      });
+
+      marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+        // Do something here on marker click
+      })
+
+    } catch (e) {
+      this.utilities.showToast(e.message);
+    }
 
   }
 
