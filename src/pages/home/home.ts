@@ -63,6 +63,11 @@ export class HomePage {
       this.profileImage$.unsubscribe();
   }
 
+  /**
+   * Loads google maps based on users current location
+   *
+   * @memberof HomePage
+   */
   async loadMap() {
 
     try {
@@ -119,6 +124,11 @@ export class HomePage {
 
   }
 
+  /**
+   * Profile Page click event
+   *
+   * @memberof HomePage
+   */
   public openProfileModal() {
     let profileModal = this.modal.create(Pages.MODAL_PROFILE);
     profileModal.onDidDismiss((logout) => { if (logout) this.navCtrl.setRoot(Pages.LOGIN_PAGE) });
@@ -126,6 +136,11 @@ export class HomePage {
 
   }
 
+  /**
+   * Updates profile image on load
+   *
+   * @memberof HomePage
+   */
   async updateProfileMsgs() {
     if (await this.data.profileExists()) {
       this.profileImage$ = (await this.data.getAuthenticatedUserProfileRealTime())

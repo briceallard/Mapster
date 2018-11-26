@@ -151,7 +151,7 @@ export class ProfilePage {
   async getImageFromCamera() {
     try {
       this.base64Image = await this.cameraSvc.getImageFromCamera(this.cameraSvc.optionsProfile);
-      //await this.uploadPicture(this.base64Image);
+      this.profile.profileImage = this.base64Image;
     } catch (e) {
       this.utilities.showToast(e.message);
     }
@@ -165,7 +165,7 @@ export class ProfilePage {
   async getImageFromGallery() {
     try {
       this.base64Image = await this.cameraSvc.getImageFromGallery();
-      //await this.uploadPicture(this.base64Image);
+      this.profile.profileImage = this.base64Image;
     } catch (e) {
       this.utilities.showToast(e.message);
     }

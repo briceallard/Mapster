@@ -21,6 +21,12 @@ export class LocationProvider {
     console.log('Hello LocationProvider Provider');
   }
 
+  /**
+   * Updates the users most recent location for viewing all users on map
+   *
+   * @param {Location} location
+   * @memberof LocationProvider
+   */
   async postMostRecentUserLocation(location: Location) {
     let user = await this.auth.getAuthenticatedUser();
 
@@ -31,6 +37,12 @@ export class LocationProvider {
     }
   }
 
+  /**
+   * Adds most recent location to collection of locations for history tracking
+   *
+   * @param {Location} location
+   * @memberof LocationProvider
+   */
   async postUserLocationHistory(location: Location) {
     let user = await this.auth.getAuthenticatedUser();
 
@@ -41,29 +53,4 @@ export class LocationProvider {
     }
   }
 
-  /**
-   * Puts users new location in 'users/latestLocation/'
-   * and also adds it to 'users/previousLocations'
-   *
-   * @param {Geoposition} geo
-   * @param {string} uid
-   * @memberof LocationProvider
-   */
-  // async postUserLocation(geo: Geoposition, uid: string) {
-  //   try {
-  //     await this.data.doc(`users/${uid}`).collection('latestLocation').update({
-  //       lat: geo.coords.latitude,
-  //       lon: geo.coords.longitude,
-  //       timestamp: (new Date).getTime()
-  //     });
-  //     await this.data.doc(`users/${uid}`).collection('previousLocations').add({
-  //       lat: geo.coords.latitude,
-  //       lon: geo.coords.longitude,
-  //       timestamp: (new Date).getTime()
-  //     })
-  //   } catch (e) {
-  //     console.log(e);
-  //     throw e;
-  //   }
-  // }
 }

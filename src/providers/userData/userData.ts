@@ -84,7 +84,7 @@ export class UserDataProvider {
   async createUserProfile(profile: User) {
     try {
       let user = await this.auth.getAuthenticatedUser();
-      
+
       profile.registerDate = (new Date).getTime();
 
       await this.data.doc<User>(`users/${user.uid}`).set(profile);
@@ -140,6 +140,11 @@ export class UserDataProvider {
     }
   }
 
+  /**
+   * Keeps track of users most recent login timestamp
+   *
+   * @memberof UserDataProvider
+   */
   async updateLastLogin() {
     let user = await this.auth.getAuthenticatedUser();
     let profile = await this.getAuthenticatedUserProfile();
