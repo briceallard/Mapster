@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { User } from '../../models/users/user.interface';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AuthProvider } from '../auth/auth';
-import { initializeApp } from 'firebase';
 import { AngularFireStorage } from 'angularfire2/storage'
 import { AlertController } from 'ionic-angular';
 import { Observable } from 'rxjs';
@@ -83,6 +82,9 @@ export class UserDataProvider {
   async createUserProfile(profile: User) {
     try {
       let user = await this.auth.getAuthenticatedUser();
+
+      profile.registerDate = (new Date).getTime();
+
       await this.data.doc<User>(`users/${user.uid}`).set(profile);
     } catch (e) {
       console.log(e);
@@ -115,10 +117,6 @@ export class UserDataProvider {
     let user = await this.auth.getAuthenticatedUser();
     const imageRef = this.storage.ref(`profileImages/${user.uid}/profileImage`); // Make a reference
 
-    let metadata = {
-      contentType: 'image/jpeg'
-    };
-
     try {
       await imageRef.putString(image, 'data_url');
       let profile = await this.getAuthenticatedUserProfile();
@@ -134,6 +132,24 @@ export class UserDataProvider {
       console.log(e);
       throw e;
     }
+  }
+
+  /**
+   * Keeps track of users most recent login timestamp
+   *
+   * @memberof UserDataProvider
+   */
+  async updateLastLogin() {
+    let profile = await this.getAuthenticatedUserProfile();
+
+    try {
+      profile.lastLogin = (new Date).getTime();
+
+      await this.updateUserProfile(profile);
+    } catch (e) {
+      console.log(e);
+    }
+    
   }
 
 }
