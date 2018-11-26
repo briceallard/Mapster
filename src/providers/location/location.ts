@@ -5,6 +5,8 @@ import { Geoposition } from '@ionic-native/geolocation'
 import { Location } from '../../models/users/location.interface';
 import { DateTime } from 'ionic-angular';
 import { AuthProvider } from '../auth/auth';
+import { UserDataProvider } from '../userData/userData';
+
 
 /*
   Generated class for the LocationProvider provider.
@@ -15,8 +17,28 @@ import { AuthProvider } from '../auth/auth';
 @Injectable()
 export class LocationProvider {
 
-  constructor(private data: AngularFirestore, private auth: AuthProvider) {
+  constructor(private data: AngularFirestore, private auth: AuthProvider, private user: UserDataProvider) {
     console.log('Hello LocationProvider Provider');
+  }
+
+  async postMostRecentUserLocation(location: Location) {
+    let user = await this.auth.getAuthenticatedUser();
+
+    try {
+      await this.data.doc<Location>(`locations/${user.uid}`).set(location);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  async postUserLocationHistory(location: Location) {
+    let user = await this.auth.getAuthenticatedUser();
+
+    try {
+      await this.data.doc<Location>(`users/$user.uid}/locationHistory/${location.timestamp}`).set(location);
+    } catch (e) {
+      throw e;
+    }
   }
 
   /**

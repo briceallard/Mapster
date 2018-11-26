@@ -17,6 +17,8 @@ import { UserDataProvider } from '../../providers/userData/userData';
 import { Subscription } from 'rxjs';
 import { Geolocation } from '@ionic-native/geolocation';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
+import { LocationProvider } from '../../providers/location/location';
+import { Location } from '../../models/users/location.interface';
 
 /**
  * Generated class for the HomePage page.
@@ -35,11 +37,13 @@ export class HomePage {
   profileImage: string;
   profileImage$: Subscription;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modal: ModalController,
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    public modal: ModalController,
     private data: UserDataProvider,
     public utilities: UtilitiesProvider,
     public alert: AlertController,
-    private geo: Geolocation
+    private geo: Geolocation,
+    public locSrvc: LocationProvider
   ) {
   }
 
@@ -67,13 +71,26 @@ export class HomePage {
         'API_KEY_FOR_BROWSER_DEBUG': 'AIzaSyCO8ryKRAkT2zPwSJLWJQKsQVr-JHSqAYY'
       });
 
-      let position = await this.geo.getCurrentPosition({ enableHighAccuracy: true });
+      let position = await this.geo.getCurrentPosition({
+        enableHighAccuracy: true,
+        timeout: 30000,
+        maximumAge: 60000
+      });
+
+      let location: Location = {
+        lat: position.coords.latitude,
+        lon: position.coords.longitude,
+        timestamp: position.timestamp
+      };
+
+      this.locSrvc.postMostRecentUserLocation(location);
+      this.locSrvc.postUserLocationHistory(location);
 
       let mapOptions: GoogleMapOptions = {
         camera: {
           target: {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
+            lat: location.lat,
+            lng: location.lon
           },
           zoom: 18,
           tilt: 0
@@ -87,8 +104,8 @@ export class HomePage {
         icon: 'blue',
         animation: 'DROP',
         position: {
-          lat: position.coords.latitude,
-          lng: position.coords.longitude
+          lat: location.lat,
+          lng: location.lon
         }
       });
 

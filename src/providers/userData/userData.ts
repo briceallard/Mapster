@@ -6,6 +6,7 @@ import { initializeApp } from 'firebase';
 import { AngularFireStorage } from 'angularfire2/storage'
 import { AlertController } from 'ionic-angular';
 import { Observable } from 'rxjs';
+import { async } from 'rxjs/internal/scheduler/async';
 
 
 @Injectable()
@@ -83,6 +84,9 @@ export class UserDataProvider {
   async createUserProfile(profile: User) {
     try {
       let user = await this.auth.getAuthenticatedUser();
+      
+      profile.registerDate = (new Date).getTime();
+
       await this.data.doc<User>(`users/${user.uid}`).set(profile);
     } catch (e) {
       console.log(e);
@@ -134,6 +138,20 @@ export class UserDataProvider {
       console.log(e);
       throw e;
     }
+  }
+
+  async updateLastLogin() {
+    let user = await this.auth.getAuthenticatedUser();
+    let profile = await this.getAuthenticatedUserProfile();
+
+    try {
+      profile.lastLogin = (new Date).getTime();
+
+      await this.updateUserProfile(profile);
+    } catch (e) {
+      console.log(e);
+    }
+    
   }
 
 }
