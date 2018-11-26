@@ -7,7 +7,7 @@ import { UserDataProvider } from '../userData/userData';
 @Injectable()
 export class AuthProvider {
 
-  constructor(private auth: AngularFireAuth, public user: UserDataProvider) {}
+  constructor(private auth: AngularFireAuth) {}
 
   /**
    * Create an account with an email and a password
@@ -66,7 +66,6 @@ export class AuthProvider {
     return new Promise<boolean>((resolve, reject) => {
       this.auth.authState.subscribe((auth) => {
         if (auth) {
-          this.user.updateLastLogin();
           resolve(true);
         } else {
           resolve(false);

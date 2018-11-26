@@ -6,7 +6,7 @@ import { LoadingMessages, SuccessMessages, TOAST_DURATION, Pages, ErrorMessages,
 import { UserDataProvider } from '../../providers/userData/userData';
 
 import { Crop } from '@ionic-native/crop';
-import { Camera, CameraOptions } from '@ionic-native/camera'
+import { Camera } from '@ionic-native/camera'
 import { Subscription } from 'rxjs';
 import { CameraProvider } from '../../providers/camera-service/camera-service';
 

@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core';
 import { User } from '../../models/users/user.interface';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AuthProvider } from '../auth/auth';
-import { initializeApp } from 'firebase';
 import { AngularFireStorage } from 'angularfire2/storage'
 import { AlertController } from 'ionic-angular';
 import { Observable } from 'rxjs';
-import { async } from 'rxjs/internal/scheduler/async';
 
 
 @Injectable()
@@ -119,10 +117,6 @@ export class UserDataProvider {
     let user = await this.auth.getAuthenticatedUser();
     const imageRef = this.storage.ref(`profileImages/${user.uid}/profileImage`); // Make a reference
 
-    let metadata = {
-      contentType: 'image/jpeg'
-    };
-
     try {
       await imageRef.putString(image, 'data_url');
       let profile = await this.getAuthenticatedUserProfile();
@@ -146,7 +140,6 @@ export class UserDataProvider {
    * @memberof UserDataProvider
    */
   async updateLastLogin() {
-    let user = await this.auth.getAuthenticatedUser();
     let profile = await this.getAuthenticatedUserProfile();
 
     try {

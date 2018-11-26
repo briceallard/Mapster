@@ -48,11 +48,9 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
-    //this.loadMap();
-    //this.updateProfileMsgs();
+    this.data.updateLastLogin();
   }
-
-  // Maybe better performance??
+  
   ionViewWillLoad() {
     this.loadMap();
     this.updateProfileMsgs();
