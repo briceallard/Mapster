@@ -47,7 +47,7 @@ export class LocationProvider {
     let user = await this.auth.getAuthenticatedUser();
 
     try {
-      await this.data.doc<Location>(`users/$user.uid}/locationHistory/${location.timestamp}`).set(location);
+      await this.data.doc<Location>(`users/${user.uid}/locationHistory/${location.timestamp}`).set(location);
     } catch (e) {
       throw e;
     }

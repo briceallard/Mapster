@@ -132,7 +132,8 @@ export class ProfilePage {
 
         loader.dismiss();
         this.utilities.showToast(SuccessMessages.PROFILE, TOAST_DURATION);
-        this.navCtrl.pop();
+        this.navCtrl.setRoot(Pages.HOME_PAGE);
+        this.navCtrl.popToRoot();
 
       } catch (e) {
         loader.dismiss();
