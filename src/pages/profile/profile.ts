@@ -2,12 +2,13 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ToastController, normalizeURL, AlertController } from 'ionic-angular';
 import { User } from '../../models/users/user.interface';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
-import { LoadingMessages, SuccessMessages, TOAST_DURATION, Pages, ErrorMessages } from '../../utils/constants';
+import { LoadingMessages, SuccessMessages, TOAST_DURATION, Pages, ErrorMessages, BASE_64 } from '../../utils/constants';
 import { UserDataProvider } from '../../providers/userData/userData';
 
-import { ImagePicker, ImagePickerOptions } from '@ionic-native/image-picker';
 import { Crop } from '@ionic-native/crop';
-import { Camera, CameraOptions } from '@ionic-native/camera'
+import { Camera } from '@ionic-native/camera'
+import { Subscription } from 'rxjs';
+import { CameraProvider } from '../../providers/camera-service/camera-service';
 
 
 /**
@@ -25,23 +26,32 @@ import { Camera, CameraOptions } from '@ionic-native/camera'
 export class ProfilePage {
 
   profile = {} as User;
-  imageUrl: string;
+  base64Image: string;
+  profile$: Subscription;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private utilities: UtilitiesProvider,
-    private data: UserDataProvider, 
-    public imagePicker: ImagePicker,
+    private data: UserDataProvider,
     public crop: Crop,
-    public toast: ToastController, 
-    public camera: Camera, 
+    public toast: ToastController,
+    public camera: Camera,
+    public cameraSvc: CameraProvider,
     public alert: AlertController
-    ) {
+  ) {
 
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
+  }
+
+  ionViewWillLoad() {
     this.updateProfileMsgs();
+  }
+
+  ionViewWillLeave() {
+    if (this.profile$)
+      this.profile$.unsubscribe();
   }
 
   /**
@@ -58,13 +68,12 @@ export class ProfilePage {
     }
 
     this.navCtrl.setRoot(Pages.HOME_PAGE);
-    this.navCtrl.popAll();
-
   }
 
   async updateProfileMsgs() {
     if (await this.data.profileExists()) {
-      this.profile = await this.data.getAuthenticatedUserProfile();
+      this.profile$ = (await this.data.getAuthenticatedUserProfileRealTime())
+        .subscribe((profile) => this.profile = profile);
     }
   }
 
@@ -84,9 +93,13 @@ export class ProfilePage {
 
         await this.data.updateUserProfile(this.profile);
 
+        if (this.base64Image) {
+          this.uploadPicture(this.base64Image);
+        }
+
         loader.dismiss();
         this.utilities.showToast(SuccessMessages.PROFILE, TOAST_DURATION);
-        this.navCtrl.setRoot(Pages.HOME_PAGE);
+        this.navCtrl.pop();
 
       } catch (e) {
         loader.dismiss();
@@ -113,9 +126,14 @@ export class ProfilePage {
 
         await this.data.createUserProfile(this.profile);
 
+        if (this.base64Image) {
+          this.uploadPicture(this.base64Image);
+        }
+
         loader.dismiss();
         this.utilities.showToast(SuccessMessages.PROFILE, TOAST_DURATION);
         this.navCtrl.setRoot(Pages.HOME_PAGE);
+        this.navCtrl.popToRoot();
 
       } catch (e) {
         loader.dismiss();
@@ -127,6 +145,49 @@ export class ProfilePage {
   }
 
   /**
+   * Gets image from device camera
+   *
+   * @memberof ProfilePage
+   */
+  async getImageFromCamera() {
+    try {
+      this.base64Image = await this.cameraSvc.getImageFromCamera(this.cameraSvc.optionsProfile);
+      this.profile.profileImage = this.base64Image;
+    } catch (e) {
+      this.utilities.showToast(e.message);
+    }
+  }
+
+  /**
+   * Gets image from device gallery
+   *
+   * @memberof ProfilePage
+   */
+  async getImageFromGallery() {
+    try {
+      this.base64Image = await this.cameraSvc.getImageFromGallery();
+      this.profile.profileImage = this.base64Image;
+    } catch (e) {
+      this.utilities.showToast(e.message);
+    }
+  }
+
+  /**
+   * Saves image to firebase storage
+   *
+   * @param {*} image
+   * @memberof ProfilePage
+   */
+  async uploadPicture(image) {
+    try {
+      await this.data.uploadProfileImage(image);
+    } catch (e) {
+      this.utilities.showToast(ErrorMessages.UPLOAD_FAILED, TOAST_DURATION);
+      this.alert.create({ title: 'Error', subTitle: e.message, buttons: ['OK'] }).present();
+    }
+  }
+
+  /**
    * Checks for empty fields
    *
    * @returns
@@ -134,83 +195,6 @@ export class ProfilePage {
    */
   validate() {
     return this.profile.firstName !== '' && this.profile.lastName !== '' && this.profile.userName !== '' && this.profile.email !== '';
-  }
-
-  async openImagePickerCrop() {
-
-    try {
-
-      if (!(await this.imagePicker.hasReadPermission())) {
-        alert("Request permissions");
-        await this.imagePicker.requestReadPermission();
-      } else {
-        let results = await this.imagePicker.getPictures({ maximumImagesCount: 1 });
-        alert("After permissions");
-        for (var i = 0; i < results.length; i++) {
-          let newImage = await this.crop.crop(results[i], { quality: 100 });
-          console.log(newImage);
-          let file = new File([""], normalizeURL(newImage));
-          await this.uploadImageToFirebase(newImage);
-        }
-      }
-    } catch (e) {
-      alert("You fucked up!");
-      this.alert.create({ title: 'Error!', subTitle: e, buttons: ['OK'] }).present();
-    }
-
-  }
-
-  async takePicture() {
-
-    const cameraOptions: CameraOptions = {
-      quality: 100,
-      destinationType: this.camera.DestinationType.DATA_URL,
-      targetWidth: 400,
-      //targetHeight: 400,
-    }
-
-    let imageData = await this.camera.getPicture(cameraOptions);
-    // imageData is either a base64 encoded string or a file URI
-    // If it's base64 (DATA_URL):
-    let base64Image = 'data:image/jpeg;base64,' + imageData;
-    this.imageUrl = base64Image;
-    await this.uploadPicture();
-
-  }
-
-  async uploadPicture() {
-
-    try {
-      await this.data.uploadProfileImage(this.imageUrl);
-
-      let toast = this.toast.create({
-        message: 'Image was uploaded successfully',
-        duration: 3000
-      });
-      toast.present();
-    } catch (e) {
-      let toast = this.toast.create({
-        message: 'Image failed to upload',
-        duration: 3000
-      });
-      toast.present();
-    }
-
-  }
-  
-  async uploadImageToFirebase(image){ //crop firebase
-    image = normalizeURL(image);
-
-    //uploads img to firebase storage
-    this.data.uploadProfileImage(image)
-    .then(photoURL => {
-      
-      let toast = this.toast.create({
-        message: 'Image was uploaded successfully',
-        duration: 3000
-      });
-      toast.present();
-      })
   }
 
 }

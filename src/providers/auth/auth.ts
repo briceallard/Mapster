@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Account } from '../../models/registration/account.interface';
 import { User } from 'firebase';
+import { UserDataProvider } from '../userData/userData';
 
 @Injectable()
 export class AuthProvider {
