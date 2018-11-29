@@ -11,7 +11,7 @@
   </ion-navbar>
 
   <ion-toolbar no-border-top>
-    <ion-searchbar placeholder="Friends Name or Email" (ionInput)="queryBySearchEntry()" [(ngModel)]="searchValue"></ion-searchbar>
+    <ion-searchbar placeholder="Friends Name or Email" (ionInput)="queryByArray()" [(ngModel)]="searchValue"></ion-searchbar>
   </ion-toolbar>
 
 </ion-header>
@@ -22,8 +22,7 @@
     <ion-item-sliding *ngFor="let user of users | async" #item>
       <ion-item>
         <ion-avatar side="left">
-          <img *ngIf="!user.profileImage" src="assets/icon/profile_image_placeholder.svg">
-          <img *ngIf="user.profileImage" src={{user.profileImage}}>
+          <img src={{user.profileImage}}>
         </ion-avatar>
         <h2> {{ user.firstName }} {{ user.lastName }} </h2>
         <p> {{ user.userName}} </p>

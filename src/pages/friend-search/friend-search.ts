@@ -32,45 +32,39 @@ export class FriendSearchPage {
   }
 
   ionViewWillLoad() {
-    this.updateUserList();
+    this.queryBySearchEntry();
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FriendSearchPage');
   }
 
-  updateUserList() {
-    this.users = this.data.collection<User>('users').valueChanges();
-  }
-
-  // search() {
-  //   let self = this;
-  //   self.results = self.afs.collection(`users`, ref => ref
-  //     .orderBy("username")
-  //     .startAt(self.searchValue.toLowerCase())
-  //     .endAt(self.searchValue.toLowerCase()+"\uf8ff")
-  //     .limit(10))
-  //     .valueChanges();
-  // }
-
   queryBySearchEntry() {
     this.users = this.data.collection<User>('users', ref => ref
-    .orderBy("userName")
-    .startAt(this.searchValue.toLowerCase())
-    .endAt(this.searchValue.toLowerCase()+"\uf8ff")
-    .limit(10))
-    .valueChanges();
-    }
+      .orderBy("userName")
+      .startAt(this.searchValue.toLowerCase())
+      .endAt(this.searchValue.toLowerCase() + "\uf8ff")
+      .limit(10))
+      .valueChanges();
+  }
+
+  queryByArray() {
+    this.users = this.data.collection<User>('users', ref => ref
+      .where('caseSensitive', 'array-contains', this.searchValue.toLowerCase())
+      .limit(10))
+      .valueChanges();
+  }
+
 
   queryExample() {
-    let retardedUsers = this.data.collection<User>('users', ref => 
+    let retardedUsers = this.data.collection<User>('users', ref =>
       ref.where("retarded", "==", true)).valueChanges();
 
     // return this.data.collection<any>('users', ref => 
     //   ref.where("retarded", "==", true)
     //       .orderBy("lastName", "desc")
     //       .limit(3)
-          
+
     //     .orderBy("lastName")
     //     // etc etc
     // ).valueChanges();              
@@ -78,12 +72,12 @@ export class FriendSearchPage {
     // Returns and observable<T> return this.data.collection<any>
   }
 
-  
+
 
   confirmFriendRequest() {
     var title: 'Confirm';
     var message: 'Add this user as a friend?';
-    this.alertControl.confirmAlert(title, message,(console.log('Request')));
+    this.alertControl.confirmAlert(title, message, (console.log('Request')));
     // SEND REQUEST MESSAGE AS CALLBACK ABOVE    
   }
 

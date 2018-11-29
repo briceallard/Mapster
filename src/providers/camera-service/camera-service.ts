@@ -61,8 +61,8 @@ export class CameraProvider {
       mediaType: this.camera.MediaType.PICTURE,
       saveToPhotoAlbum: false,
       allowEdit: false,
-      targetHeight: 300,
-      targetWidth: 300,
+      targetHeight: 500,
+      targetWidth: 500,
       correctOrientation: true
     };
 

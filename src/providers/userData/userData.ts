@@ -5,12 +5,13 @@ import { AuthProvider } from '../auth/auth';
 import { AngularFireStorage } from 'angularfire2/storage'
 import { AlertController } from 'ionic-angular';
 import { Observable } from 'rxjs';
+import { Base64 } from '@ionic-native/base64';
 
 
 @Injectable()
 export class UserDataProvider {
 
-  constructor(private data: AngularFirestore, private auth: AuthProvider, public storage: AngularFireStorage, public alert: AlertController) {
+  constructor(private data: AngularFirestore, private auth: AuthProvider, public storage: AngularFireStorage, public alert: AlertController, public base64: Base64) {
     console.log('Hello UserDataProvider Provider');
   }
 
@@ -85,8 +86,13 @@ export class UserDataProvider {
 
       profile.registerDate = (new Date).getTime();
 
-      user.firstName[0].toUpper();
-      user.lastName[0].toUpper();
+      profile.caseSensitive = [
+        profile.firstName.toLowerCase(),
+        profile.lastName.toLowerCase(),
+        profile.email.toLowerCase(),
+        profile.userName.toLowerCase(),
+        profile.firstName.toLowerCase() + ' ' + profile.lastName.toLowerCase()
+      ];
 
       await this.data.doc<User>(`users/${user.uid}`).set(profile);
     } catch (e) {
@@ -103,6 +109,15 @@ export class UserDataProvider {
   async updateUserProfile(profile: User) {
     try {
       let user = await this.auth.getAuthenticatedUser();
+
+      profile.caseSensitive = [
+        profile.firstName.toLowerCase(),
+        profile.lastName.toLowerCase(),
+        profile.email.toLowerCase(),
+        profile.userName.toLowerCase(),
+        profile.firstName.toLowerCase() + profile.lastName.toLowerCase()
+      ];
+
       await this.data.doc<User>(`users/${user.uid}`).update(profile);
     } catch (e) {
       console.log(e);

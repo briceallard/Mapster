@@ -19,8 +19,7 @@
       <ion-buttons end class="profile">
         <button ion-button icon-only (click)="openProfileModal()">
           <ion-icon>
-            <img *ngIf="!profileImage" class="profileImage" src="/assets/icon/profile_image_placeholder.svg">
-            <img *ngIf="profileImage" class="profileImage" src="{{ profileImage }}">
+            <img class="profileImage" src="{{ profileImage }}">
           </ion-icon>
         </button>
       </ion-buttons>
