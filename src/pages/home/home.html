@@ -19,43 +19,13 @@
       <ion-buttons end class="profile">
         <button ion-button icon-only (click)="openProfileModal()">
           <ion-icon>
-            <img src="/assets/icon/profile_image_placeholder.svg">
+            <img *ngIf="!profileImage" class="profileImage" src="/assets/icon/profile_image_placeholder.svg">
+            <img *ngIf="profileImage" class="profileImage" src="{{ profileImage }}">
           </ion-icon>
         </button>
       </ion-buttons>
 
   </ion-navbar>
-
-  <!-- <div align="center" class="grid">
-    <ion-grid>
-      <ion-row>
-        <ion-col>
-          <button icon-only ion-button clear>
-            <ion-icon name="contact">
-            </ion-icon>
-          </button>
-        </ion-col>
-        <ion-col>
-          <button icon-only ion-button clear>
-            <ion-icon name="contacts">
-            </ion-icon>
-          </button>
-        </ion-col>
-        <ion-col>
-          <button icon-only ion-button clear>
-            <ion-icon color="primary" name="search">
-            </ion-icon>
-          </button>
-        </ion-col>
-        <ion-col>
-          <button icon-only ion-button clear>
-            <ion-icon color="primary" name="star">
-            </ion-icon>
-          </button>
-        </ion-col>
-      </ion-row>
-    </ion-grid>
-  </div> -->
 
 </ion-header>
 
@@ -68,7 +38,7 @@
     </h2> -->
   </div>
 
-  <ion-fab left bottom>
+  <ion-fab right bottom>
     <button ion-fab color="primary">
       <ion-icon name="add"></ion-icon>
     </button>

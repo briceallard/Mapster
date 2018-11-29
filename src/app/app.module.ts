@@ -12,6 +12,10 @@ import { FIREBASE_CONFIG } from '../firebase-config/app.firebase.config';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GoogleMaps } from '@ionic-native/google-maps'
+import { Camera } from '@ionic-native/camera'
+import { Geolocation } from '@ionic-native/geolocation';
+import { Crop } from '@ionic-native/crop';
+import { Base64 } from '@ionic-native/base64'
 
 // My Providers
 import { DataProvider } from '../providers/data/data';
@@ -23,6 +27,8 @@ import { LocationProvider } from '../providers/location/location';
 import { MessagesProvider } from '../providers/messages/messages';
 import { UtilitiesProvider } from '../providers/utilities/utilities';
 import { FriendsProvider } from '../providers/friends/friends';
+import { AngularFireStorageModule } from '@angular/fire/storage';
+import { CameraProvider } from '../providers/camera-service/camera-service';
 
 @NgModule({
   declarations: [
@@ -34,7 +40,8 @@ import { FriendsProvider } from '../providers/friends/friends';
     AngularFireModule.initializeApp(FIREBASE_CONFIG),
     AngularFireAuthModule,
     AngularFirestoreModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    AngularFireStorageModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -54,7 +61,12 @@ import { FriendsProvider } from '../providers/friends/friends';
     UtilitiesProvider,
     BrowserAnimationsModule,
     GoogleMaps,
-    FriendsProvider
+    FriendsProvider,
+    Camera,
+    Geolocation,
+    Crop,
+    CameraProvider,
+    Base64
   ]
 })
 
