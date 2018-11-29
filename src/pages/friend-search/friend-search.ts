@@ -21,6 +21,7 @@ import { UtilitiesProvider } from '../../providers/utilities/utilities';
 export class FriendSearchPage {
 
   public users: Observable<User[]>;
+  searchValue: string = '';
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private data: AngularFirestore,
@@ -42,18 +43,37 @@ export class FriendSearchPage {
     this.users = this.data.collection<User>('users').valueChanges();
   }
 
-  queryExample(): Observable<any> {
+  // search() {
+  //   let self = this;
+  //   self.results = self.afs.collection(`users`, ref => ref
+  //     .orderBy("username")
+  //     .startAt(self.searchValue.toLowerCase())
+  //     .endAt(self.searchValue.toLowerCase()+"\uf8ff")
+  //     .limit(10))
+  //     .valueChanges();
+  // }
+
+  queryBySearchEntry() {
+    this.users = this.data.collection<User>('users', ref => ref
+    .orderBy("userName")
+    .startAt(this.searchValue.toLowerCase())
+    .endAt(this.searchValue.toLowerCase()+"\uf8ff")
+    .limit(10))
+    .valueChanges();
+    }
+
+  queryExample() {
     let retardedUsers = this.data.collection<User>('users', ref => 
       ref.where("retarded", "==", true)).valueChanges();
 
-    return this.data.collection<any>('users', ref => 
-      ref.where("retarded", "==", true)
-          .orderBy("lastName", "desc")
-          .limit(3)
+    // return this.data.collection<any>('users', ref => 
+    //   ref.where("retarded", "==", true)
+    //       .orderBy("lastName", "desc")
+    //       .limit(3)
           
-      //  .orderBy("lastName")
-        // etc etc
-    ).valueChanges();              
+    //     .orderBy("lastName")
+    //     // etc etc
+    // ).valueChanges();              
 
     // Returns and observable<T> return this.data.collection<any>
   }

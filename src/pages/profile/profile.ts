@@ -165,7 +165,7 @@ export class ProfilePage {
    */
   async getImageFromGallery() {
     try {
-      this.base64Image = await this.cameraSvc.getImageFromGallery();
+      this.base64Image = await this.cameraSvc.getImageFromGallery(this.cameraSvc.optionsGalleryProfile);
       this.profile.profileImage = this.base64Image;
     } catch (e) {
       this.utilities.showToast(e.message);

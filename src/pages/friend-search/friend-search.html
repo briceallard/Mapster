@@ -11,7 +11,7 @@
   </ion-navbar>
 
   <ion-toolbar no-border-top>
-    <ion-searchbar placeholder="Friends Name or Email" (ionInput)="filterItems($event)"></ion-searchbar>
+    <ion-searchbar placeholder="Friends Name or Email" (ionInput)="queryBySearchEntry()" [(ngModel)]="searchValue"></ion-searchbar>
   </ion-toolbar>
 
 </ion-header>

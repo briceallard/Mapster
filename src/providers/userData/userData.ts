@@ -85,6 +85,9 @@ export class UserDataProvider {
 
       profile.registerDate = (new Date).getTime();
 
+      user.firstName[0].toUpper();
+      user.lastName[0].toUpper();
+
       await this.data.doc<User>(`users/${user.uid}`).set(profile);
     } catch (e) {
       console.log(e);

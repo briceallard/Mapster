@@ -1,5 +1,7 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { User } from '../../models/users/user.interface';
+import { Observable } from 'rxjs';
 
 /*
   Generated class for the FriendsProvider provider.
@@ -10,8 +12,18 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class FriendsProvider {
 
-  constructor(public http: HttpClient) {
+  constructor(public data: AngularFirestore) {
     console.log('Hello FriendsProvider Provider');
   }
 
+  // getUsers(start, end): Observable<User> {
+  //   return this.data.collection<User>('users', {
+  //     query: {
+  //       orderByChild: 'firstName',
+  //       limitToFirst: 10,
+  //       startAt: start,
+  //       endAt: end
+  //     }
+  //   });
+  // }
 }
