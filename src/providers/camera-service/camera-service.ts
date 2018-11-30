@@ -17,6 +17,7 @@ export class CameraProvider {
   optionsLow: CameraOptions;
   optionsProfile: CameraOptions;
   optionsGallery: CameraOptions;
+  optionsGalleryProfile: CameraOptions;
 
   constructor(private camera: Camera, private crop: Crop, private base64: Base64) {
     console.log('Hello CameraProvider Provider');
@@ -32,8 +33,8 @@ export class CameraProvider {
       mediaType: this.camera.MediaType.PICTURE,
       saveToPhotoAlbum: false,
       allowEdit: false,
-      targetHeight: 1080,
-      targetWidth: 1920,
+      targetHeight: 1500,
+      targetWidth: 1500,
       correctOrientation: true
     };
 
@@ -46,8 +47,8 @@ export class CameraProvider {
       mediaType: this.camera.MediaType.PICTURE,
       saveToPhotoAlbum: false,
       allowEdit: false,
-      targetHeight: 480,
-      targetWidth: 640,
+      targetHeight: 500,
+      targetWidth: 500,
       correctOrientation: true
     };
 
@@ -60,8 +61,8 @@ export class CameraProvider {
       mediaType: this.camera.MediaType.PICTURE,
       saveToPhotoAlbum: false,
       allowEdit: false,
-      targetHeight: 480,
-      targetWidth: 640,
+      targetHeight: 500,
+      targetWidth: 500,
       correctOrientation: true
     };
 
@@ -74,10 +75,23 @@ export class CameraProvider {
       mediaType: this.camera.MediaType.PICTURE,
       saveToPhotoAlbum: false,
       allowEdit: false,
-      targetHeight: 1080,
-      targetWidth: 1920,
+      targetHeight: 1500,
+      targetWidth: 1500,
       correctOrientation: true
-    }
+    };
+
+    this.optionsGalleryProfile = {
+      quality: 60,
+      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
+      destinationType: this.camera.DestinationType.FILE_URI,
+      encodingType: this.camera.EncodingType.JPEG,
+      mediaType: this.camera.MediaType.PICTURE,
+      saveToPhotoAlbum: false,
+      allowEdit: false,
+      targetHeight: 500,
+      targetWidth: 500,
+      correctOrientation: true
+    };
   }
 
   /**
@@ -105,9 +119,9 @@ export class CameraProvider {
    * @returns
    * @memberof CameraProvider
    */
-  async getImageFromGallery() {
+  async getImageFromGallery(option: CameraOptions) {
     try {
-      let imageData = await this.camera.getPicture(this.optionsGallery);
+      let imageData = await this.camera.getPicture(option);
       let newImage: string = await this.crop.crop(imageData, { quality: 100 });
       let base64Image = await this.base64.encodeFile(newImage);
       console.log(base64Image);

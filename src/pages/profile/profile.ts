@@ -46,6 +46,7 @@ export class ProfilePage {
   }
 
   ionViewWillLoad() {
+    this.profile.profileImage = 'https://firebasestorage.googleapis.com/v0/b/mapster-3ccc5.appspot.com/o/profileImages%2Fdefault_profile.png?alt=media&token=6bbc4366-1ab0-4260-a778-52810ab674b4';
     this.updateProfileMsgs();
   }
 
@@ -165,7 +166,7 @@ export class ProfilePage {
    */
   async getImageFromGallery() {
     try {
-      this.base64Image = await this.cameraSvc.getImageFromGallery();
+      this.base64Image = await this.cameraSvc.getImageFromGallery(this.cameraSvc.optionsGalleryProfile);
       this.profile.profileImage = this.base64Image;
     } catch (e) {
       this.utilities.showToast(e.message);

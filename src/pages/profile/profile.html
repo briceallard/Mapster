@@ -9,9 +9,7 @@
 
   <div align="center" class="profile">
 
-    
-    <img *ngIf="!profile.profileImage" class="profile-image" src="assets/icon/profile_image_placeholder.svg">
-    <img *ngIf="profile.profileImage" class="profile-image" src="{{profile.profileImage}}">
+    <img class="profile-image" src="{{profile.profileImage}}">
 
     <div>
     <button ion-button outline round icon-start (click)="getImageFromCamera()">
