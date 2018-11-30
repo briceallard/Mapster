@@ -1,12 +1,15 @@
 page-friend-search {
 
-    .users {
-        //overflow: hidden;
-    }
-
     .users ion-avatar {
         margin-right: 15px;
         float: left;
+        height: 50px;
+
+        img {
+            margin-top: 2px;
+            height: 50px;
+            width: 50px;
+        }
     }
 
     .users h2 {

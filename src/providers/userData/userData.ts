@@ -5,13 +5,15 @@ import { AuthProvider } from '../auth/auth';
 import { AngularFireStorage } from 'angularfire2/storage'
 import { AlertController } from 'ionic-angular';
 import { Observable } from 'rxjs';
-import { Base64 } from '@ionic-native/base64';
+import { UtilitiesProvider } from '../utilities/utilities';
 
 
 @Injectable()
 export class UserDataProvider {
 
-  constructor(private data: AngularFirestore, private auth: AuthProvider, public storage: AngularFireStorage, public alert: AlertController, public base64: Base64) {
+  constructor(private data: AngularFirestore, private auth: AuthProvider, public storage: AngularFireStorage,
+    public alert: AlertController,
+    public util: UtilitiesProvider) {
     console.log('Hello UserDataProvider Provider');
   }
 
@@ -42,7 +44,7 @@ export class UserDataProvider {
           else
             reject("Profile Does not exist");
 
-           subscription.unsubscribe();
+          subscription.unsubscribe();
         });
     });
   }
@@ -86,15 +88,10 @@ export class UserDataProvider {
 
       profile.registerDate = (new Date).getTime();
 
-      profile.caseSensitive = [
-        profile.firstName.toLowerCase(),
-        profile.lastName.toLowerCase(),
-        profile.email.toLowerCase(),
-        profile.userName.toLowerCase(),
-        profile.firstName.toLowerCase() + ' ' + profile.lastName.toLowerCase()
-      ];
+      profile = this.formatProfileData(profile);
 
       await this.data.doc<User>(`users/${user.uid}`).set(profile);
+
     } catch (e) {
       console.log(e);
       throw e;
@@ -110,15 +107,10 @@ export class UserDataProvider {
     try {
       let user = await this.auth.getAuthenticatedUser();
 
-      profile.caseSensitive = [
-        profile.firstName.toLowerCase(),
-        profile.lastName.toLowerCase(),
-        profile.email.toLowerCase(),
-        profile.userName.toLowerCase(),
-        profile.firstName.toLowerCase() + profile.lastName.toLowerCase()
-      ];
+      profile = this.formatProfileData(profile);
 
       await this.data.doc<User>(`users/${user.uid}`).update(profile);
+
     } catch (e) {
       console.log(e);
       throw e;
@@ -167,7 +159,25 @@ export class UserDataProvider {
     } catch (e) {
       console.log(e);
     }
-    
+  }
+
+  formatProfileData(profile: User): User {
+
+    profile.firstName = this.util.toUpperFirst(profile.firstName);
+    profile.lastName = this.util.toUpperFirst(profile.lastName);
+    profile.fullName = profile.firstName.toLowerCase() + ' ' + profile.lastName.toLowerCase();
+    profile.email = profile.email.toLowerCase();
+    profile.userName = profile.userName.toLowerCase();
+
+    profile.caseSensitive = [
+      profile.firstName.toLowerCase(),
+      profile.lastName.toLowerCase(),
+      profile.email.toLowerCase(),
+      profile.userName.toLowerCase(),
+      profile.firstName.toLowerCase() + ' ' + profile.lastName.toLowerCase()
+    ];
+
+    return profile;
   }
 
 }

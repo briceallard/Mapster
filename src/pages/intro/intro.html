@@ -3,7 +3,7 @@
   <ion-slides pager (ionSlideDidChange)="slideChanged()" (ionSlideDrag)="slideMoved()">
 
     <ion-slide class="slide1">
-      <div class="diag">
+      <div class="diag" align="center">
         <ion-img class="logo" src="assets/imgs/logo.png" [@bounce]='state' (@bounce.done)="animationDone($event)"></ion-img>
       </div>
       <div>

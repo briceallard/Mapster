@@ -1,30 +1,31 @@
-<!--
-  Generated template for the FriendSearchPage page.
 
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar>
     <ion-title>Find Friends</ion-title>
+    <ion-buttons end>
+        <button ion-button icon-only (click)="selectSearchFilter()">
+          <ion-icon name="more"></ion-icon>
+        </button>
+      </ion-buttons>
   </ion-navbar>
 
-  <ion-toolbar no-border-top>
-    <ion-searchbar placeholder="Friends Name or Email" (ionInput)="queryByArray()" [(ngModel)]="searchValue"></ion-searchbar>
-  </ion-toolbar>
 
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
+  <ion-toolbar no-border-top>
+      <ion-searchbar placeholder="{{ placeholder }}" (ionInput)="queryBySearchEntry()" [(ngModel)]="searchValue"></ion-searchbar>
+    </ion-toolbar>
   <ion-list class="users">
     <ion-item-sliding *ngFor="let user of users | async" #item>
       <ion-item>
         <ion-avatar side="left">
           <img src={{user.profileImage}}>
         </ion-avatar>
-        <h2> {{ user.firstName }} {{ user.lastName }} </h2>
+        <h3> {{ user.firstName }} {{ user.lastName }} </h3>
+        <p> {{ user.email }} </p>
         <p> {{ user.userName}} </p>
       </ion-item>
       <ion-item-options side="right">

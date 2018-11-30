@@ -8,28 +8,40 @@
 
   <ion-navbar>
 
-      <button ion-button menuToggle>
-        <ion-icon name="menu" color="primary"></ion-icon>
+    <ion-title>
+      Mapster
+    </ion-title>
+
+    <ion-buttons end class="profile">
+      <!--<button ion-button icon-only (click)="presentPopover($event)">-->
+      <button ion-button icon-only (click)="openProfileModal()">
+        <ion-icon>
+          <img class="profileImage" src="{{ profileImage }}">
+        </ion-icon>
       </button>
-
-      <ion-title>
-        Mapster
-      </ion-title>
-
-      <ion-buttons end class="profile">
-        <button ion-button icon-only (click)="openProfileModal()">
-          <ion-icon>
-            <img class="profileImage" src="{{ profileImage }}">
-          </ion-icon>
-        </button>
-      </ion-buttons>
+    </ion-buttons>
 
   </ion-navbar>
 
 </ion-header>
 
-
 <ion-content>
+
+  <div class="map">
+    <ion-toolbar no-border-top>
+      <ion-segment color="primary" [(ngModel)]="mapview">
+        <ion-segment-button value="all">
+          All
+        </ion-segment-button>
+        <ion-segment-button value="friends">
+          Friends
+        </ion-segment-button>
+        <ion-segment-button value="family">
+          Family
+        </ion-segment-button>
+      </ion-segment>
+    </ion-toolbar>
+  </div>
 
   <div id="map_canvas">
     <!-- <h2 style="text-align: center">

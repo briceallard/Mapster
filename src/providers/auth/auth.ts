@@ -2,12 +2,12 @@ import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Account } from '../../models/registration/account.interface';
 import { User } from 'firebase';
-import { UserDataProvider } from '../userData/userData';
 
 @Injectable()
 export class AuthProvider {
 
-  constructor(private auth: AngularFireAuth) {}
+  constructor(private auth: AngularFireAuth) {
+  }
 
   /**
    * Create an account with an email and a password

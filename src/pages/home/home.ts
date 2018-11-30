@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, AlertController, PopoverController } from 'ionic-angular';
 import { Pages } from '../../utils/constants';
 
 import {
@@ -19,6 +19,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
 import { LocationProvider } from '../../providers/location/location';
 import { Location } from '../../models/users/location.interface';
+import { PopoverComponent } from '../../components/popover/popover';
 
 /**
  * Generated class for the HomePage page.
@@ -34,6 +35,7 @@ import { Location } from '../../models/users/location.interface';
 })
 export class HomePage {
   map: GoogleMap;
+  mapview: string;
   profileImage: string;
   profileImage$: Subscription;
 
@@ -43,7 +45,8 @@ export class HomePage {
     public utilities: UtilitiesProvider,
     public alert: AlertController,
     private geo: Geolocation,
-    public locSrvc: LocationProvider
+    public locSrvc: LocationProvider,
+    public popoverCtrl: PopoverController
   ) {
   }
 
@@ -52,6 +55,8 @@ export class HomePage {
   }
   
   ionViewWillLoad() {
+    this.mapview = 'all';
+
     this.loadMap();
     this.updateProfileMsgs();
   }
@@ -120,6 +125,13 @@ export class HomePage {
       this.utilities.showToast(e.message);
     }
 
+  }
+
+  presentPopover(myEvent) {
+    let popover = this.popoverCtrl.create(PopoverComponent);
+    popover.present({
+      ev: myEvent
+    });
   }
 
   /**

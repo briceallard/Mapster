@@ -29,10 +29,12 @@ import { UtilitiesProvider } from '../providers/utilities/utilities';
 import { FriendsProvider } from '../providers/friends/friends';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { CameraProvider } from '../providers/camera-service/camera-service';
+import { PopoverComponent } from '../components/popover/popover';
 
 @NgModule({
   declarations: [
     MyApp,
+    PopoverComponent
   ],
   imports: [
     BrowserModule,
@@ -46,6 +48,7 @@ import { CameraProvider } from '../providers/camera-service/camera-service';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
+    PopoverComponent
   ],
   providers: [
     StatusBar,
