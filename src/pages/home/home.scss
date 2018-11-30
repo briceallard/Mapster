@@ -1,26 +1,58 @@
-page-home {
+.ios {
 
-  .profile img {
-    height: 30px;
-    width: auto;
-    margin-right: 5px;
-    background: transparent;
+  page-home {
+
+    .profile img {
+      float: right;
+      height: 35px;
+      width: 35px;
+      margin-right: 5px;
+      background: transparent;
+    }
+
+    .profileImage {
+      border: 2px solid #0054FE;
+      border-radius: 50%;
+    }
+
+    #map_canvas {
+      height: 100%;
+    }
+
+    ion-fab {
+      margin-right: 15px;
+      margin-bottom: 60px;
+    }
   }
+}
 
-  .grid {
-    padding: 0px;
-  }
+.md {
+  page-home {
 
-  .grid button {
-    height: 50px;
-  }
+    .profile img {
+      float: right;
+      height: 40px;
+      width: 40px;
+      margin-right: 5px;
+      background: transparent;
+    }
 
-  #map_canvas {
-    height: 100%;
-  }
+    .profileImage {
+      border: 2px solid #0054FE;
+      border-radius: 50%;
+    }
 
-  ion-fab {
-    margin-right: 15px;
-    margin-bottom: 15px;
+    .map {
+      height: 0%;
+    }
+
+    #map_canvas {
+      height: 100%;
+    }
+
+    ion-fab {
+      margin-right: 15px;
+      margin-bottom: 60px;
+    }
   }
 }

@@ -1,11 +1,15 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController, normalizeURL, AlertController } from 'ionic-angular';
 import { User } from '../../models/users/user.interface';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
-import { LoadingMessages, SuccessMessages, TOAST_DURATION, Pages, ErrorMessages } from '../../utils/constants';
+import { LoadingMessages, SuccessMessages, TOAST_DURATION, Pages, ErrorMessages, BASE_64 } from '../../utils/constants';
 import { UserDataProvider } from '../../providers/userData/userData';
-import { LocationProvider } from '../../providers/location/location';
-import { ALLOW_MULTIPLE_PLATFORMS } from '@angular/core/src/application_ref';
+
+import { Crop } from '@ionic-native/crop';
+import { Camera } from '@ionic-native/camera'
+import { Subscription } from 'rxjs';
+import { CameraProvider } from '../../providers/camera-service/camera-service';
+
 
 /**
  * Generated class for the ProfilePage page.
@@ -22,14 +26,33 @@ import { ALLOW_MULTIPLE_PLATFORMS } from '@angular/core/src/application_ref';
 export class ProfilePage {
 
   profile = {} as User;
+  base64Image: string;
+  profile$: Subscription;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, private utilities: UtilitiesProvider, private data: UserDataProvider) {
-    
+  constructor(public navCtrl: NavController, public navParams: NavParams,
+    private utilities: UtilitiesProvider,
+    private data: UserDataProvider,
+    public crop: Crop,
+    public toast: ToastController,
+    public camera: Camera,
+    public cameraSvc: CameraProvider,
+    public alert: AlertController
+  ) {
+
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad ProfilePage');
+  }
+
+  ionViewWillLoad() {
+    this.profile.profileImage = 'https://firebasestorage.googleapis.com/v0/b/mapster-3ccc5.appspot.com/o/profileImages%2Fdefault_profile.png?alt=media&token=6bbc4366-1ab0-4260-a778-52810ab674b4';
     this.updateProfileMsgs();
+  }
+
+  ionViewWillLeave() {
+    if (this.profile$)
+      this.profile$.unsubscribe();
   }
 
   /**
@@ -46,13 +69,12 @@ export class ProfilePage {
     }
 
     this.navCtrl.setRoot(Pages.HOME_PAGE);
-    this.navCtrl.popAll();
-
   }
 
   async updateProfileMsgs() {
     if (await this.data.profileExists()) {
-      this.profile = await this.data.getAuthenticatedUserProfile();
+      this.profile$ = (await this.data.getAuthenticatedUserProfileRealTime())
+        .subscribe((profile) => this.profile = profile);
     }
   }
 
@@ -72,9 +94,13 @@ export class ProfilePage {
 
         await this.data.updateUserProfile(this.profile);
 
+        if (this.base64Image) {
+          this.uploadPicture(this.base64Image);
+        }
+
         loader.dismiss();
         this.utilities.showToast(SuccessMessages.PROFILE, TOAST_DURATION);
-        this.navCtrl.setRoot(Pages.HOME_PAGE);
+        this.navCtrl.pop();
 
       } catch (e) {
         loader.dismiss();
@@ -101,9 +127,14 @@ export class ProfilePage {
 
         await this.data.createUserProfile(this.profile);
 
+        if (this.base64Image) {
+          this.uploadPicture(this.base64Image);
+        }
+
         loader.dismiss();
         this.utilities.showToast(SuccessMessages.PROFILE, TOAST_DURATION);
         this.navCtrl.setRoot(Pages.HOME_PAGE);
+        this.navCtrl.popToRoot();
 
       } catch (e) {
         loader.dismiss();
@@ -111,6 +142,49 @@ export class ProfilePage {
       }
     } else {
       this.utilities.showToast(ErrorMessages.EMPTY_FIELDS, TOAST_DURATION);
+    }
+  }
+
+  /**
+   * Gets image from device camera
+   *
+   * @memberof ProfilePage
+   */
+  async getImageFromCamera() {
+    try {
+      this.base64Image = await this.cameraSvc.getImageFromCamera(this.cameraSvc.optionsProfile);
+      this.profile.profileImage = this.base64Image;
+    } catch (e) {
+      this.utilities.showToast(e.message);
+    }
+  }
+
+  /**
+   * Gets image from device gallery
+   *
+   * @memberof ProfilePage
+   */
+  async getImageFromGallery() {
+    try {
+      this.base64Image = await this.cameraSvc.getImageFromGallery(this.cameraSvc.optionsGalleryProfile);
+      this.profile.profileImage = this.base64Image;
+    } catch (e) {
+      this.utilities.showToast(e.message);
+    }
+  }
+
+  /**
+   * Saves image to firebase storage
+   *
+   * @param {*} image
+   * @memberof ProfilePage
+   */
+  async uploadPicture(image) {
+    try {
+      await this.data.uploadProfileImage(image);
+    } catch (e) {
+      this.utilities.showToast(ErrorMessages.UPLOAD_FAILED, TOAST_DURATION);
+      this.alert.create({ title: 'Error', subTitle: e.message, buttons: ['OK'] }).present();
     }
   }
 

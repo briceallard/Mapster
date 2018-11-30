@@ -5,6 +5,8 @@ import { Geoposition } from '@ionic-native/geolocation'
 import { Location } from '../../models/users/location.interface';
 import { DateTime } from 'ionic-angular';
 import { AuthProvider } from '../auth/auth';
+import { UserDataProvider } from '../userData/userData';
+
 
 /*
   Generated class for the LocationProvider provider.
@@ -15,33 +17,40 @@ import { AuthProvider } from '../auth/auth';
 @Injectable()
 export class LocationProvider {
 
-  constructor(private data: AngularFirestore, private auth: AuthProvider) {
+  constructor(private data: AngularFirestore, private auth: AuthProvider, private user: UserDataProvider) {
     console.log('Hello LocationProvider Provider');
   }
 
   /**
-   * Puts users new location in 'users/latestLocation/'
-   * and also adds it to 'users/previousLocations'
+   * Updates the users most recent location for viewing all users on map
    *
-   * @param {Geoposition} geo
-   * @param {string} uid
+   * @param {Location} location
    * @memberof LocationProvider
    */
-  // async postUserLocation(geo: Geoposition, uid: string) {
-  //   try {
-  //     await this.data.doc(`users/${uid}`).collection('latestLocation').update({
-  //       lat: geo.coords.latitude,
-  //       lon: geo.coords.longitude,
-  //       timestamp: (new Date).getTime()
-  //     });
-  //     await this.data.doc(`users/${uid}`).collection('previousLocations').add({
-  //       lat: geo.coords.latitude,
-  //       lon: geo.coords.longitude,
-  //       timestamp: (new Date).getTime()
-  //     })
-  //   } catch (e) {
-  //     console.log(e);
-  //     throw e;
-  //   }
-  // }
+  async postMostRecentUserLocation(location: Location) {
+    let user = await this.auth.getAuthenticatedUser();
+
+    try {
+      await this.data.doc<Location>(`locations/${user.uid}`).set(location);
+    } catch (e) {
+      throw e;
+    }
+  }
+
+  /**
+   * Adds most recent location to collection of locations for history tracking
+   *
+   * @param {Location} location
+   * @memberof LocationProvider
+   */
+  async postUserLocationHistory(location: Location) {
+    let user = await this.auth.getAuthenticatedUser();
+
+    try {
+      await this.data.doc<Location>(`users/${user.uid}/locationHistory/${location.timestamp}`).set(location);
+    } catch (e) {
+      throw e;
+    }
+  }
+
 }

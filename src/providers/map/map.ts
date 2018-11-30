@@ -1,5 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Geolocation } from '@ionic-native/geolocation';
 
 /*
   Generated class for the MapProvider provider.
@@ -10,7 +10,7 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class MapProvider {
 
-  constructor(public http: HttpClient) {
+  constructor(public geo: Geolocation) {
     console.log('Hello MapProvider Provider');
   }
 

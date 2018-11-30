@@ -6,7 +6,8 @@ import { User } from 'firebase';
 @Injectable()
 export class AuthProvider {
 
-  constructor(private auth: AngularFireAuth) {}
+  constructor(private auth: AngularFireAuth) {
+  }
 
   /**
    * Create an account with an email and a password
