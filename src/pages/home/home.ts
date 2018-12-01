@@ -10,7 +10,8 @@ import {
   CameraPosition,
   MarkerOptions,
   Marker,
-  Environment
+  Environment,
+  LatLng
 } from '@ionic-native/google-maps';
 
 import { UserDataProvider } from '../../providers/userData/userData';
@@ -20,6 +21,8 @@ import { UtilitiesProvider } from '../../providers/utilities/utilities';
 import { LocationProvider } from '../../providers/location/location';
 import { Location } from '../../models/users/location.interface';
 import { PopoverComponent } from '../../components/popover/popover';
+import { AngularFirestore } from 'angularfire2/firestore';
+
 
 /**
  * Generated class for the HomePage page.
@@ -27,7 +30,6 @@ import { PopoverComponent } from '../../components/popover/popover';
  * See https://ionicframework.com/docs/components/#navigation for more info on
  * Ionic pages and navigation.
  */
-
 @IonicPage()
 @Component({
   selector: 'page-home',
@@ -38,6 +40,7 @@ export class HomePage {
   mapview: string;
   profileImage: string;
   profileImage$: Subscription;
+  userlocation = [{}];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public modal: ModalController,
@@ -46,7 +49,8 @@ export class HomePage {
     public alert: AlertController,
     private geo: Geolocation,
     public locSrvc: LocationProvider,
-    public popoverCtrl: PopoverController
+    public popoverCtrl: PopoverController,
+    private afs: AngularFirestore
   ) {
   }
 
@@ -72,6 +76,20 @@ export class HomePage {
    * @memberof HomePage
    */
   async loadMap() {
+
+    let userDoc = this.afs.firestore.collection(`locations`);
+    userDoc.get().then((querySnapshot) => { 
+       querySnapshot.forEach((doc) => {
+            //console.log(doc.id, "=>", doc.data()); 
+            this.userlocation = [{
+              uid: doc.id,
+              lat: doc.data().geo[0],
+              lon: doc.data().geo[0],
+              timestamp: doc.data().timestamp
+            }];
+              console.log(this.userlocation); 
+       })
+    })
 
     try {
       Environment.setEnv({
@@ -125,19 +143,6 @@ export class HomePage {
       this.utilities.showToast(e.message);
     }
 
-    let marker: Marker = this.map.addMarkerSync({
-      title: 'Marker',
-      icon: 'red',
-      animation: 'BOUNCE',
-      position: {
-        lat: 43.0741904,
-        lng: -89.3809802
-      }
-    });
-
-    marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-      alert('Message');
-    });
   }
 
   presentPopover(myEvent) {
@@ -169,6 +174,17 @@ export class HomePage {
       this.profileImage$ = (await this.data.getAuthenticatedUserProfileRealTime())
         .subscribe((profile) => this.profileImage = profile.profileImage);
     }
+  }
+
+  /* Combine all of them */
+  FriendsMarker(){
+
+  }
+  FamilyMarker(){
+
+  }
+  AllMarker(){
+
   }
   
 }
