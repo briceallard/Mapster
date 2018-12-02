@@ -23,7 +23,7 @@ export class UserDataProvider {
    * @returns {Promise<User>}
    * @memberof UserDataProvider
    */
-  async getAuthenticatedUserProfile(): Promise<User> {
+  async getAuthenticatedUserProfile(): Promise<any> {
 
     // get Firebase User
     let user = await this.auth.getAuthenticatedUser();
@@ -50,7 +50,7 @@ export class UserDataProvider {
     });
   }
 
-  async getAuthenticatedUserProfileByID(userID: string): Promise<User> {
+  async getAuthenticatedUserProfileByID(userID: string): Promise<any> {
     return new Promise<User>((resolve, reject) => {
       // get user doc
       let subscription = this.data.doc<User>(`users/${userID}`)

@@ -71,6 +71,7 @@ export class HomePage {
 
     this.loadMap();
     this.updateProfileMsgs();
+    this.displayAllUserMarkers();
   }
 
   ionViewWillLeave() {
@@ -186,30 +187,30 @@ export class HomePage {
 
   async displayAllUserMarkers() {
 
+    let userID = await this.auth.getUserUID();
+
+
     try {
       this.userLocations$ = (await this.mapProvider.getAllUserLocations())
-        .subscribe((location) => location
-          .forEach((data) => {
-            this.userProfile$ = (await this.data.getAuthenticatedUserProfileRealTimeByID(data.uid))
-              .subscribe((profile) => this.userProfile = profile);
+        .subscribe((location) => {
+          location.forEach((data) => {
 
-            let marker: Marker = this.map.addMarkerSync({
-              title: this.userProfile.fullName,
-              icon: 'blue',
-              animation: 'DROP',
-              position: {
-                lat: data.lat,
-                lng: data.lon
-              }
-            });
+            if (userID != data.uid) {
 
-            marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-              // Do something here on marker click
-            })
+              this.map.addMarker({
+                title: 'User Location',
+                icon: 'red',
+                animation: 'DROP',
+                position: {
+                  lat: data.lat,
+                  lng: data.lon
+                },
+              });
+              
+            }
 
-            this.userProfile$.unsubscribe();
-          })
-        );
+          });
+        });
 
     } catch (e) {
       console.log(e.message);
