@@ -1,25 +1,68 @@
 page-profile {
 
   .profile {
-    margin-bottom: 20px;
+    margin: 0 0 50px 0;
   }
 
   .profile-image {
     margin-bottom: 15px;
     width: 150px;
     height: 150px;
-    border-radius: 75px;
+    border-radius: 50%;
+    -webkit-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
   }
 
   .save {
     margin-top: 25px;
   }
 
-  .save button {
+  .button {
     width: 50%;
     -webkit-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
     -moz-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
     box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
+  }
+
+  .profileButtons {
+    position: absolute;
+    width: 100%;
+  }
+  
+  #take {
+    font-size: .9em;
+    width: auto;
+    max-width: 50%;
+  }
+
+  #get {
+    font-size: .9em;
+    width: auto;
+    max-width: 50%;
+  }
+
+  .smallgroup {
+    display: absolute;
+    width: 100%;
+  }
+
+  .smallgroup #gender {
+    display: inline-block; 
+    width: 60%;
+    margin: 0 5% 0 0;
+
+    ion-label {
+      min-width: 35%;
+    }
+    ion-select {
+      min-width: 65%;
+    }
+  }
+  
+  .smallgroup #age {
+    display: inline-block; 
+    width: 30%;
   }
 
 }

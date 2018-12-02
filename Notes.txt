@@ -1,0 +1,27 @@
+API Key: AIzaSyCZCO80WkihNapxpEvtChpVCtsBu22XEAE
+
+-> ionic cordova plugin add cordova-plugin-googlemaps \
+  --variable API_KEY_FOR_ANDROID="AIzaSyCO8ryKRAkT2zPwSJLWJQKsQVr-JHSqAYY" \
+  --variable API_KEY_FOR_IOS="AIzaSyCO8ryKRAkT2zPwSJLWJQKsQVr-JHSqAYY"
+  
+-> npm install --save @ionic-native/core@latest @ionic-native/google-maps@latest
+
+
+### Setting up to deploy App in phone ###
+	-> ionic cordova platform add android
+	
+	!!! If you get an error in the build.gradle just move the structure around in the buil.gradle and app file !!!	
+		
+		
+Geofence:
+	-> What will the default radius be?
+	-> Send notifications when another App user is within the Users space
+	
+Routes:
+	-> Give the user a route to a person they choose
+	https://maps.googleapis.com/maps/api/directions/json?origin=33.8747101,-98.5195102&destination=32.91114,-96.8629009&key=AIzaSyCZCO80WkihNapxpEvtChpVCtsBu22XEAE
+	
+	(33.87427,-98.51966)
+	(33.87426,-98.51847)
+	
+	// Need help getting the coordinate points from the Json file

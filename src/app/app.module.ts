@@ -53,6 +53,7 @@ import { PopoverComponent } from '../components/popover/popover';
   providers: [
     StatusBar,
     SplashScreen,
+    GoogleMaps,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     DataProvider,
     UserDataProvider,
