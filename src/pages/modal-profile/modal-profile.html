@@ -20,6 +20,11 @@
 
     <ion-item-group>
 
+      <button ion-item (click)=dashboardClicked()>
+        <ion-icon color="primary" item-start name="home"></ion-icon>
+        Dashboard
+      </button>
+
       <button ion-item (click)=friendsClicked()>
         <ion-icon color="primary" item-start name="people"></ion-icon>
         Friends
@@ -30,9 +35,9 @@
         Messages
       </button>
 
-      <button ion-item>
-        <ion-icon color="primary" item-start name="images"></ion-icon>
-        My Pictures
+      <button ion-item (click)=userProfileClicked()>
+        <ion-icon color="primary" item-start name="flower"></ion-icon>
+        User Profile Template
       </button>
 
     </ion-item-group>

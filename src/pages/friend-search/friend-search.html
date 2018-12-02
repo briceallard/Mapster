@@ -19,12 +19,12 @@
       <ion-searchbar placeholder="{{ placeholder }}" (ionInput)="queryBySearchEntry()" [(ngModel)]="searchValue"></ion-searchbar>
     </ion-toolbar>
   <ion-list class="users">
-    <ion-item-sliding *ngFor="let user of users | async" #item>
+    <ion-item-sliding *ngFor="let user of users | async" #item (click)="userClicked(user)">
       <ion-item>
         <ion-avatar side="left">
           <img src={{user.profileImage}}>
         </ion-avatar>
-        <h3> {{ user.firstName }} {{ user.lastName }} </h3>
+        <h3> {{ user.fullName }} </h3>
         <p> {{ user.email }} </p>
         <p> {{ user.userName}} </p>
       </ion-item>

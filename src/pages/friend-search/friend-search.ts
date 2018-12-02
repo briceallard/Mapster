@@ -46,6 +46,16 @@ export class FriendSearchPage {
     console.log('ionViewDidLoad FriendSearchPage');
   }
 
+  userClicked(user) {
+    this.alertControl.confirmAlert('User Clicked', user.uid, data => {
+      console.log('User Clicked: ' + user.uid)
+    });
+
+    this.navCtrl.push(Pages.USER_PROFILE, {
+      item: user
+    });
+  }
+
   queryBySearchEntry() {
     if (this.searchBy === 'email') {
       this.placeholder = 'Search by Email Address';

@@ -68,7 +68,6 @@ export class ProfilePage {
       await this.saveNewProfile();
     }
 
-    this.navCtrl.setRoot(Pages.HOME_PAGE);
   }
 
   async updateProfileMsgs() {
@@ -101,6 +100,7 @@ export class ProfilePage {
         loader.dismiss();
         this.utilities.showToast(SuccessMessages.PROFILE, TOAST_DURATION);
         this.navCtrl.pop();
+        this.navCtrl.setRoot(Pages.HOME_PAGE);
 
       } catch (e) {
         loader.dismiss();
@@ -119,7 +119,7 @@ export class ProfilePage {
   async saveNewProfile() {
 
     let loader = this.utilities.getLoading(LoadingMessages.PROFILE);
-
+    
     if (this.validate()) {
       try {
 
@@ -141,7 +141,7 @@ export class ProfilePage {
         this.utilities.showToast(e, TOAST_DURATION);
       }
     } else {
-      this.utilities.showToast(ErrorMessages.EMPTY_FIELDS, TOAST_DURATION);
+      this.utilities.showToast(ErrorMessages.REQUIRED_FIELDS, TOAST_DURATION);
     }
   }
 
@@ -195,7 +195,8 @@ export class ProfilePage {
    * @memberof ProfilePage
    */
   validate() {
-    return this.profile.firstName !== '' && this.profile.lastName !== '' && this.profile.userName !== '' && this.profile.email !== '';
+    return this.profile.firstName !== '' && this.profile.lastName !== '' 
+    && this.profile.userName !== '' && this.profile.email !== '';
   }
 
 }

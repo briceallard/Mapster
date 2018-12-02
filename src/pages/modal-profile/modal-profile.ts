@@ -29,6 +29,14 @@ export class ModalProfilePage {
     this.navCtrl.push(Pages.FRIENDS_PAGE);
   }
 
+  dashboardClicked() {
+    this.navCtrl.push(Pages.DASHBOARD_PAGE);
+  }
+
+  userProfileClicked() {
+    this.navCtrl.push(Pages.USER_PROFILE);
+  }
+
   profileClicked() {
     this.navCtrl.push(Pages.PROFILE_PAGE);
   }
