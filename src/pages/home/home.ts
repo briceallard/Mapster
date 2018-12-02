@@ -22,6 +22,8 @@ import { LocationProvider } from '../../providers/location/location';
 import { Location } from '../../models/users/location.interface';
 import { PopoverComponent } from '../../components/popover/popover';
 import { AngularFirestore } from 'angularfire2/firestore';
+import { AuthProvider } from '../../providers/auth/auth';
+import { User } from '../../models/users/user.interface';
 
 
 /**
@@ -50,7 +52,8 @@ export class HomePage {
     private geo: Geolocation,
     public locSrvc: LocationProvider,
     public popoverCtrl: PopoverController,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private auth: AuthProvider
   ) {
   }
 
@@ -92,6 +95,8 @@ export class HomePage {
     })
 
     try {
+      let user: User = await this.auth.getAuthenticatedUser();
+
       Environment.setEnv({
         'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyCO8ryKRAkT2zPwSJLWJQKsQVr-JHSqAYY',
         'API_KEY_FOR_BROWSER_DEBUG': 'AIzaSyCO8ryKRAkT2zPwSJLWJQKsQVr-JHSqAYY'
@@ -104,6 +109,7 @@ export class HomePage {
       });
 
       let location: Location = {
+        uid: user.uid,
         lat: position.coords.latitude,
         lon: position.coords.longitude,
         timestamp: position.timestamp
