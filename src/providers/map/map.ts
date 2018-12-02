@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { Observable } from 'rxjs';
+import { Location } from '../../models/users/location.interface';
 
 /*
   Generated class for the MapProvider provider.
@@ -10,8 +13,12 @@ import { Geolocation } from '@ionic-native/geolocation';
 @Injectable()
 export class MapProvider {
 
-  constructor(public geo: Geolocation) {
+  constructor(public geo: Geolocation, private firestore: AngularFirestore) {
     console.log('Hello MapProvider Provider');
+  }
+
+  async getAllUserLocations(): Promise<Observable<Location[]>> {
+    return await this.firestore.collection<Location>('locations').valueChanges();
   }
 
 }

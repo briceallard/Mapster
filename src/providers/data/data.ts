@@ -14,7 +14,7 @@ import { AngularFireStorage } from 'angularfire2/storage';
 @Injectable()
 export class DataProvider {
 
-  constructor(private firestore: AngularFirestore, private auth: AuthProvider, public storage: AngularFireStorage) {
+  constructor() {
     console.log('Hello DataProvider Provider');
   }
 
