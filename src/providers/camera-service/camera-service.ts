@@ -33,22 +33,22 @@ export class CameraProvider {
       mediaType: this.camera.MediaType.PICTURE,
       saveToPhotoAlbum: false,
       allowEdit: false,
-      targetHeight: 1500,
-      targetWidth: 1500,
+      targetHeight: 1000,
+      targetWidth: 1000,
       correctOrientation: true
     };
 
     // 480P Resolution
     this.optionsLow = {
-      quality: 100,
+      quality: 80,
       sourceType: this.camera.PictureSourceType.CAMERA,
       destinationType: this.camera.DestinationType.DATA_URL,
       encodingType: this.camera.EncodingType.JPEG,
       mediaType: this.camera.MediaType.PICTURE,
       saveToPhotoAlbum: false,
       allowEdit: false,
-      targetHeight: 500,
-      targetWidth: 500,
+      targetHeight: 1000,
+      targetWidth: 1000,
       correctOrientation: true
     };
 
@@ -61,8 +61,8 @@ export class CameraProvider {
       mediaType: this.camera.MediaType.PICTURE,
       saveToPhotoAlbum: false,
       allowEdit: false,
-      targetHeight: 500,
-      targetWidth: 500,
+      targetHeight: 1000,
+      targetWidth: 1000,
       correctOrientation: true
     };
 
@@ -75,8 +75,8 @@ export class CameraProvider {
       mediaType: this.camera.MediaType.PICTURE,
       saveToPhotoAlbum: false,
       allowEdit: false,
-      targetHeight: 1500,
-      targetWidth: 1500,
+      targetHeight: 1000,
+      targetWidth: 1000,
       correctOrientation: true
     };
 
@@ -88,8 +88,8 @@ export class CameraProvider {
       mediaType: this.camera.MediaType.PICTURE,
       saveToPhotoAlbum: false,
       allowEdit: false,
-      targetHeight: 500,
-      targetWidth: 500,
+      targetHeight: 1000,
+      targetWidth: 1000,
       correctOrientation: true
     };
   }
