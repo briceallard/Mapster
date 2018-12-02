@@ -15,7 +15,9 @@ import { GoogleMaps } from '@ionic-native/google-maps'
 import { Camera } from '@ionic-native/camera'
 import { Geolocation } from '@ionic-native/geolocation';
 import { Crop } from '@ionic-native/crop';
-import { Base64 } from '@ionic-native/base64'
+import { Base64 } from '@ionic-native/base64';
+import { Firebase } from '@ionic-native/firebase'
+import { Push, PushObject, PushOptions } from '@ionic-native/push';
 
 // My Providers
 import { DataProvider } from '../providers/data/data';
@@ -43,7 +45,7 @@ import { PopoverComponent } from '../components/popover/popover';
     AngularFireAuthModule,
     AngularFirestoreModule,
     BrowserAnimationsModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -69,7 +71,9 @@ import { PopoverComponent } from '../components/popover/popover';
     Geolocation,
     Crop,
     CameraProvider,
-    Base64
+    Base64,
+    Firebase,
+    Push
   ]
 })
 
