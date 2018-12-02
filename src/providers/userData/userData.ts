@@ -13,7 +13,8 @@ export class UserDataProvider {
 
   constructor(private data: AngularFirestore, private auth: AuthProvider, public storage: AngularFireStorage,
     public alert: AlertController,
-    public util: UtilitiesProvider) {
+    public util: UtilitiesProvider
+  ) {
     console.log('Hello UserDataProvider Provider');
   }
 
@@ -31,6 +32,28 @@ export class UserDataProvider {
 
       // get user doc
       let subscription = this.data.doc<User>(`users/${user.uid}`)
+
+        // get user object
+        .valueChanges().subscribe((profile: any) => {
+
+          // check if profile exists
+          console.log(JSON.stringify(profile));
+          if (profile !== undefined && profile.firstName !== null) {
+
+            resolve(profile);
+          }
+          else
+            reject("Profile Does not exist");
+
+          subscription.unsubscribe();
+        });
+    });
+  }
+
+  async getAuthenticatedUserProfileByID(userID: string): Promise<User> {
+    return new Promise<User>((resolve, reject) => {
+      // get user doc
+      let subscription = this.data.doc<User>(`users/${userID}`)
 
         // get user object
         .valueChanges().subscribe((profile: any) => {
@@ -85,9 +108,10 @@ export class UserDataProvider {
   async createUserProfile(profile: User) {
     try {
       let user = await this.auth.getAuthenticatedUser();
-
+      
+      profile.email = await this.auth.getUserRegisteredEmail();
+      profile.uid = await this.auth.getUserUID();
       profile.registerDate = (new Date).getTime();
-
       profile = this.formatProfileData(profile);
 
       await this.data.doc<User>(`users/${user.uid}`).set(profile);
@@ -162,7 +186,6 @@ export class UserDataProvider {
   }
 
   formatProfileData(profile: User): User {
-
     profile.firstName = this.util.toUpperFirst(profile.firstName);
     profile.lastName = this.util.toUpperFirst(profile.lastName);
     profile.fullName = profile.firstName.toLowerCase() + ' ' + profile.lastName.toLowerCase();

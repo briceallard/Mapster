@@ -1,4 +1,5 @@
 export interface User {
+    uid: string;
     firstName: string;
     lastName: string;
     fullName: string;
@@ -11,4 +12,10 @@ export interface User {
     publicImages: string; // reference to the collection of the users images they have chosen to make viewable to anyone
     privateImages: string; // reference to the collection of the users images they wish to be invisible to other users
     friendsList: string[]; // list of references to user id's
+    city: string;
+    country: string;
+    gender: string;
+    age: number;
+    bio: string;
+    private: boolean;
  }

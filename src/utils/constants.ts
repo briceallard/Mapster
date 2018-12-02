@@ -11,6 +11,8 @@ export class Pages {
     public static readonly FRIENDS_PAGE: string = 'FriendsPage';
     public static readonly FRIEND_SEARCH_PAGE: string = 'FriendSearchPage';
     public static readonly MODAL_PROFILE: string = 'ModalProfilePage';
+    public static readonly DASHBOARD_PAGE: string = 'DashboardPage';
+    public static readonly USER_PROFILE: string = 'UserProfilePage';
 }
 
 export class LoadingMessages {
@@ -21,6 +23,7 @@ export class LoadingMessages {
 }
 
 export class ErrorMessages {
+    public static readonly REQUIRED_FIELDS: string = 'Required fields must be filled in.';
     public static readonly EMPTY_FIELDS: string = 'Empty fields are not allowed.';
     public static readonly PASSWORD_MISMATCH: string = 'Passwords do not match.';
     public static readonly UPLOAD_FAILED: string = 'Upload failed.';

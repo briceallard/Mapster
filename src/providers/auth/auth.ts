@@ -57,6 +57,24 @@ export class AuthProvider {
     }
   }
 
+  async getUserUID(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      let subscription = this.auth.user.subscribe((user) => {
+        resolve(user.uid);
+        subscription.unsubscribe();
+      });
+    });
+  }
+
+  async getUserRegisteredEmail(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      let subscription = this.auth.user.subscribe((user) => {
+        resolve(user.email);
+        subscription.unsubscribe();
+      });
+    });
+  }
+
   /**
    * Check if user is authenticated
    * @returns {Promise<boolean>}
