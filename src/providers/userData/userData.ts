@@ -23,7 +23,7 @@ export class UserDataProvider {
    * @returns {Promise<User>}
    * @memberof UserDataProvider
    */
-  async getAuthenticatedUserProfile(): Promise<User> {
+  async getAuthenticatedUserProfile(): Promise<any> {
 
     // get Firebase User
     let user = await this.auth.getAuthenticatedUser();
@@ -50,7 +50,7 @@ export class UserDataProvider {
     });
   }
 
-  async getAuthenticatedUserProfileByID(userID: string): Promise<User> {
+  async getAuthenticatedUserProfileByID(userID: string): Promise<any> {
     return new Promise<User>((resolve, reject) => {
       // get user doc
       let subscription = this.data.doc<User>(`users/${userID}`)
@@ -83,6 +83,12 @@ export class UserDataProvider {
     // get Firebase User
     let user = await this.auth.getAuthenticatedUser();
     return this.data.doc<User>(`users/${user.uid}`).valueChanges()
+  }
+
+  async getAuthenticatedUserProfileRealTimeByID(userID: string): Promise<Observable<User>> {
+
+    // get Firebase User
+    return this.data.doc<User>(`users/${userID}`).valueChanges()
   }
 
   /**

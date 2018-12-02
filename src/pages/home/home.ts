@@ -15,15 +15,17 @@ import {
 } from '@ionic-native/google-maps';
 
 import { UserDataProvider } from '../../providers/userData/userData';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { Geolocation } from '@ionic-native/geolocation';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
 import { LocationProvider } from '../../providers/location/location';
 import { Location } from '../../models/users/location.interface';
 import { PopoverComponent } from '../../components/popover/popover';
-import { AngularFirestore } from 'angularfire2/firestore';
 import { AuthProvider } from '../../providers/auth/auth';
 import { User } from '../../models/users/user.interface';
+import { MapProvider } from '../../providers/map/map'
+import { _ParseAST } from '@angular/compiler';
+import { stringify } from '@angular/core/src/render3/util';
 
 
 /**
@@ -42,7 +44,10 @@ export class HomePage {
   mapview: string;
   profileImage: string;
   profileImage$: Subscription;
-  userlocation = [{}];
+  userProfile: User;
+  userProfile$: Subscription;
+  userlocation: Location[];
+  userLocations$: Subscription;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public modal: ModalController,
@@ -52,25 +57,28 @@ export class HomePage {
     private geo: Geolocation,
     public locSrvc: LocationProvider,
     public popoverCtrl: PopoverController,
-    private afs: AngularFirestore,
-    private auth: AuthProvider
+    private auth: AuthProvider,
+    private mapProvider: MapProvider
   ) {
   }
 
   ionViewDidLoad() {
     this.data.updateLastLogin();
   }
-  
+
   ionViewWillLoad() {
     this.mapview = 'all';
 
     this.loadMap();
     this.updateProfileMsgs();
+    this.displayAllUserMarkers();
   }
 
   ionViewWillLeave() {
     if (this.profileImage$)
       this.profileImage$.unsubscribe();
+    if (this.userLocations$)
+      this.userLocations$.unsubscribe();
   }
 
   /**
@@ -79,20 +87,6 @@ export class HomePage {
    * @memberof HomePage
    */
   async loadMap() {
-
-    let userDoc = this.afs.firestore.collection(`locations`);
-    userDoc.get().then((querySnapshot) => { 
-       querySnapshot.forEach((doc) => {
-            //console.log(doc.id, "=>", doc.data()); 
-            this.userlocation = [{
-              uid: doc.id,
-              lat: doc.data().geo[0],
-              lon: doc.data().geo[0],
-              timestamp: doc.data().timestamp
-            }];
-              console.log(this.userlocation); 
-       })
-    })
 
     try {
       let user: User = await this.auth.getAuthenticatedUser();
@@ -183,14 +177,73 @@ export class HomePage {
   }
 
   /* Combine all of them */
-  FriendsMarker(){
+  displayAllFriendsMarkers() {
 
   }
-  FamilyMarker(){
+
+  displayAllFamilyMarkers() {
 
   }
-  AllMarker(){
+
+  async displayAllUserMarkers() {
+
+    let userID = await this.auth.getUserUID();
+
+
+    try {
+      this.userLocations$ = (await this.mapProvider.getAllUserLocations())
+        .subscribe((location) => {
+          location.forEach((data) => {
+
+            if (userID != data.uid) {
+
+              this.map.addMarker({
+                title: 'User Location',
+                icon: 'red',
+                animation: 'DROP',
+                position: {
+                  lat: data.lat,
+                  lng: data.lon
+                },
+              });
+              
+            }
+
+          });
+        });
+
+    } catch (e) {
+      console.log(e.message);
+    }
 
   }
-  
+
 }
+
+
+  //  The below function wont work for real time tracking and updating. Snapshots can't 
+  //  be subscribed to.
+
+  //  The above method uses observables so we can subscribe and update their location
+  //  automatically when the data changes in firebase ... lets just hope it works!
+
+  //     let userDoc = await this.afs.firestore.collection<Location[]>(`locations`);
+
+  // try {
+
+  //   userDoc.get().then((querySnapshot) => {
+  //     querySnapshot.forEach((doc) => {
+  //       this.userlocation = {
+  //         uid: doc.data().uid,
+  //         lat: doc.data().lat,
+  //         lon: doc.data().lon,
+  //         timestamp: doc.data().timestamp
+  //       };
+  //       console.log(JSON.stringify(this.userlocation));
+  //     });
+  //   });
+
+  // } catch (e) {
+  //   console.log(e.message);
+  // }
+  //   }
