@@ -48,6 +48,7 @@ export class HomePage {
   userProfile$: Subscription;
   userlocation: Location[];
   userLocations$: Subscription;
+  markers: Marker[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public modal: ModalController,
@@ -71,7 +72,6 @@ export class HomePage {
 
     this.loadMap();
     this.updateProfileMsgs();
-    this.displayAllUserMarkers();
   }
 
   ionViewWillLeave() {
@@ -80,38 +80,39 @@ export class HomePage {
     if (this.userLocations$)
       this.userLocations$.unsubscribe();
   }
-
+  
   /**
    * Loads google maps based on users current location
    *
    * @memberof HomePage
    */
   async loadMap() {
-
+    
     try {
       let user: User = await this.auth.getAuthenticatedUser();
-
+      
       Environment.setEnv({
         'API_KEY_FOR_BROWSER_RELEASE': 'AIzaSyCO8ryKRAkT2zPwSJLWJQKsQVr-JHSqAYY',
         'API_KEY_FOR_BROWSER_DEBUG': 'AIzaSyCO8ryKRAkT2zPwSJLWJQKsQVr-JHSqAYY'
       });
-
+      
       let position = await this.geo.getCurrentPosition({
         enableHighAccuracy: true,
         timeout: 30000,
         maximumAge: 60000
       });
-
+      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!MAP OBJECT HERE"); 
+      
       let location: Location = {
         uid: user.uid,
         lat: position.coords.latitude,
         lon: position.coords.longitude,
         timestamp: position.timestamp
       };
-
+      
       this.locSrvc.postMostRecentUserLocation(location);
       this.locSrvc.postUserLocationHistory(location);
-
+      
       let mapOptions: GoogleMapOptions = {
         camera: {
           target: {
@@ -122,8 +123,9 @@ export class HomePage {
           tilt: 0
         }
       };
-
+      
       this.map = GoogleMaps.create('map_canvas', mapOptions);
+      
 
       let marker: Marker = this.map.addMarkerSync({
         title: 'My Location',
@@ -138,6 +140,8 @@ export class HomePage {
       marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
         // Do something here on marker click
       })
+
+      this.displayAllUserMarkers();
 
     } catch (e) {
       this.utilities.showToast(e.message);
@@ -195,18 +199,26 @@ export class HomePage {
         .subscribe((location) => {
           location.forEach((data) => {
 
+            console.log(JSON.stringify(data));
+
             if (userID != data.uid) {
 
-              this.map.addMarker({
+              let marker: Marker = this.map.addMarkerSync({
                 title: 'User Location',
                 icon: 'red',
                 animation: 'DROP',
                 position: {
                   lat: data.lat,
                   lng: data.lon
-                },
+                }
               });
               
+              marker.on(GoogleMapsEvent.MARKER_CLICK)
+                .subscribe(() => {
+                  alert('User Clicked');
+                });
+
+              this.markers.push(marker);
             }
 
           });
@@ -216,6 +228,11 @@ export class HomePage {
       console.log(e.message);
     }
 
+    // displayMarkerArray() {
+    //   for (let marker of this.markers) {
+    //     this.map.addMarker(marker)
+    //   }
+    // }
   }
 
 }

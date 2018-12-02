@@ -82,13 +82,6 @@ export class FriendSearchPage {
     this.users = query1.pipe(mergeMap(data => query2));
 
   }
-  // Brices original work of art .... But shady had to one up me, as usual
-  // this.data.collection<User>('users', ref => ref
-  //     .orderBy(this.searchBy.toLowerCase())
-  //     .startAt(this.searchValue.toLowerCase())
-  //     .endAt(this.searchValue.toLowerCase() + "\uf8ff")
-  //     .limit(10))
-  //     .valueChanges();
 
   queryByArray() {
     this.users = this.data.collection<User>('users', ref => ref
@@ -98,21 +91,21 @@ export class FriendSearchPage {
   }
 
 
-  queryExample() {
-    let retardedUsers = this.data.collection<User>('users', ref =>
-      ref.where("retarded", "==", true)).valueChanges();
+  // queryExample() {
+  //   let retardedUsers = this.data.collection<User>('users', ref =>
+  //     ref.where("retarded", "==", true)).valueChanges();
 
-    // return this.data.collection<any>('users', ref => 
-    //   ref.where("retarded", "==", true)
-    //       .orderBy("lastName", "desc")
-    //       .limit(3)
+  //   return this.data.collection<any>('users', ref => 
+  //     ref.where("retarded", "==", true)
+  //         .orderBy("lastName", "desc")
+  //         .limit(3)
 
-    //     .orderBy("lastName")
-    //     // etc etc
-    // ).valueChanges();              
+  //       .orderBy("lastName")
+  //       // etc etc
+  //   ).valueChanges();              
 
-    // Returns and observable<T> return this.data.collection<any>
-  }
+  //   Returns and observable<T> return this.data.collection<any>
+  // }
 
   confirmFriendRequest() {
     var title: 'Confirm';
