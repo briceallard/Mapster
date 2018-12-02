@@ -85,6 +85,12 @@ export class UserDataProvider {
     return this.data.doc<User>(`users/${user.uid}`).valueChanges()
   }
 
+  async getAuthenticatedUserProfileRealTimeByID(userID: string): Promise<Observable<User>> {
+
+    // get Firebase User
+    return this.data.doc<User>(`users/${userID}`).valueChanges()
+  }
+
   /**
    * Checks if user has a profile
    * @returns {Promise<boolean>}

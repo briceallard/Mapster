@@ -24,6 +24,8 @@ import { PopoverComponent } from '../../components/popover/popover';
 import { AuthProvider } from '../../providers/auth/auth';
 import { User } from '../../models/users/user.interface';
 import { MapProvider } from '../../providers/map/map'
+import { _ParseAST } from '@angular/compiler';
+import { stringify } from '@angular/core/src/render3/util';
 
 
 /**
@@ -42,8 +44,10 @@ export class HomePage {
   mapview: string;
   profileImage: string;
   profileImage$: Subscription;
-  userLocations$: Subscription;
+  userProfile: User;
+  userProfile$: Subscription;
   userlocation: Location[];
+  userLocations$: Subscription;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public modal: ModalController,
@@ -72,6 +76,8 @@ export class HomePage {
   ionViewWillLeave() {
     if (this.profileImage$)
       this.profileImage$.unsubscribe();
+    if (this.userLocations$)
+      this.userLocations$.unsubscribe();
   }
 
   /**
@@ -182,58 +188,61 @@ export class HomePage {
 
     try {
       this.userLocations$ = (await this.mapProvider.getAllUserLocations())
-      .subscribe((data) => this.userlocation = data);
+        .subscribe((location) => location
+          .forEach((data) => {
+            this.userProfile$ = (await this.data.getAuthenticatedUserProfileRealTimeByID(data.uid))
+              .subscribe((profile) => this.userProfile = profile);
 
-      await this.userlocation.forEach(data => {
-        let userProfile = (this.data.getAuthenticatedUserProfileByID(data.uid));
-  
-        let marker: Marker = this.map.addMarkerSync({
-          title: 'ALL USERS',
-          icon: 'red',
-          animation: 'DROP',
-          position: {
-            lat: data.lat,
-            lng: data.lon
-          }
-        });
+            let marker: Marker = this.map.addMarkerSync({
+              title: this.userProfile.fullName,
+              icon: 'blue',
+              animation: 'DROP',
+              position: {
+                lat: data.lat,
+                lng: data.lon
+              }
+            });
 
-        marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-          // Do something here on marker click
-        })
-      });
+            marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+              // Do something here on marker click
+            })
+
+            this.userProfile$.unsubscribe();
+          })
+        );
 
     } catch (e) {
       console.log(e.message);
     }
 
   }
-  
-
-//  The below function wont work for real time tracking and updating. Snapshots can't 
-//  be subscribed to.
-
-//  The above method uses observables so we can subscribe and update their location
-//  automatically when the data changes in firebase ... lets just hope it works!
-
-//     let userDoc = await this.afs.firestore.collection<Location[]>(`locations`);
-
-// try {
-
-//   userDoc.get().then((querySnapshot) => {
-//     querySnapshot.forEach((doc) => {
-//       this.userlocation = {
-//         uid: doc.data().uid,
-//         lat: doc.data().lat,
-//         lon: doc.data().lon,
-//         timestamp: doc.data().timestamp
-//       };
-//       console.log(JSON.stringify(this.userlocation));
-//     });
-//   });
-
-// } catch (e) {
-//   console.log(e.message);
-// }
-//   }
 
 }
+
+
+  //  The below function wont work for real time tracking and updating. Snapshots can't 
+  //  be subscribed to.
+
+  //  The above method uses observables so we can subscribe and update their location
+  //  automatically when the data changes in firebase ... lets just hope it works!
+
+  //     let userDoc = await this.afs.firestore.collection<Location[]>(`locations`);
+
+  // try {
+
+  //   userDoc.get().then((querySnapshot) => {
+  //     querySnapshot.forEach((doc) => {
+  //       this.userlocation = {
+  //         uid: doc.data().uid,
+  //         lat: doc.data().lat,
+  //         lon: doc.data().lon,
+  //         timestamp: doc.data().timestamp
+  //       };
+  //       console.log(JSON.stringify(this.userlocation));
+  //     });
+  //   });
+
+  // } catch (e) {
+  //   console.log(e.message);
+  // }
+  //   }
