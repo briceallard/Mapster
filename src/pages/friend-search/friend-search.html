@@ -1,7 +1,7 @@
 
 <ion-header>
 
-  <ion-navbar>
+  <ion-navbar color='navbar'>
     <ion-title>Find Friends</ion-title>
     <ion-buttons end>
         <button ion-button icon-only (click)="selectSearchFilter()">
@@ -24,7 +24,7 @@
         <ion-avatar side="left">
           <img src={{user.profileImage}}>
         </ion-avatar>
-        <h3> {{ user.fullName }} </h3>
+        <h3> {{ user.firstName }} {{ user.lastName }} </h3>
         <p> {{ user.email }} </p>
         <p> {{ user.userName}} </p>
       </ion-item>

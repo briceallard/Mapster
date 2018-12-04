@@ -3,7 +3,6 @@ import { IonicPage, NavController, NavParams, ViewController, ModalController } 
 import { AuthProvider } from '../../providers/auth/auth';
 import { Pages } from '../../utils/constants';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
-import { Subscription } from 'rxjs';
 
 @IonicPage()
 @Component({
@@ -11,8 +10,6 @@ import { Subscription } from 'rxjs';
   templateUrl: 'modal-profile.html',
 })
 export class ModalProfilePage {
-
-  friends$: Subscription;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public modal: ModalController,public auth: AuthProvider, public util: UtilitiesProvider, private view: ViewController) {
   }
@@ -31,10 +28,6 @@ export class ModalProfilePage {
 
   dashboardClicked() {
     this.navCtrl.push(Pages.DASHBOARD_PAGE);
-  }
-
-  userProfileClicked() {
-    this.navCtrl.push(Pages.USER_PROFILE);
   }
 
   profileClicked() {

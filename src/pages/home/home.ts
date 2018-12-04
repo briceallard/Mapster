@@ -26,7 +26,6 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { User } from '../../models/users/user.interface';
 import { MapProvider } from '../../providers/map/map'
 import { _ParseAST } from '@angular/compiler';
-import { stringify } from '@angular/core/src/render3/util';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { DatePipe } from '@angular/common';
 
@@ -69,13 +68,13 @@ export class HomePage {
   }
 
   ionViewDidLoad() {
+    this.loadMap();
     this.data.updateLastLogin();
   }
 
   ionViewWillLoad() {
     this.mapview = 'all';
 
-    this.loadMap();
     this.updateProfileMsgs();
   }
 
@@ -198,54 +197,49 @@ export class HomePage {
   async displayAllUserMarkers() {
 
     let userID = await this.auth.getUserUID();
-    var markerUser: Observable<User[]>;
+    var markerUser$: Subscription;
 
     try {
       this.userLocations$ = (await this.mapProvider.getAllUserLocations())
         .subscribe((location) => {
           location.forEach((data) => {
 
-            console.log(JSON.stringify(data));
-
             if (userID != data.uid) {
 
-              markerUser = this.afs.collection<User>('users', ref => ref
+              markerUser$ = this.afs.collection<User>('users', ref => ref
                 .where('uid', '==', data.uid))
                 .valueChanges()
+                .subscribe((profile) => {
+                  profile.forEach((snap) => {
 
-              markerUser.subscribe((profile) => {
-                profile.forEach((snap) => {
+                    let time = this.timePipe.transform((new Date).getTime() - data.timestamp, 'h');
 
-                  console.log(JSON.stringify(snap));
-                  
-                  let time = this.timePipe.transform((new Date).getTime() - data.timestamp, 'h');
-
-                  let mapIcon: MarkerIcon = {
-                    url: snap.profileImage,
-                    size: {
-                      width: 32,
-                      height: 32
+                    let mapIcon: MarkerIcon = {
+                      url: snap.profileImage,
+                      size: {
+                        width: 32,
+                        height: 32
+                      }
                     }
-                  }
 
-                  let marker: Marker = this.map.addMarkerSync({
-                    title: `${snap.firstName} ${snap.lastName}`,
-                    snippet: `${time} hours ago`,
-                    icon: mapIcon,
-                    animation: 'DROP',
-                    zIndex: 3,
-                    position: {
-                      lat: data.lat,
-                      lng: data.lon
-                    }
-                  });
+                    let marker: Marker = this.map.addMarkerSync({
+                      title: `${snap.firstName} ${snap.lastName}`,
+                      snippet: `${time} hours ago`,
+                      icon: mapIcon,
+                      animation: 'DROP',
+                      zIndex: 3,
+                      position: {
+                        lat: data.lat,
+                        lng: data.lon
+                      }
+                    });
 
-                  marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-                    //alert('User Clicked');
-                    // Do something here
-                  });
+                    marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+                      //alert('User Clicked');
+                      // Do something here
+                    });
+                  })
                 })
-              })
 
             } else {
               console.log('Error with Map Marker insertion!')

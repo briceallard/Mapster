@@ -18,7 +18,9 @@ export class MyApp {
             statusBar.styleDefault();
 
             if (platform.is('ios'))
-                statusBar.backgroundColorByHexString('#FFFFFF');
+                statusBar.overlaysWebView(false);
+
+            statusBar.backgroundColorByHexString('#FFFFFF');
 
             auth.isAuthenticated()
                 .then((auth => { this.rootPage = auth ? 'HomePage' : 'IntroPage'; splashScreen.hide(); }))
