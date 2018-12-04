@@ -30,7 +30,7 @@ export class FriendSearchPage {
   placeholder: string = '';
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private data: AngularFirestore,
+    private afs: AngularFirestore,
     private auth: AuthProvider,
     private alertControl: UtilitiesProvider) {
 
@@ -65,14 +65,14 @@ export class FriendSearchPage {
       this.placeholder = 'Search by Username'
     }
 
-    let query1: Observable<User[]> = this.data.collection<User>('users', ref => ref
+    let query1: Observable<User[]> = this.afs.collection<User>('users', ref => ref
       .orderBy(this.searchBy.toLowerCase())
       .startAt(this.searchValue.toLowerCase())
       .endAt(this.searchValue.toLowerCase() + "\uf8ff")
       .limit(10))
       .valueChanges();
 
-    let query2: Observable<User[]> = this.data.collection<User>('users', ref => ref
+    let query2: Observable<User[]> = this.afs.collection<User>('users', ref => ref
       .orderBy(this.searchBy)
       .startAt(this.searchValue.toLowerCase())
       .endAt(this.searchValue.toLowerCase() + "\uf8ff")
@@ -80,11 +80,10 @@ export class FriendSearchPage {
       .valueChanges();
 
     this.users = query1.pipe(mergeMap(data => query2));
-
   }
 
   queryByArray() {
-    this.users = this.data.collection<User>('users', ref => ref
+    this.users = this.afs.collection<User>('users', ref => ref
       .where('caseSensitive', 'array-contains', this.searchValue.toLowerCase())
       .limit(10))
       .valueChanges();

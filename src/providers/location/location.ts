@@ -30,10 +30,15 @@ export class LocationProvider {
   async postMostRecentUserLocation(location: Location) {
     let user = await this.auth.getAuthenticatedUser();
 
-    try {
-      await this.data.doc<Location>(`locations/${user.uid}`).set(location);
-    } catch (e) {
-      throw e;
+    if (location && user && location.uid) {
+
+      try {
+        await this.data.doc<Location>(`locations/${user.uid}`).set(location);
+      } catch (e) {
+        throw e;
+      }
+    } else {
+      console.log('Tried posting empty location to database!')
     }
   }
 
@@ -46,10 +51,15 @@ export class LocationProvider {
   async postUserLocationHistory(location: Location) {
     let user = await this.auth.getAuthenticatedUser();
 
-    try {
-      await this.data.doc<Location>(`users/${user.uid}/locationHistory/${location.timestamp}`).set(location);
-    } catch (e) {
-      throw e;
+    if (location && user && location.uid) {
+
+      try {
+        await this.data.doc<Location>(`users/${user.uid}/locationHistory/${location.timestamp}`).set(location);
+      } catch (e) {
+        throw e;
+      }
+    } else {
+      console.log('Tried posting empty user location history to database!')
     }
   }
 

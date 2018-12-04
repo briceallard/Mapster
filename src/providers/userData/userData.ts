@@ -112,19 +112,25 @@ export class UserDataProvider {
    * @memberof UserDataProvider
    */
   async createUserProfile(profile: User) {
-    try {
-      let user = await this.auth.getAuthenticatedUser();
-      
-      profile.email = await this.auth.getUserRegisteredEmail();
-      profile.uid = await this.auth.getUserUID();
-      profile.registerDate = (new Date).getTime();
-      profile = this.formatProfileData(profile);
 
-      await this.data.doc<User>(`users/${user.uid}`).set(profile);
+    if (profile) {
 
-    } catch (e) {
-      console.log(e);
-      throw e;
+      try {
+        let user = await this.auth.getAuthenticatedUser();
+
+        profile.email = await this.auth.getUserRegisteredEmail();
+        profile.uid = await this.auth.getUserUID();
+        profile.registerDate = (new Date).getTime();
+        profile = this.formatProfileData(profile);
+
+        await this.data.doc<User>(`users/${user.uid}`).set(profile);
+
+      } catch (e) {
+        console.log(e);
+        throw e;
+      }
+    } else {
+      console.log('Tried creating empty profile to database!')
     }
   }
 
@@ -134,16 +140,22 @@ export class UserDataProvider {
    * @memberof UserDataProvider
    */
   async updateUserProfile(profile: User) {
-    try {
-      let user = await this.auth.getAuthenticatedUser();
 
-      profile = this.formatProfileData(profile);
+    if (profile) {
 
-      await this.data.doc<User>(`users/${user.uid}`).update(profile);
+      try {
+        let user = await this.auth.getAuthenticatedUser();
 
-    } catch (e) {
-      console.log(e);
-      throw e;
+        profile = this.formatProfileData(profile);
+
+        await this.data.doc<User>(`users/${user.uid}`).update(profile);
+
+      } catch (e) {
+        console.log(e);
+        throw e;
+      } 
+    } else {
+      console.log('Tried updating empty profile to database!')
     }
   }
 
