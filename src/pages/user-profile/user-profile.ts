@@ -18,11 +18,12 @@ import { UserDataProvider } from '../../providers/userData/userData';
 })
 export class UserProfilePage {
 
-  public thisUser: User;
+  public user: User;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: AngularFireStorage,
-    public userData: UserDataProvider) {
-    this.thisUser = navParams.get('item');
+  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: AngularFireStorage, public userData: UserDataProvider) {
+    this.user = navParams.get('item');
+    console.log('recieve: ' + JSON.stringify(this.user));
+
   }
 
   ionViewDidLoad() {

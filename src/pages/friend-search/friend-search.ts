@@ -45,6 +45,8 @@ export class FriendSearchPage {
   }
 
   userClicked(user) {
+    console.log('Sent: ' + JSON.stringify(user));
+
     this.navCtrl.push(Pages.USER_PROFILE, {
       item: user
     });
