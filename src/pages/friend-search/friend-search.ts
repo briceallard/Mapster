@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { AuthProvider } from '../../providers/auth/auth';
+import { AngularFirestore } from 'angularfire2/firestore';
 import { User } from '../../models/users/user.interface';
-import { Observable, forkJoin, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
 import { Pages } from '../../utils/constants'
 import { mergeMap } from 'rxjs/operators';
@@ -31,7 +30,6 @@ export class FriendSearchPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private afs: AngularFirestore,
-    private auth: AuthProvider,
     private alertControl: UtilitiesProvider) {
 
     this.searchBy = 'email';
@@ -47,10 +45,6 @@ export class FriendSearchPage {
   }
 
   userClicked(user) {
-    this.alertControl.confirmAlert('User Clicked', user.uid, data => {
-      console.log('User Clicked: ' + user.uid)
-    });
-
     this.navCtrl.push(Pages.USER_PROFILE, {
       item: user
     });
