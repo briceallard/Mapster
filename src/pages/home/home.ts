@@ -106,7 +106,6 @@ export class HomePage {
         timeout: 30000,
         maximumAge: 60000
       });
-      console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!MAP OBJECT HERE");
 
       let location: Location = {
         uid: user.uid,
@@ -217,7 +216,9 @@ export class HomePage {
               markerUser.subscribe((profile) => {
                 profile.forEach((snap) => {
 
-                  //let icon: string = snap.profileImage;
+                  console.log(JSON.stringify(snap));
+                  
+                  let time = this.timePipe.transform((new Date).getTime() - data.timestamp, 'h');
 
                   let mapIcon: MarkerIcon = {
                     url: snap.profileImage,
@@ -229,7 +230,7 @@ export class HomePage {
 
                   let marker: Marker = this.map.addMarkerSync({
                     title: `${snap.firstName} ${snap.lastName}`,
-                    snippet: this.timePipe.transform(data.timestamp),
+                    snippet: `${time} hours ago`,
                     icon: mapIcon,
                     animation: 'DROP',
                     zIndex: 3,
@@ -238,7 +239,7 @@ export class HomePage {
                       lng: data.lon
                     }
                   });
-    
+
                   marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
                     //alert('User Clicked');
                     // Do something here
@@ -246,6 +247,8 @@ export class HomePage {
                 })
               })
 
+            } else {
+              console.log('Error with Map Marker insertion!')
             }
 
           });
