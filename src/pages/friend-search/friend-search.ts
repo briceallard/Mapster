@@ -135,6 +135,12 @@ export class FriendSearchPage {
     });
     console.log("currUserId: ");
     console.log(currUserId);
+
+    //get toUserId
+    let queryRef = this.data.collection('users', ref => ref.where('email', '==', user.email));
+    console.log("queryRef: ");
+    console.log(queryRef);
+
     //writes to user's friendRequests firebase
     //var newRequest = this.data.collection('users/${this.currUserId}/friends').add(user);
     //users/<user-id>/friendRequests.add(toUserId)

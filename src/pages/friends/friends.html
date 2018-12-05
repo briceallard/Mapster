@@ -27,15 +27,29 @@
 
 <ion-content padding>
 
-  <ion-list class="users">
+  <ion-list>
     
     <ion-list-header>
       Requests
       <ion-icon small name="contact" item-end color="requests"></ion-icon>
     </ion-list-header>
 
-    <ion-item-group>
-
+    <ion-item-group class="users">
+      <ion-item-sliding *ngFor="let user of users | async" #item>
+        <ion-item>
+          <ion-avatar side="left">
+            <img src={{user.profileImage}}>
+          </ion-avatar>
+          <h3> {{ user.firstName }} {{ user.lastName }} </h3>
+          <p> {{ user.email }} </p>
+          <p> {{ user.userName}} </p>
+        </ion-item>
+        <ion-item-options side="right">
+          <button ion-button icon-only (click)="acceptFriendRequest(user)" color="primary">
+            <ion-icon name="person-add"></ion-icon>
+          </button>
+        </ion-item-options>
+      </ion-item-sliding>
     </ion-item-group>
 
     <ion-list-header>
