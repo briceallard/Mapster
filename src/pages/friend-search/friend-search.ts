@@ -7,6 +7,8 @@ import { Observable, forkJoin, of } from 'rxjs';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
 import { Pages } from '../../utils/constants'
 import { mergeMap } from 'rxjs/operators';
+import { Account } from '../../models/registration/account.interface';
+import { AngularFireAuth } from 'angularfire2/auth';
 
 /**
  * Generated class for the FriendSearchPage page.
@@ -22,6 +24,8 @@ import { mergeMap } from 'rxjs/operators';
 })
 export class FriendSearchPage {
 
+  account = {} as Account;
+
   public users: Observable<User[]>;
   searchValue: string = '';
 
@@ -31,7 +35,8 @@ export class FriendSearchPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private data: AngularFirestore,
-    private auth: AuthProvider,
+    private authProv: AuthProvider,
+    private auth: AngularFireAuth,
     private alertControl: UtilitiesProvider) {
 
     this.searchBy = 'email';
@@ -118,4 +123,36 @@ export class FriendSearchPage {
     })
   }
 
+  sendFriendRequest(user)
+  {
+    //logic to get current user id
+    let promiseCurrUserId = this.getUserUID();
+    let currUserId;
+    promiseCurrUserId.then(function(result)
+    {
+      console.log("result: ");
+      console.log(result);
+    });
+    console.log("currUserId: ");
+    console.log(currUserId);
+    //writes to user's friendRequests firebase
+    //var newRequest = this.data.collection('users/${this.currUserId}/friends').add(user);
+    //users/<user-id>/friendRequests.add(toUserId)
+  }
+
+  async getUserUID(): Promise<any>{
+    return new Promise<any>((resolve, reject) => {
+
+      let subscription = this.auth.user.subscribe((user) => {
+        
+        console.log("user.uid: ");
+        console.log(user.uid);
+        resolve(user.uid);
+ 
+        subscription.unsubscribe();
+ 
+      });
+ 
+    });
+  }
 }
