@@ -57,4 +57,14 @@ $>  pod --version
 1.4.0 or above should be fine.
 $> cordova plugin add cordova-plugin-googlemaps --variable API_KEY_FOR_ ...
 $> cordova platform add ios
+
+To fix map loading:
+update podfile
+run from workspace file in xcode instead of xcode project
+
+To fix broken button:
+Move button out of ion-content in html file
+
+To fix camera crashing:
+Add the camera to the permission list in the xcode plist file
 ```
