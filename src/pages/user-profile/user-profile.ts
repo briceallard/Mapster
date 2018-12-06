@@ -20,9 +20,10 @@ export class UserProfilePage {
 
   public user: User;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: AngularFireStorage,
-    public userData: UserDataProvider) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public storage: AngularFireStorage, public userData: UserDataProvider) {
     this.user = navParams.get('item');
+    console.log('recieve: ' + JSON.stringify(this.user));
+
   }
 
   ionViewDidLoad() {

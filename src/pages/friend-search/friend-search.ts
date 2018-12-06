@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
-import { AuthProvider } from '../../providers/auth/auth';
+import { AngularFirestore } from 'angularfire2/firestore';
 import { User } from '../../models/users/user.interface';
-import { Observable, forkJoin, of } from 'rxjs';
+import { Observable } from 'rxjs';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
 import { Pages } from '../../utils/constants'
 import { mergeMap } from 'rxjs/operators';
@@ -30,8 +29,7 @@ export class FriendSearchPage {
   placeholder: string = '';
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
-    private data: AngularFirestore,
-    private auth: AuthProvider,
+    private afs: AngularFirestore,
     private alertControl: UtilitiesProvider) {
 
     this.searchBy = 'email';
@@ -47,9 +45,7 @@ export class FriendSearchPage {
   }
 
   userClicked(user) {
-    this.alertControl.confirmAlert('User Clicked', user.uid, data => {
-      console.log('User Clicked: ' + user.uid)
-    });
+    console.log('Sent: ' + JSON.stringify(user));
 
     this.navCtrl.push(Pages.USER_PROFILE, {
       item: user
@@ -65,14 +61,14 @@ export class FriendSearchPage {
       this.placeholder = 'Search by Username'
     }
 
-    let query1: Observable<User[]> = this.data.collection<User>('users', ref => ref
+    let query1: Observable<User[]> = this.afs.collection<User>('users', ref => ref
       .orderBy(this.searchBy.toLowerCase())
       .startAt(this.searchValue.toLowerCase())
       .endAt(this.searchValue.toLowerCase() + "\uf8ff")
       .limit(10))
       .valueChanges();
 
-    let query2: Observable<User[]> = this.data.collection<User>('users', ref => ref
+    let query2: Observable<User[]> = this.afs.collection<User>('users', ref => ref
       .orderBy(this.searchBy)
       .startAt(this.searchValue.toLowerCase())
       .endAt(this.searchValue.toLowerCase() + "\uf8ff")
@@ -80,11 +76,10 @@ export class FriendSearchPage {
       .valueChanges();
 
     this.users = query1.pipe(mergeMap(data => query2));
-
   }
 
   queryByArray() {
-    this.users = this.data.collection<User>('users', ref => ref
+    this.users = this.afs.collection<User>('users', ref => ref
       .where('caseSensitive', 'array-contains', this.searchValue.toLowerCase())
       .limit(10))
       .valueChanges();

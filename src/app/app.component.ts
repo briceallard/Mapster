@@ -17,6 +17,11 @@ export class MyApp {
             // Here you can do any higher level native things you might need.
             statusBar.styleDefault();
 
+            if (platform.is('ios'))
+                statusBar.overlaysWebView(false);
+
+            statusBar.backgroundColorByHexString('#FFFFFF');
+
             auth.isAuthenticated()
                 .then((auth => { this.rootPage = auth ? 'HomePage' : 'IntroPage'; splashScreen.hide(); }))
                 .catch((error) => { this.rootPage = 'IntroPage'; splashScreen.hide(); })

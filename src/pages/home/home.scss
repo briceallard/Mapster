@@ -15,6 +15,10 @@
       border-radius: 50%;
     }
 
+    .map {
+      height: 0px;
+    }
+
     #map_canvas {
       height: 100%;
     }
@@ -43,7 +47,7 @@
     }
 
     .map {
-      height: 0%;
+      height: 0px;
     }
 
     #map_canvas {
