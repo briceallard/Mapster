@@ -42,3 +42,29 @@ Firebase is a platform that makes developing apps easier. it is owned by Google 
 
 #### Design
 <img src="https://bricewa.me/resources/img/photo/mapster-db-diagram.svg">
+
+## IOS Build Commands
+```
+$> cordova platform rm ios
+$> cordova plugin rm cordova-plugin-googlemaps
+$> [sudo] gem install cocoapods
+or
+$ brew update
+$ brew upgrade cocoapods
+$ pod setup
+// confirm
+$>  pod --version
+1.4.0 or above should be fine.
+$> cordova plugin add cordova-plugin-googlemaps --variable API_KEY_FOR_ ...
+$> cordova platform add ios
+
+To fix map loading:
+update podfile
+run from workspace file in xcode instead of xcode project
+
+To fix broken button:
+Move button out of ion-content in html file
+
+To fix camera crashing:
+Add the camera to the permission list in the xcode plist file
+```
