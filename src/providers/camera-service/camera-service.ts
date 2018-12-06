@@ -4,12 +4,6 @@ import { BASE_64 } from '../../utils/constants';
 import { Crop } from '@ionic-native/crop';
 import { Base64 } from '@ionic-native/base64';
 
-/*
-  Generated class for the CameraProvider provider.
-
-  See https://angular.io/guide/dependency-injection for more info on providers
-  and Angular DI.
-*/
 @Injectable()
 export class CameraProvider {
 
@@ -131,5 +125,4 @@ export class CameraProvider {
       throw e;
     }
   }
-
 }

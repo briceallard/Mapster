@@ -1,5 +1,6 @@
-export interface FriendRequest {
-    fromID: string; // a reference to the user id of the person the user has recived the request from
+import { Notification } from './notifications.interface'
+
+export interface FriendRequest extends Notification {
     status: Status; // see the enum below
 }
 
