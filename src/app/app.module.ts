@@ -26,10 +26,10 @@ import { MapProvider } from '../providers/map/map';
 import { LocationProvider } from '../providers/location/location';
 import { MessagesProvider } from '../providers/messages/messages';
 import { UtilitiesProvider } from '../providers/utilities/utilities';
-import { FriendsProvider } from '../providers/friends/friends';
 import { AngularFireStorageModule } from '@angular/fire/storage';
 import { CameraProvider } from '../providers/camera-service/camera-service';
 import { PopoverComponent } from '../components/popover/popover';
+import { FriendsServiceProvider } from '../providers/friends-service/friends-service';
 
 @NgModule({
   declarations: [
@@ -65,12 +65,12 @@ import { PopoverComponent } from '../components/popover/popover';
     UtilitiesProvider,
     BrowserAnimationsModule,
     GoogleMaps,
-    FriendsProvider,
     Camera,
     Geolocation,
     Crop,
     CameraProvider,
-    Base64
+    Base64,
+    FriendsServiceProvider
   ]
 })
 
