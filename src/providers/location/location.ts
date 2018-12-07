@@ -1,9 +1,6 @@
 import { Injectable } from '@angular/core';
-import { User } from '../../models/users/user.interface'
 import { AngularFirestore } from 'angularfire2/firestore';
-import { Geoposition } from '@ionic-native/geolocation'
 import { Location } from '../../models/users/location.interface';
-import { DateTime } from 'ionic-angular';
 import { AuthProvider } from '../auth/auth';
 import { UserDataProvider } from '../userData/userData';
 
