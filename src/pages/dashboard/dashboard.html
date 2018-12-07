@@ -4,15 +4,70 @@
   See http://ionicframework.com/docs/components/#navigation for more info on
   Ionic pages and navigation.
 -->
-<ion-header>
+<ion-header no-border>
 
   <ion-navbar color='navbar'>
-    <ion-title>DashboardPage</ion-title>
-  </ion-navbar>
 
+    <ion-title color="primary">
+      Dashboard
+    </ion-title>
+
+    <ion-buttons end class="profile">
+      <!--<button ion-button icon-only (click)="presentPopover($event)">-->
+      <button ion-button icon-only (click)="openProfileModal()">
+        <ion-icon>
+          <img class="profileImage" src="../../assets/icon/profile_image_placeholder.svg">
+        </ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-navbar>
 </ion-header>
 
 
-<ion-content padding>
+<ion-content class="page">
+
+  <div align="center" class="top">
+    <ion-avatar class="large-profile" (click)="navigateToEditProfile()">
+      <img src="../../assets/icon/profile_image_placeholder.svg">
+    </ion-avatar>
+    <h2>Brice Allard</h2>
+    <p>
+      <ion-icon name="locate" item-start color="primary"></ion-icon>
+      Wichita Falls,  USA
+    </p>
+  </div>
+
+  <ion-list class="menu">
+
+    <ion-list-header left id="header">
+      Notifications
+    </ion-list-header>
+    <ion-item>
+      Friend Requests
+      <ion-badge color="primary" id="badge">0</ion-badge>
+    </ion-item>
+    <ion-item>
+      Messages
+      <ion-badge color="primary" id="badge">5</ion-badge>
+    </ion-item>
+    <ion-item>
+      Nearby Friends
+      <ion-badge color="primary" id="badge">32</ion-badge>
+    </ion-item>
+
+    <ion-list-header left id="header">
+      Images
+    </ion-list-header>
+    <ion-item>
+      Public Photos
+      <ion-badge color="primary" id="badge">260</ion-badge>
+    </ion-item>
+    <ion-item>
+      Private Photos
+      <ion-badge color="primary" id="badge">32</ion-badge>
+    </ion-item>
+
+  </ion-list>
 
 </ion-content>

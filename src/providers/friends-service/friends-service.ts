@@ -21,6 +21,10 @@ export class FriendsServiceProvider {
   async sendFriendRequestToUser(receiver: User) {
     let sender = await this.auth.getAuthenticatedUser();
 
+    // status is an enum with the following parameters:
+    // 0 = pending
+    // 1 = accepted
+    // 2 = declined
     let request: FriendRequest = { fromID: sender.uid, toID: receiver.uid, status: 0, notification: NotificationType.FriendRequest };
 
     try {
