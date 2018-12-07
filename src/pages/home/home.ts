@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, AlertController, PopoverController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, ViewController, AlertController, PopoverController } from 'ionic-angular';
 import { Pages } from '../../utils/constants';
 
 import {
@@ -63,8 +63,25 @@ export class HomePage {
     public popoverCtrl: PopoverController,
     private auth: AuthProvider,
     private mapProvider: MapProvider,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    private view: ViewController
   ) {
+  }
+
+  friendsClicked() {
+    this.navCtrl.push(Pages.FRIENDS_PAGE);
+  }
+
+  dashboardClicked() {
+    this.navCtrl.push(Pages.DASHBOARD_PAGE);
+  }
+
+  logoutConfirm() {
+    this.utilities.confirmAlert('Logout', 'Are you sure?', async () => {
+      await this.auth.logout();
+      
+      this.view.dismiss({ logout: true });
+    });
   }
 
   ionViewDidLoad() {

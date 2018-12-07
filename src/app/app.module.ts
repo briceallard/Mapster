@@ -8,7 +8,7 @@ import { MyApp } from './app.component';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { FIREBASE_CONFIG } from '../firebase-config/app.firebase.config';
+import { FIREBASE_CONFIG } from './app.firebase.config';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { GoogleMaps } from '@ionic-native/google-maps'
