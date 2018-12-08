@@ -26,4 +26,5 @@
 
 I started trying to get a menu bar on the home screen with content and a menu icon for the button. I figured out how to
 put content in a menu but I couldn't figure out how to get the button displaying in the nav bar. It kept giving me problems
-so I will met with Mackey and Cory the next day to figure it out.
+so I will met with Mackey and Cory the next day to figure it out. My problem was that I was putting the <icon menu...></icon>
+inside <button></button> instead of just icon by itself.
