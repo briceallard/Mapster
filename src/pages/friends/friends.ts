@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController } from 'ionic-angular';
 import { Pages } from '../../utils/constants';
+import { FriendsServiceProvider } from '../../providers/friends-service/friends-service';
+import { Observable } from 'rxjs';
+import { User } from '../../models/users/user.interface';
+
 
 /**
  * Generated class for the FriendsPage page.
@@ -16,11 +20,18 @@ import { Pages } from '../../utils/constants';
 })
 export class FriendsPage {
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public modal: ModalController) {
+  public friends: Observable<User[]>;
+
+  constructor(public navCtrl: NavController, public navParams: NavParams, public modal: ModalController,
+    public friendProv: FriendsServiceProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FriendsPage');
+  }
+
+  ionViewWillLoad() {
+    this.friendProv.getFriendsList();
   }
 
   public openProfileModal() {
@@ -29,7 +40,7 @@ export class FriendsPage {
   }
 
   addFriendClicked() {
-    this.navCtrl.push(Pages.FRIEND_SEARCH_PAGE);
+    this.navCtrl.push(Pages.FRIEND_SEARCH_PAGE, { item: this.friends });
   }
 
 }

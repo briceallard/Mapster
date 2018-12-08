@@ -1,0 +1,33 @@
+<ion-header>
+
+  <ion-navbar color='navbar'>
+    <ion-title>Friend Requests</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="selectSearchFilter()">
+        <ion-icon name="more"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content>
+
+  <ion-list class="users">
+    <ion-item *ngFor="let request of requests | async" #item>
+      <ion-item (click)="userClicked(request)">
+
+        <h3> {{ request.fromName }} would like to be your friend!</h3>
+      </ion-item>
+
+        <button ion-button item-end (click)="declineFriendRequest(friend)" color="danger">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+
+        <button ion-button item-end (click)="acceptFriendRequest(friend)" color="primary">
+          <ion-icon name="checkmark">Accept</ion-icon>
+        </button>
+
+    </ion-item>
+  </ion-list>
+</ion-content>
