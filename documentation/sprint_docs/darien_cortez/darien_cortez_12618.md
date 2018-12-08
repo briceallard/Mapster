@@ -1,6 +1,6 @@
 # Personal Sprint Doc
 ### Name: Darien Cortez
-### Date: 12/6/18 (I worked a little bit the day before but not enough for a sprint doc)
+### Date: 12/6/18
 
 
 ## Files Worked On
@@ -28,6 +28,6 @@
 
 
 Mackey and I helped Cory fix any errors he was having with getting the app on his laptop, and then we spent time
-trying to figure out the best way to implement the side bar. We then started coded the best method for putting the 
+trying to figure out the best way to implement the side bar. We then altered my code for putting the 
 menu on the navbar with the menu icon. We then formatted the sidebar menu, put content on the menu, and enabled the
 buttons on the menu to navigate to other pages. All of our work was pushed by Cory.
