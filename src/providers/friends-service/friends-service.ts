@@ -39,19 +39,39 @@ export class FriendsServiceProvider {
     return this.afs.collection<FriendRequest>(`users/${user.uid}/requestsIn`).valueChanges();
   }
 
+  async getAllFriendRequestsOutbox(): Promise<Observable<FriendRequest[]>> {
+    let user = await this.auth.getAuthenticatedUser();
+
+    return this.afs.collection<FriendRequest>(`users/${user.uid}/requestsOut`).valueChanges();
+  }
+
   /**
    * accepts the users friend request and deletes the entry from database
    *
    * @param {FriendRequest} request
    * @memberof FriendsServiceProvider
    */
-  async onFriendRequestAccept(sender: User) {
-    let user = await this.auth.getAuthenticatedUser();
+  async onFriendRequestAccept(request: FriendRequest) {
+    let receiver: User = await this.data.getAuthenticatedUserProfile();
+    let sender: User = await this.data.getAuthenticatedUserProfileByID(request.fromID);
+
     try {
+
+      // add the friends to the array of friends in profile
+      if (!receiver.friendsList)
+        receiver.friendsList = new Array(sender.uid);
+      else
+        receiver.friendsList.push(sender.uid);
+
+      if (!sender.friendsList)
+        sender.friendsList = new Array(receiver.uid);
+      else
+        sender.friendsList.push(receiver.uid);
+
       // Add users to eachothers friends lists
-      await this.afs.doc(`users/${sender.uid}/friends/`).set(user.uid);
-      await this.afs.doc(`users/${user.uid}/friends/`).set(sender.uid);
-      await this.deleteFriendRequest(sender, user);
+      await this.afs.doc<User>(`users/${receiver.uid}`).update(receiver);
+      await this.afs.doc<User>(`users/${sender.uid}`).update(sender);
+      await this.deleteFriendRequest(sender, receiver);
     } catch (e) {
       console.log(e.message);
       throw e;
@@ -64,17 +84,19 @@ export class FriendsServiceProvider {
    * @param {FriendRequest} request
    * @memberof FriendsServiceProvider
    */
-  async onFriendRequestDecline(sender: User) {
-    let user = await this.auth.getAuthenticatedUser();
+  async onFriendRequestDecline(request: FriendRequest) {
+    let receiver = await this.auth.getAuthenticatedUser();
+    let sender = await this.data.getAuthenticatedUserProfileByID(request.fromID);
+
     try {
-      await this.deleteFriendRequest(sender, user);
+      await this.deleteFriendRequest(sender, receiver);
     } catch (e) {
       console.log(e.message);
       throw e;
     }
   }
 
-  
+
   /**
    * Removes pending friend requests from the senders and receivers subcollection
    *
@@ -112,9 +134,9 @@ export class FriendsServiceProvider {
 
     let thisRequest: FriendRequest = {
       fromName: senderProfile.firstName + " " + senderProfile.lastName,
-      fromID: sender.uid, 
-      toID: receiver.uid, 
-      status: 0 
+      fromID: sender.uid,
+      toID: receiver.uid,
+      status: 0
     };
 
     console.log(JSON.stringify(senderProfile));

@@ -20,11 +20,11 @@
         <h3> {{ request.fromName }} would like to be your friend!</h3>
       </ion-item>
 
-        <button ion-button item-end (click)="declineFriendRequest(friend)" color="danger">
+        <button ion-button item-end (click)="declineFriendRequest(request)" color="danger">
           <ion-icon name="trash"></ion-icon>
         </button>
 
-        <button ion-button item-end (click)="acceptFriendRequest(friend)" color="primary">
+        <button ion-button item-end (click)="acceptFriendRequest(request)" color="primary">
           <ion-icon name="checkmark">Accept</ion-icon>
         </button>
 

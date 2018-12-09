@@ -6,6 +6,8 @@ import { Observable } from 'rxjs';
 import { User } from '../../models/users/user.interface';
 import { FriendRequest } from '../../models/users/friendRequest.interface';
 import { AuthProvider } from '../../providers/auth/auth';
+import { UserDataProvider } from '../../providers/userData/userData';
+import { UtilitiesProvider } from '../../providers/utilities/utilities';
 
 /**
  * Generated class for the FriendRequestsPage page.
@@ -26,27 +28,37 @@ export class FriendRequestsPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, 
     public friendProv: FriendsServiceProvider,
-    private auth: AuthProvider) {
+    private auth: AuthProvider,
+    private data: UserDataProvider,
+    public alertCtrl: UtilitiesProvider) {
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad FriendRequestsPage');
   }
-
-  userClicked(user) {
-    console.log('Sent: ' + JSON.stringify(user));
-    this.navCtrl.push(Pages.USER_PROFILE, { item: user });
+  
+  ionViewWillLoad() {
+    this.getAllFriendRequests();
   }
+  
+  // userClicked(request) {
+  //   this.navCtrl.push(Pages.USER_PROFILE, { item: request });
+  // }
+  
+  async acceptFriendRequest(request: FriendRequest) {
+    var title = 'Friend Request';
+    var msg = `Accept friend request from ${request.fromName}?`;
 
-  acceptFriendRequest(friend) {
-    this.friendProv.onFriendRequestAccept(friend);
+    this.alertCtrl.confirmAlert(title, msg, async () => {
+      await this.friendProv.onFriendRequestAccept(request);
+    })
   }
-
-  declineFriendRequest(friend) {
-    this.friendProv.onFriendRequestDecline(friend);
+  
+  declineFriendRequest(request) {
+    this.friendProv.onFriendRequestDecline(request);
   }
-
-  async getFriendsList() {
+  
+  async getAllFriendRequests() {
     this.requests = await this.friendProv.getAllFriendRequestsInbox();
   }
 }
