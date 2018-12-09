@@ -52,6 +52,8 @@ export class HomePage {
   userLocations$: Subscription;
   markers: Marker[];
   timePipe = new DatePipe('en-US');
+  markerUser$: Subscription;
+  userDict = new Map<string, Marker>();  
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public modal: ModalController,
@@ -213,8 +215,7 @@ export class HomePage {
 
   async displayAllUserMarkers() {
 
-    let userID = await this.auth.getUserUID();
-    var markerUser$: Subscription;
+    let userID = await this.auth.getUserUID();  
 
     try {
       this.userLocations$ = (await this.mapProvider.getAllUserLocations())
@@ -223,16 +224,20 @@ export class HomePage {
 
             if (userID != data.uid) {
 
-              markerUser$ = this.afs.collection<User>('users', ref => ref
+              this.markerUser$ = this.afs.collection<User>('users', ref => ref
                 .where('uid', '==', data.uid))
                 .valueChanges()
                 .subscribe((profile) => {
-                  profile.forEach((snap) => {
+                  profile.forEach((userSnap) => {
+
+                    if (this.userDict.has(userSnap.uid)) {
+                      this.userDict.get(userSnap.uid).remove();
+                    }
 
                     let time = this.timePipe.transform((new Date).getTime() - data.timestamp, 'h');
 
                     let mapIcon: MarkerIcon = {
-                      url: snap.profileImage,
+                      url: userSnap.profileImage,
                       size: {
                         width: 32,
                         height: 32
@@ -240,7 +245,7 @@ export class HomePage {
                     }
 
                     let marker: Marker = this.map.addMarkerSync({
-                      title: `${snap.firstName} ${snap.lastName}`,
+                      title: `${userSnap.firstName} ${userSnap.lastName}`,
                       snippet: `${time} hours ago`,
                       icon: mapIcon,
                       animation: 'DROP',
@@ -255,6 +260,8 @@ export class HomePage {
                       //alert('User Clicked');
                       // Do something here
                     });
+                    
+                    this.userDict.set(userSnap.uid, marker);
                   })
                 })
 

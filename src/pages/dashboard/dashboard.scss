@@ -1,3 +1,77 @@
+.md {
+  .profile img {
+    float: right;
+    height: 40px;
+    width: 40px;
+    margin-right: 5px;
+    background: transparent;
+  }
+
+  .profileImage {
+    border: 2px solid #0054FE;
+    border-radius: 50%;
+  }
+}
+
+.ios {
+  .profile img {
+    float: right;
+    height: 32px;
+    width: 32px;
+    margin-right: 5px;
+    background: transparent;
+  }
+
+  .profileImage {
+    border: 2px solid #0054FE;
+    border-radius: 50%;
+  }
+}
+
 page-dashboard {
+
+  .page {
+    background-color: #ffffff;
+  }
+
+  .top {
+    //background: url(../../assets/imgs/whitebg1.svg) no-repeat;
+    background-color: #ffffff;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 50%;
+    -webkit-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
+  }
+
+  .large-profile {
+    width: 50%;
+    height: auto;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    border: 2px, solid, #0054FE;
+    border-radius: 50%;
+    -webkit-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
+  }
+
+
+  .menu {
+    position: absolute;
+    top: 49%;
+    width: 100%;
+    height: auto;
+
+    #header {
+        margin-top: 20px;
+    }
+  }
+
+  #badge {
+    float: right;
+  }
 
 }

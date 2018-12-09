@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
 import { Pages } from '../../utils/constants'
 import { mergeMap } from 'rxjs/operators';
+import { FriendsServiceProvider } from '../../providers/friends-service/friends-service';
 
 /**
  * Generated class for the FriendSearchPage page.
@@ -30,7 +31,8 @@ export class FriendSearchPage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private afs: AngularFirestore,
-    private alertControl: UtilitiesProvider) {
+    private alertControl: UtilitiesProvider,
+    private friend: FriendsServiceProvider) {
 
     this.searchBy = 'email';
     this.placeholder = 'Search by Email Address';
@@ -47,16 +49,32 @@ export class FriendSearchPage {
   userClicked(user) {
     console.log('Sent: ' + JSON.stringify(user));
 
-    this.navCtrl.push(Pages.USER_PROFILE, {
-      item: user
-    });
+    this.navCtrl.push(Pages.USER_PROFILE, { item: user });
+  }
+
+  async addFriendClicked(receiver: User) {
+    var title: string = 'Send Request';
+    var msg: string = `Send Friend Request to ${receiver.firstName} ${receiver.lastName}?`;
+    
+    try {
+      this.alertControl.confirmAlert(title, msg, async () => {
+        await this.friend.sendFriendRequestToUser(receiver);
+      })
+      
+    } catch(e) {
+      console.log(e);            
+      this.alertControl.showToast("Something went wrong. Could not send friend request.");
+    }    
   }
 
   queryBySearchEntry() {
+    
     if (this.searchBy === 'email') {
       this.placeholder = 'Search by Email Address';
+      
     } else if (this.searchBy === 'fullName') {
       this.placeholder = 'Search by Full Name'
+
     } else {
       this.placeholder = 'Search by Username'
     }
