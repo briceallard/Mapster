@@ -6,9 +6,14 @@
 -->
 <ion-header>
 
-  <ion-navbar color='navbar'>
+  <!-- WE LIKE BLUE!!! -->
+  <!--<ion-navbar color="primary">-->
+  <ion-navbar color="navbar">
 
-    <ion-title color="primary">
+    <ion-title color="primary" style="text-align:center">
+      <span style="float:left">
+        <ion-icon menuToggle name="menu"></ion-icon>
+      </span>
       Mapster
     </ion-title>
 
@@ -24,7 +29,36 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
+
+  <!--Side menu-->
+  <ion-menu [content]="mycontent">
+    <ion-content>
+      <button ion-item (click)=dashboardClicked()>
+        <ion-icon color="primary" item-start name="home"></ion-icon>
+        Dashboard
+      </button>
+      
+      <button ion-item (click)=friendsClicked()>
+        <ion-icon color="primary" item-start name="people"></ion-icon>
+        Friends
+      </button>
+      
+      <button ion-item>
+        <ion-icon color="primary" item-start name="chatboxes"></ion-icon>
+        Messages
+      </button>
+
+      <button ion-item (click)=logoutConfirm()>
+        <ion-icon color="primary" item-start name="log-out"></ion-icon>
+        Logout
+      </button>
+    </ion-content>
+  </ion-menu>
+  
+  <ion-nav #mycontent [root]="rootPage"></ion-nav>
+  
+  <div menuToggle></div>
 
   <div class="map">
     <ion-toolbar no-border-top color='navbar'>
@@ -48,21 +82,21 @@
     </h2> -->
   </div>
 
-</ion-content>
+  <ion-fab right bottom>
+    <button ion-fab color="primary">
+      <ion-icon name="add"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab color="navbar">
+        <ion-icon color="primary" name="image"></ion-icon>
+      </button>
+      <button ion-fab color="navbar">
+        <ion-icon color="primary" name="compass"></ion-icon>
+      </button>
+      <button ion-fab color="navbar">
+        <ion-icon color="primary" name="paper"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
 
-<ion-fab right bottom>
-  <button ion-fab color="primary">
-    <ion-icon name="add"></ion-icon>
-  </button>
-  <ion-fab-list side="top">
-    <button ion-fab color="navbar">
-      <ion-icon color="primary" name="image"></ion-icon>
-    </button>
-    <button ion-fab color="navbar">
-      <ion-icon color="primary" name="compass"></ion-icon>
-    </button>
-    <button ion-fab color="navbar">
-      <ion-icon color="primary" name="paper"></ion-icon>
-    </button>
-  </ion-fab-list>
-</ion-fab>
+</ion-content>
