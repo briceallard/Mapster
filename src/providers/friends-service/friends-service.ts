@@ -6,13 +6,15 @@ import { FriendRequest } from '../../models/users/friendRequest.interface';
 import { Observable } from 'rxjs';
 import { UtilitiesProvider } from '../utilities/utilities';
 import { UserDataProvider } from '../userData/userData';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class FriendsServiceProvider {
 
   constructor(private afs: AngularFirestore, private auth: AuthProvider,
     private alertControl: UtilitiesProvider,
-    private data: UserDataProvider) {
+    private data: UserDataProvider,
+    public toastCtrl: UtilitiesProvider) {
     console.log('Hello FriendsServiceProvider Provider');
   }
 
@@ -24,7 +26,11 @@ export class FriendsServiceProvider {
    */
   async getFriendsList() {
     let user = await this.auth.getAuthenticatedUser();
-    return await this.afs.collection<User>(`users/${user.uid}/friends/`).valueChanges();
+
+    return this.afs.doc<User>(`users/${user.uid}`)
+      .valueChanges().pipe(map(user => {
+        return user.friendsList.map(async (userID) => await this.data.getAuthenticatedUserProfileByID(userID))
+      }));
   }
 
   /**
@@ -107,6 +113,25 @@ export class FriendsServiceProvider {
     await this.afs.doc(`users/${sender.uid}/requestsOut/${receiver.uid}`).delete();
     await this.afs.doc(`users/${receiver.uid}/requestsIn/${sender.uid}`).delete();
     console.log('Friend Requests Deleted');
+  }
+
+  async deleteFriend(friend: User, friendsList: User[]) {
+    let user: User = await this.data.getAuthenticatedUserProfile();
+
+    // "Deleting" the friend
+    user.friendsList.splice(user.friendsList.indexOf(friend.uid), 1);
+    friend.friendsList.splice(friend.friendsList.indexOf(user.uid), 1);
+
+    try {
+      this.data.updateUserProfile(user);
+      this.data.updateUserProfileByID(friend);
+
+      this.toastCtrl.showToast('Friend has been removed');
+
+    } catch (e) {
+      console.log(e.message);
+      this.toastCtrl.showToast('Error removing friend: ' + e.message);
+    }
   }
 
   /**

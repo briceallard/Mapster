@@ -23,7 +23,7 @@ import { FriendsServiceProvider } from '../../providers/friends-service/friends-
 export class FriendSearchPage {
 
   public users: Observable<User[]>;
-  public friends: Observable<User[]>;
+  public friends: User[] = [];
   searchValue: string = '';
 
   // ea=email address, flname=First and last name, un=username
@@ -63,14 +63,12 @@ export class FriendSearchPage {
     var isFriend: boolean = false;
 
     if (this.friends) {
-      this.friends.subscribe(friendList => {
-        friendList.forEach(friend => {
+        this.friends.forEach(friend => {
           if (receiver.uid === friend.uid)
             isFriend = true;
           else
             isFriend = false;
-        })
-      }).unsubscribe();
+        });
     }
 
     if (!isFriend) {

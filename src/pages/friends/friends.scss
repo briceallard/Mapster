@@ -1,12 +1,22 @@
 page-friends {
 
-    .profile {
-        background: transparent;
+    .friends ion-avatar {
+        margin-right: 15px;
+        float: left;
+        height: 50px;
+
+        img {
+            margin-top: 2px;
+            height: 50px;
+            width: 50px;
+        }
     }
 
-    .profile img{
-        height: 30px;
-        width: auto;
-        margin-right: 5px;
+    .friends h2 {
+        display: inline-block;
+    }
+
+    .friends button {
+        width: 70px;
     }
 }
