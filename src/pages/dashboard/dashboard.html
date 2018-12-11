@@ -13,8 +13,8 @@
     </ion-title>
 
     <ion-buttons end class="profile">
-      <!--<button ion-button icon-only (click)="presentPopover($event)">-->
-      <button ion-button icon-only (click)="openProfileModal()">
+      <!--<button ion-button icon-only (click)="presentPopover($event)"> (click)="openProfileModal()"-->
+      <button ion-button icon-only>
         <ion-icon>
           <img class="profileImage" src="../../assets/icon/profile_image_placeholder.svg">
         </ion-icon>
@@ -28,7 +28,8 @@
 <ion-content class="page">
 
   <div align="center" class="top">
-    <ion-avatar class="large-profile" (click)="navigateToEditProfile()">
+     <!--</ion-avatar>(click)="navigateToEditProfile()"-->
+    <ion-avatar class="large-profile">
       <img src="../../assets/icon/profile_image_placeholder.svg">
     </ion-avatar>
     <h2>Brice Allard</h2>
