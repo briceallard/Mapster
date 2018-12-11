@@ -104,21 +104,9 @@ export class FriendsServiceProvider {
    * @memberof FriendsServiceProvider
    */
   async deleteFriendRequest(sender: User, receiver: User) {
-    // Removes freind request from the SENDERS database
-    await this.afs.collection(`users/${sender.uid}/requestsOut`, ref => ref
-      .where('toID', '==', receiver.uid)).valueChanges().subscribe(requests => {
-        requests.map((thisRequest: FriendRequest) => {
-          this.afs.doc(`users/${sender.uid}/requestsOut/${thisRequest.toID}`).delete();
-        })
-      }).unsubscribe();
-
-    // Removes friend request from the RECEIVERS database
-    await this.afs.collection(`users/${receiver.uid}/requestsOut`, ref => ref
-      .where('toID', '==', sender.uid)).valueChanges().subscribe(requests => {
-        requests.map((thisRequest: FriendRequest) => {
-          this.afs.doc(`users/${receiver.uid}/requestsOut/${thisRequest.fromID}`).delete();
-        })
-      }).unsubscribe();
+    await this.afs.doc(`users/${sender.uid}/requestsOut/${receiver.uid}`).delete();
+    await this.afs.doc(`users/${receiver.uid}/requestsIn/${sender.uid}`).delete();
+    console.log('Friend Requests Deleted');
   }
 
   /**
