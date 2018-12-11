@@ -23,6 +23,7 @@ import { FriendsServiceProvider } from '../../providers/friends-service/friends-
 export class FriendSearchPage {
 
   public users: Observable<User[]>;
+  public friends: User[] = [];
   searchValue: string = '';
 
   // ea=email address, flname=First and last name, un=username
@@ -32,7 +33,9 @@ export class FriendSearchPage {
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private afs: AngularFirestore,
     private alertControl: UtilitiesProvider,
-    private friend: FriendsServiceProvider) {
+    private friendProv: FriendsServiceProvider) {
+
+    this.friends = navParams.get('item');
 
     this.searchBy = 'email';
     this.placeholder = 'Search by Email Address';
@@ -55,23 +58,40 @@ export class FriendSearchPage {
   async addFriendClicked(receiver: User) {
     var title: string = 'Send Request';
     var msg: string = `Send Friend Request to ${receiver.firstName} ${receiver.lastName}?`;
-    
-    try {
-      this.alertControl.confirmAlert(title, msg, async () => {
-        await this.friend.sendFriendRequestToUser(receiver);
-      })
-      
-    } catch(e) {
-      console.log(e);            
-      this.alertControl.showToast("Something went wrong. Could not send friend request.");
-    }    
+
+    // Check if already friend
+    var isFriend: boolean = false;
+
+    if (this.friends) {
+        this.friends.forEach(friend => {
+          if (receiver.uid === friend.uid)
+            isFriend = true;
+          else
+            isFriend = false;
+        });
+    }
+
+    if (!isFriend) {
+      try {
+        this.alertControl.confirmAlert(title, msg, async () => {
+          await this.friendProv.sendFriendRequestToUser(receiver);
+        })
+
+      } catch (e) {
+        console.log(e);
+        this.alertControl.showToast("Something went wrong. Could not send friend request.");
+      }
+    }
+    else {
+      this.alertControl.showToast('This user is already your friend...');
+    }
   }
 
   queryBySearchEntry() {
-    
+
     if (this.searchBy === 'email') {
       this.placeholder = 'Search by Email Address';
-      
+
     } else if (this.searchBy === 'fullName') {
       this.placeholder = 'Search by Full Name'
 
@@ -103,7 +123,6 @@ export class FriendSearchPage {
       .valueChanges();
   }
 
-
   // queryExample() {
   //   let retardedUsers = this.data.collection<User>('users', ref =>
   //     ref.where("retarded", "==", true)).valueChanges();
@@ -119,13 +138,6 @@ export class FriendSearchPage {
 
   //   Returns and observable<T> return this.data.collection<any>
   // }
-
-  confirmFriendRequest() {
-    var title: 'Confirm';
-    var message: 'Add this user as a friend?';
-    this.alertControl.confirmAlert(title, message, (console.log('Request')));
-    // SEND REQUEST MESSAGE AS CALLBACK ABOVE    
-  }
 
   selectSearchFilter() {
     this.alertControl.searchFriendFilterAlert(data => {

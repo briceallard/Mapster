@@ -159,6 +159,26 @@ export class UserDataProvider {
     }
   }
 
+  async updateUserProfileByID(profile: User) {
+
+    if (profile) {
+
+      try {
+        let user = await this.getAuthenticatedUserProfileByID(profile.uid);
+
+        profile = this.formatProfileData(profile);
+
+        await this.data.doc<User>(`users/${user.uid}`).update(profile);
+
+      } catch (e) {
+        console.log(e);
+        throw e;
+      } 
+    } else {
+      console.log('Tried updating empty profile to database!')
+    }
+  }
+
   /**
    * Uploads an image to storage and references download URL to user profile
    *

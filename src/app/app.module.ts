@@ -30,6 +30,7 @@ import { AngularFireStorageModule } from '@angular/fire/storage';
 import { CameraProvider } from '../providers/camera-service/camera-service';
 import { PopoverComponent } from '../components/popover/popover';
 import { FriendsServiceProvider } from '../providers/friends-service/friends-service';
+import { NotificationProvider } from '../providers/notification/notification';
 
 @NgModule({
   declarations: [
@@ -70,7 +71,8 @@ import { FriendsServiceProvider } from '../providers/friends-service/friends-ser
     Crop,
     CameraProvider,
     Base64,
-    FriendsServiceProvider
+    FriendsServiceProvider,
+    NotificationProvider
   ]
 })
 

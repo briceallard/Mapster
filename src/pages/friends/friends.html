@@ -6,77 +6,46 @@
 -->
 <ion-header>
 
-    <ion-navbar color='navbar'>
-      <button ion-button icon-only menuToggle>
-        <ion-icon name="menu"></ion-icon>
+  <ion-navbar color='navbar'>
+    <button ion-button icon-only menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+
+    <ion-title>
+      Friends
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="addFriendClicked()">
+        <ion-icon name="person-add"></ion-icon>
       </button>
-  
-      <ion-title>
-        Friends
-      </ion-title>
-      <ion-buttons end>
-        <button ion-button icon-only (click)="addFriendClicked()">
-          <ion-icon name="person-add"></ion-icon>
-        </button>
-      </ion-buttons>
-  
-    </ion-navbar>
-  
-  </ion-header>
+    </ion-buttons>
+
+  </ion-navbar>
+
+</ion-header>
 
 
 <ion-content padding>
 
-  <ion-list no-lines>
-
-    <ion-list-header>
-      Online
-      <ion-icon small name="contact" item-end color="online"></ion-icon>
-    </ion-list-header>
-
-    <ion-item-group>
-
-      <button ion-item>
-        <ion-icon item-start name="contact"></ion-icon>
-        Online Test Friend
-      </button>
-
-      <button ion-item>
-        <ion-icon item-start name="contact"></ion-icon>
-        Online Test Friend
-      </button>
-
-      <button ion-item>
-        <ion-icon item-start name="contact"></ion-icon>
-        Online Test Friend
-      </button>
-
-    </ion-item-group>
-
-    <ion-list-header>
-      Offline
-      <ion-icon small name="contact" item-end color="offline"></ion-icon>
-    </ion-list-header>
-
-    <ion-item-group>
-
-      <button ion-item>
-        <ion-icon item-start name="contact"></ion-icon>
-        Offline Test Friend
-      </button>
-
-      <button ion-item>
-        <ion-icon item-start name="contact"></ion-icon>
-        Offline Test Friend
-      </button>
-
-      <button ion-item>
-        <ion-icon item-start name="contact"></ion-icon>
-        Offline Test Friend
-      </button>
-
-    </ion-item-group>
-
+  <ion-list class="friends">
+    <ion-item-sliding *ngFor="let friend of friends" #item>
+      <ion-item (click)="userClicked(friend)">
+        <ion-avatar side="left">
+          <img src={{friend.profileImage}}>
+        </ion-avatar>
+        <h3> {{ friend.firstName }} {{ friend.lastName }} </h3>
+        <p> {{ friend.email }} </p>
+        <p> {{ friend.userName}} </p>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button icon-only (click)="removeFriendClicked(friend)" color="danger">
+          <ion-icon name="trash"></ion-icon>
+        </button>
+        <button ion-button icon-only (click)="sendMessageToUser(friend)" color="primary">
+          <ion-icon name="chatbubbles"></ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 
 </ion-content>
