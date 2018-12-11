@@ -13,6 +13,7 @@ export class Pages {
     public static readonly MODAL_PROFILE: string = 'ModalProfilePage';
     public static readonly DASHBOARD_PAGE: string = 'DashboardPage';
     public static readonly USER_PROFILE: string = 'UserProfilePage';
+    public static readonly FRIEND_REQUEST_PAGE: string = 'FriendRequestsPage'
 }
 
 export class LoadingMessages {

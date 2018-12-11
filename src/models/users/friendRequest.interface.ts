@@ -1,6 +1,7 @@
-import { Notification } from './notifications.interface'
-
-export interface FriendRequest extends Notification {
+export interface FriendRequest {
+    fromName: string;
+    fromID: string;
+    toID: string;
     status: Status; // see the enum below
 }
 

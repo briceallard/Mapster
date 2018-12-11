@@ -87,6 +87,10 @@ export class HomePage {
       this.userLocations$.unsubscribe();
   }
 
+  uploadImageWithGeo() {
+    
+  }
+
   /**
    * Loads google maps based on users current location
    *
@@ -130,22 +134,22 @@ export class HomePage {
       };
 
       this.map = GoogleMaps.create('map_canvas', mapOptions);
-
-
+      
+      
       let marker: Marker = this.map.addMarkerSync({
         title: 'My Location',
-        icon: 'blue',
+        icon: '../../assets/icon/my_location.png',
         animation: 'DROP',
         position: {
           lat: location.lat,
           lng: location.lon
         }
       });
-
+      
       marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
         // Do something here on marker click
       });
-
+      
       this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
         this.displayAllUserMarkers();
       });
