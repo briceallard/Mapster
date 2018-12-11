@@ -88,7 +88,7 @@ export class HomePage {
   }
 
   uploadImageWithGeo() {
-    
+    this.navCtrl.push(Pages.IMAGES_PAGE);
   }
 
   /**

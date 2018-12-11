@@ -8,6 +8,10 @@ import { AuthProvider } from '../auth/auth';
 import { UserDataProvider } from '../userData/userData';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { AngularFireStorage } from 'angularfire2/storage';
+import { LocationProvider } from '../location/location';
+import { Geolocation } from '@ionic-native/geolocation';
+import { Location } from '../../models/users/location.interface';
+import { User } from '../../models/users/user.interface';
 
 @Injectable()
 export class CameraProvider {
@@ -18,11 +22,17 @@ export class CameraProvider {
   optionsGallery: CameraOptions;
   optionsGalleryProfile: CameraOptions;
 
+  public publicImages: Photo[] = [];
+  public tagList: string[] = [];
+  public locationGeo: Location;
+
   constructor(private camera: Camera, private crop: Crop, private base64: Base64,
     private auth: AuthProvider,
     private data: UserDataProvider,
     private afs: AngularFirestore,
-    private storage: AngularFireStorage
+    private storage: AngularFireStorage,
+    public location: LocationProvider,
+    public geo: Geolocation
   ) {
     console.log('Hello CameraProvider Provider');
 
@@ -136,12 +146,54 @@ export class CameraProvider {
     }
   }
 
-    /**
-   * Uploads an image to storage and references download URL to user profile
-   *
-   * @param {*} image
-   * @memberof UserDataProvider
-   */
+  async uploadImageToPublicProfile(passedImage, tagList) {
+    let user = await this.auth.getAuthenticatedUser();
+    const imageRef = this.storage.ref(`publicImages/${user.uid}/publicImages`); // Make a reference
+
+    let position = await this.geo.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 30000,
+      maximumAge: 60000
+    });
+
+    let currentLocation: Location = {
+      uid: user.uid,
+      lat: position.coords.latitude,
+      lon: position.coords.longitude, // longitude
+      timestamp: (new Date).getTime()
+    };
+
+    try {
+      await imageRef.putString(passedImage, 'data_url');
+      let profile: User = await this.data.getAuthenticatedUserProfile();
+
+      let sub = imageRef.getDownloadURL()
+        .subscribe(async (url) => {
+
+          var uploadPhoto: Photo = {
+            image: url,
+            tag: tagList,
+            location: currentLocation
+          }
+          profile.publicImages.push(uploadPhoto);
+
+          console.log('Uploading public Image:' + url);
+          await this.data.updateUserProfile(profile);
+          sub.unsubscribe();
+        });
+
+    } catch (e) {
+      console.log(e);
+      throw e;
+    }
+  }
+
+  /**
+ * Uploads an image to storage and references download URL to user profile
+ *
+ * @param {*} image
+ * @memberof UserDataProvider
+ */
   async uploadPhotoInterface(photo: Photo) {
     // let user = await this.auth.getAuthenticatedUser();
     // const imageRef = this.storage.ref(`profileImages/${user.uid}/profileImage`); // Make a reference

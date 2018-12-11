@@ -1,0 +1,37 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>ImagesPage</ion-title>
+  </ion-navbar>
+
+  <div class="profileButtons">
+    <button ion-button outline round icon-start (click)="getImageFromCamera()" class="button" id="take">
+      <ion-icon name="camera"></ion-icon>
+      Take Picture
+    </button>
+    <button ion-button outline round icon-start (click)="getImageFromGallery()" class="button" id="get">
+      <ion-icon name="image"></ion-icon>
+      Edit Picture
+    </button>
+  </div>
+
+</ion-header>
+
+
+<ion-content>
+
+  <div class="image-container">
+    <a>
+    <img *ngIf="!imageHolder" src="https://via.placeholder.com/400x900">
+    <img *ngIf="imageHolder" src= "{{ imageHolder }}" >
+    </a>  
+  </div>
+  
+  <div class="save" align="center">
+      <button ion-button round (click)="uploadPicture()" class="button">
+        Save
+      </button>
+    </div>
+
+</ion-content>
