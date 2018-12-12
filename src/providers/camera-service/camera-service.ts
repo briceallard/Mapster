@@ -148,7 +148,8 @@ export class CameraProvider {
 
   async uploadImageToPublicProfile(passedImage, tagList) {
     let user = await this.auth.getAuthenticatedUser();
-    const imageRef = this.storage.ref(`publicImages/${user.uid}/publicImages`); // Make a reference
+    let filename = (new Date).getTime();
+    const imageRef = this.storage.ref(`publicImages/${user.uid}/${filename}`); // Make a reference
 
     let position = await this.geo.getCurrentPosition({
       enableHighAccuracy: true,
@@ -175,6 +176,10 @@ export class CameraProvider {
             tag: tagList,
             location: currentLocation
           }
+
+          if(!profile.publicImages)
+            profile.publicImages = [];
+          
           profile.publicImages.push(uploadPhoto);
 
           console.log('Uploading public Image:' + url);

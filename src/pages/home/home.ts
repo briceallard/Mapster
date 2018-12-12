@@ -53,7 +53,7 @@ export class HomePage {
   markers: Marker[];
   timePipe = new DatePipe('en-US');
   markerUser$: Subscription;
-  userDict = new Map<string, Marker>();  
+  userDict  = new Map<string, Marker>();  
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public modal: ModalController,
@@ -67,6 +67,11 @@ export class HomePage {
     private mapProvider: MapProvider,
     private afs: AngularFirestore
   ) {
+    console.log("before map");
+   // this.userDict = new Map<string, Marker>();  
+    console.log(this.userDict);
+    console.log("after map");
+
   }
 
   ionViewDidLoad() {
@@ -88,6 +93,7 @@ export class HomePage {
   }
 
   uploadImageWithGeo() {
+    console.log('FAB BUTTON CLICKED!!!!!!!!!!!!!!!!!!!!!!');
     this.navCtrl.push(Pages.IMAGES_PAGE);
   }
 
@@ -134,7 +140,6 @@ export class HomePage {
       };
 
       this.map = GoogleMaps.create('map_canvas', mapOptions);
-      
       
       let marker: Marker = this.map.addMarkerSync({
         title: 'My Location',

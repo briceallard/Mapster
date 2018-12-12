@@ -39,7 +39,7 @@ export class ImagesPage {
     console.log('ionViewDidLoad ImagesPage');
   }
 
-  uploadPicture() {
+  saveButtonClicked() {
     this.uploadPublicPicture(this.imageHolder);
 
   }

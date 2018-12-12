@@ -46,6 +46,10 @@ export class DashboardPage {
     this.navCtrl.push(Pages.FRIEND_REQUEST_PAGE);
   }
 
+  publicPhotosClicked() {
+    this.navCtrl.push(Pages.IMAGES_PAGE);
+  }
+
   async updateFriendRequestCount() {
     let user = await this.auth.getAuthenticatedUser();
     this.requests$ = (await this.friends.getAllFriendRequestsInbox())
