@@ -1,9 +1,3 @@
-<!--
-  Generated template for the HomePage page.
-
-  See http://ionicframework.com/docs/components/#navigation for more info on
-  Ionic pages and navigation.
--->
 <ion-header>
 
   <ion-navbar color='navbar'>
@@ -48,21 +42,20 @@
     </h2> -->
   </div>
 
+  <ion-fab right bottom #fab>
+    <button ion-fab color="primary">
+      <ion-icon name="add"></ion-icon>
+    </button>
+    <ion-fab-list side="top">
+      <button ion-fab color="navbar" (click)="uploadImageWithGeo(fab)">
+        <ion-icon color="primary" name="image"></ion-icon>
+      </button>
+      <button ion-fab color="navbar">
+        <ion-icon color="primary" name="compass"></ion-icon>
+      </button>
+      <button ion-fab color="navbar">
+        <ion-icon color="primary" name="paper"></ion-icon>
+      </button>
+    </ion-fab-list>
+  </ion-fab>
 </ion-content>
-
-<ion-fab right bottom>
-  <button ion-fab color="primary">
-    <ion-icon name="add"></ion-icon>
-  </button>
-  <ion-fab-list side="top">
-    <button ion-fab color="navbar" (click)="uploadImageWithGeo()">
-      <ion-icon color="primary" name="image"></ion-icon>
-    </button>
-    <button ion-fab color="navbar">
-      <ion-icon color="primary" name="compass"></ion-icon>
-    </button>
-    <button ion-fab color="navbar">
-      <ion-icon color="primary" name="paper"></ion-icon>
-    </button>
-  </ion-fab-list>
-</ion-fab>
