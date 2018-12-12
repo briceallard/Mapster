@@ -7,7 +7,7 @@
     background: transparent;
   }
 
-  .profileImage {
+  .profile-image {
     border: 2px solid #0054FE;
     border-radius: 50%;
   }
@@ -47,21 +47,23 @@ page-dashboard {
   }
 
   .large-profile {
+    position: relative;
+    overflow: hidden;
     width: 50%;
-    height: auto;
+    height: 50%;
     margin-top: 40px;
     margin-bottom: 40px;
-    border: 2px, solid, #0054FE;
     border-radius: 50%;
-    -webkit-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
-    -moz-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
-    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
   }
 
+  .large-image {
+    display: inline;
+    margin: 0 auto;
+  }
 
   .menu {
     position: absolute;
-    top: 49%;
+    top: 50%;
     width: 100%;
     height: auto;
 

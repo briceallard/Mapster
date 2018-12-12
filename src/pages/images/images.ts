@@ -6,6 +6,13 @@ import { Crop } from '@ionic-native/crop';
 import { Camera } from '@ionic-native/camera';
 import { CameraProvider } from '../../providers/camera-service/camera-service';
 import { ErrorMessages, TOAST_DURATION } from '../../utils/constants';
+import { AuthProvider } from '../../providers/auth/auth';
+import { AngularFirestore } from 'angularfire2/firestore';
+import { Photo } from '../../models/users/photo.interface';
+import { User } from '../../models/users/user.interface';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
+
 
 /**
  * Generated class for the ImagesPage page.
@@ -21,9 +28,11 @@ import { ErrorMessages, TOAST_DURATION } from '../../utils/constants';
 })
 export class ImagesPage {
 
+  public images: Photo[] = [];
+  public galleryType: string;
   base64Image: string;
   imageHolder: string;
-  tagList: string[]
+  tagList: string[];
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     private utilities: UtilitiesProvider,
@@ -32,7 +41,15 @@ export class ImagesPage {
     public toast: ToastController,
     public camera: Camera,
     public cameraSvc: CameraProvider,
-    public alert: AlertController) {
+    public alert: AlertController,
+    private auth: AuthProvider,
+    public afs: AngularFirestore) {
+  }
+
+  ionViewWillLoad() {
+    this.getAllUserImages();
+    this.galleryType = 'view';
+    
   }
 
   ionViewDidLoad() {
@@ -41,13 +58,12 @@ export class ImagesPage {
 
   saveButtonClicked() {
     this.uploadPublicPicture(this.imageHolder);
-
   }
-    /**
-   * Gets image from device camera
-   *
-   * @memberof ProfilePage
-   */
+  /**
+ * Gets image from device camera
+ *
+ * @memberof ProfilePage
+ */
   async getImageFromCamera() {
     try {
       this.base64Image = await this.cameraSvc.getImageFromCamera(this.cameraSvc.optionsHigh);
@@ -71,6 +87,13 @@ export class ImagesPage {
     }
   }
 
+  async getAllUserImages() {
+    let user: User = await this.data.getAuthenticatedUserProfile();
+
+    this.images = user.publicImages
+    console.log(JSON.stringify(this.images));
+  }
+
   // async getTagList() {
 
   // }
@@ -82,8 +105,8 @@ export class ImagesPage {
    * @memberof ProfilePage
    */
   async uploadPublicPicture(image) {
-    let tags = ['pretty', 'scenic', 'cat'];    
-    
+    let tags = ['pretty', 'scenic', 'cat'];
+
     try {
       await this.cameraSvc.uploadImageToPublicProfile(image, tags);
     } catch (e) {

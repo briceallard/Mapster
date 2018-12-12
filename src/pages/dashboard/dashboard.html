@@ -11,7 +11,8 @@
       <!--<button ion-button icon-only (click)="presentPopover($event)">-->
       <button ion-button icon-only (click)="openProfileModal()">
         <ion-icon>
-          <img class="profileImage" src="../../assets/icon/profile_image_placeholder.svg">
+          <img *ngIf="!profile.profileImage" class="profile-image" src="../../assets/icon/profile_image_placeholder.svg">
+          <img *ngIf="profile.profileImage" class="profile-image" src="{{profile.profileImage}}">
         </ion-icon>
       </button>
     </ion-buttons>
@@ -24,7 +25,8 @@
 
   <div align="center" class="top">
     <ion-avatar class="large-profile" (click)="navigateToEditProfile()">
-      <img src="../../assets/icon/profile_image_placeholder.svg">
+      <img class="large-image" *ngIf="!profile.profileImage" src="../../assets/icon/profile_image_placeholder.svg">
+      <img class="large-image" *ngIf="profile.profileImage" src="{{ profile.profileImage }}">
     </ion-avatar>
     <h2>Brice Allard</h2>
     <p>
@@ -56,11 +58,11 @@
     </ion-list-header>
     <ion-item (click)="publicPhotosClicked()">
       Public Photos
-      <ion-badge color="primary" id="badge">260</ion-badge>
+      <ion-badge color="primary" id="badge">162</ion-badge>
     </ion-item>
     <ion-item>
       Private Photos
-      <ion-badge color="primary" id="badge">32</ion-badge>
+      <ion-badge color="primary" id="badge">98</ion-badge>
     </ion-item>
 
   </ion-list>

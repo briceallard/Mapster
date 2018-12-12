@@ -1,18 +1,30 @@
 page-images {
-    .profileButtons {
-        position: absolute;
-        width: 100%;
-      }
-      
-      #take {
-        font-size: .9em;
-        width: auto;
-        max-width: 50%;
-      }
-    
-      #get {
-        font-size: .9em;
-        width: auto;
-        max-width: 50%;
-      }
+  .profileButtons {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .button {
+    -webkit-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
+    -moz-box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
+    box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.75);
+  }
+
+  .image-container {
+    background-size: cover;
+    min-height: 200px;
+    margin-top: 10px;
+  }
+
+  #take {
+    font-size: .9em;
+    width: auto;
+    max-width: 50%;
+  }
+
+  #get {
+    font-size: .9em;
+    width: auto;
+    max-width: 50%;
+  }
 }
