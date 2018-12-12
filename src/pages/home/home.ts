@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, AlertController, PopoverController } from 'ionic-angular';
 import { Pages } from '../../utils/constants';
-
+import { forkJoin, of } from 'rxjs';
+import { map, mergeMap, catchError } from 'rxjs/operators';
 import {
   GoogleMaps,
   GoogleMap,
@@ -53,7 +54,7 @@ export class HomePage {
   markers: Marker[];
   timePipe = new DatePipe('en-US');
   markerUser$: Subscription;
-  userDict  = new Map<string, Marker>();  
+  userDict = new Map<string, Marker>();
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public modal: ModalController,
@@ -68,7 +69,7 @@ export class HomePage {
     private afs: AngularFirestore
   ) {
     console.log("before map");
-   // this.userDict = new Map<string, Marker>();  
+    // this.userDict = new Map<string, Marker>();  
     console.log(this.userDict);
     console.log("after map");
 
@@ -140,7 +141,7 @@ export class HomePage {
       };
 
       this.map = GoogleMaps.create('map_canvas', mapOptions);
-      
+
       let marker: Marker = this.map.addMarkerSync({
         title: 'My Location',
         icon: '../../assets/icon/my_location.png',
@@ -150,11 +151,11 @@ export class HomePage {
           lng: location.lon
         }
       });
-      
+
       marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
         // Do something here on marker click
       });
-      
+
       this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
         this.displayAllUserMarkers();
       });
@@ -207,10 +208,12 @@ export class HomePage {
 
   async displayAllUserMarkers() {
 
-    let userID = await this.auth.getUserUID();  
+    let userID = await this.auth.getUserUID();
 
     try {
-      this.userLocations$ = (await this.mapProvider.getAllUserLocations())
+
+      this.userLocations$ = this.mapProvider.getAllUserLocations()
+
         .subscribe((location) => {
           location.forEach((data) => {
 
@@ -219,50 +222,50 @@ export class HomePage {
               this.markerUser$ = this.afs.collection<User>('users', ref => ref
                 .where('uid', '==', data.uid))
                 .valueChanges()
-                .subscribe((profile) => {
-                  profile.forEach((userSnap) => {
+                .subscribe((profiles) => {
+                let userSnap = profiles[0];
+                if (this.userDict.has(userSnap.uid)) {
+                  this.userDict.get(userSnap.uid).remove();
+                }
 
-                    if (this.userDict.has(userSnap.uid)) {
-                      this.userDict.get(userSnap.uid).remove();
-                    }
+                let time = this.timePipe.transform((new Date).getTime() - data.timestamp, 'h');
 
-                    let time = this.timePipe.transform((new Date).getTime() - data.timestamp, 'h');
+                let mapIcon: MarkerIcon = {
+                  url: userSnap.profileImage,
+                  size: {
+                    width: 32,
+                    height: 32
+                  }
+                }
 
-                    let mapIcon: MarkerIcon = {
-                      url: userSnap.profileImage,
-                      size: {
-                        width: 32,
-                        height: 32
-                      }
-                    }
+                let marker: Marker = this.map.addMarkerSync({
+                  title: `${userSnap.firstName} ${userSnap.lastName}`,
+                  snippet: `${time} hours ago`,
+                  icon: mapIcon,
+                  animation: 'DROP',
+                  zIndex: 3,
+                  position: {
+                    lat: data.lat,
+                    lng: data.lon
+                  }
+                });
 
-                    let marker: Marker = this.map.addMarkerSync({
-                      title: `${userSnap.firstName} ${userSnap.lastName}`,
-                      snippet: `${time} hours ago`,
-                      icon: mapIcon,
-                      animation: 'DROP',
-                      zIndex: 3,
-                      position: {
-                        lat: data.lat,
-                        lng: data.lon
-                      }
-                    });
+                marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
+                  //alert('User Clicked');
+                  // Do something here
+                });
 
-                    marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-                      //alert('User Clicked');
-                      // Do something here
-                    });
-                    
-                    this.userDict.set(userSnap.uid, marker);
-                  })
-                })
+                this.userDict.set(userSnap.uid, marker);
+                console.log(marker);
+                this.markerUser$.unsubscribe();
+              });
 
-            } else {
-              console.log('Error with Map Marker insertion!')
-            }
+          } else {
+            console.log('Error with Map Marker insertion!')
+          }
 
-          });
         });
+      });
 
     } catch (e) {
       console.log(e.message);

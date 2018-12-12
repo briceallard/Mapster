@@ -17,8 +17,8 @@ export class MapProvider {
     console.log('Hello MapProvider Provider');
   }
 
-  async getAllUserLocations(): Promise<Observable<Location[]>> {
-    return await this.firestore.collection<Location>('locations').valueChanges();
+  getAllUserLocations(): Observable<Location[]> {
+    return this.firestore.collection<Location>('locations').valueChanges();
   }
 
 }
