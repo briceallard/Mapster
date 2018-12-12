@@ -9,7 +9,7 @@
 
 <ion-content padding>
 
-  <ion-segment [(ngModel)]="galleryType">
+  <ion-segment [(ngModel)]="galleryType" (ionChange)='onSegmentChange()'>
     <ion-segment-button value="view">
       View Images
     </ion-segment-button>

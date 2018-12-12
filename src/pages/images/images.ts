@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ToastController, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ToastController } from 'ionic-angular';
 import { UserDataProvider } from '../../providers/userData/userData';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
 import { Crop } from '@ionic-native/crop';
@@ -10,8 +10,6 @@ import { AuthProvider } from '../../providers/auth/auth';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { Photo } from '../../models/users/photo.interface';
 import { User } from '../../models/users/user.interface';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 
 /**
@@ -41,9 +39,9 @@ export class ImagesPage {
     public toast: ToastController,
     public camera: Camera,
     public cameraSvc: CameraProvider,
-    public alert: AlertController,
     private auth: AuthProvider,
-    public afs: AngularFirestore) {
+    public afs: AngularFirestore,
+    public alertCtrl: UtilitiesProvider) {
   }
 
   ionViewWillLoad() {
@@ -59,6 +57,12 @@ export class ImagesPage {
   saveButtonClicked() {
     this.uploadPublicPicture(this.imageHolder);
   }
+
+  onSegmentChange() {
+    if(this.galleryType === 'view')
+      this.getAllUserImages();
+  }
+  
   /**
  * Gets image from device camera
  *
@@ -109,9 +113,13 @@ export class ImagesPage {
 
     try {
       await this.cameraSvc.uploadImageToPublicProfile(image, tags);
+      await this.getAllUserImages();
+      
+      this.alertCtrl.showToast('Image uploaded successfully');
+
     } catch (e) {
       this.utilities.showToast(ErrorMessages.UPLOAD_FAILED, TOAST_DURATION);
-      this.alert.create({ title: 'Error', subTitle: e.message, buttons: ['OK'] }).present();
+      this.alertCtrl.showToast('Error uploading image');
     }
   }
 }
