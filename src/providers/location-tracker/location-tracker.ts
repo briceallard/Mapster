@@ -27,52 +27,8 @@
     }
 
     async startTracking() {
-      // Background Tracking
+    let user: User = await this.auth.getAuthenticatedUser();
 
-      let user: User = await this.auth.getAuthenticatedUser();
-  
-    let config = {
-      desiredAccuracy: 0,
-      stationaryRadius: 10,
-      distanceFilter: 3,
-      debug: false,
-      interval: 2000
-    };
-
-  
-    this.backgroundGeolocation.configure(config).subscribe((location) => {
-  
-      console.log('BackgroundGeolocation:  ' + location.latitude + ',' + location.longitude);
-  
-      // Run update inside of Angular's zone
-      this.zone.run(() => {
-        this.lat = location.latitude;
-        this.lng = location.longitude;
-
-        let loc: Location = {
-          uid: user.uid,
-          lat: this.lat,
-          lon: this.lng,
-          timestamp: location.time
-        };
-
-        //console.log(loc.uid + ' | ' + loc.timestamp + ' | ' + loc.lat + ' , ' + loc.lon);
-        this.locSrvc.postMostRecentUserLocation(loc);
-        this.locSrvc.postUserLocationHistory(loc);
-
-      });
-  
-    }, (err) => {
-  
-      console.log(err);
-  
-    });
-  
-    // Turn ON the background-geolocation system.
-    this.backgroundGeolocation.start();
-  
-    
-  
     // Foreground Tracking
   
   let options = {

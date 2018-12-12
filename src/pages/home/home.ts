@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
+import { Component, } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, AlertController, PopoverController } from 'ionic-angular';
 import { Pages } from '../../utils/constants';
 
@@ -17,7 +18,7 @@ import {
 
 import { UserDataProvider } from '../../providers/userData/userData';
 import { Subscription, Observable } from 'rxjs';
-import { Geolocation } from '@ionic-native/geolocation';
+import { Geolocation, Geoposition } from '@ionic-native/geolocation';
 import { UtilitiesProvider } from '../../providers/utilities/utilities';
 import { LocationProvider } from '../../providers/location/location';
 import { Location } from '../../models/users/location.interface';
@@ -28,7 +29,6 @@ import { MapProvider } from '../../providers/map/map'
 import { _ParseAST } from '@angular/compiler';
 import { AngularFirestore } from 'angularfire2/firestore';
 import { DatePipe } from '@angular/common';
-
 
 /**
  * Generated class for the HomePage page.
@@ -53,7 +53,13 @@ export class HomePage {
   markers: Marker[];
   timePipe = new DatePipe('en-US');
   markerUser$: Subscription;
-  userDict = new Map<string, Marker>();  
+  userDict = new Map<string, Marker>();
+  public watch: any;
+  public lat: number = 0;
+  public lng: number = 0;
+  subscription: Subscription;
+  marker: Marker;
+  location: Location;
 
   constructor(public navCtrl: NavController, public navParams: NavParams,
     public modal: ModalController,
@@ -65,7 +71,8 @@ export class HomePage {
     public popoverCtrl: PopoverController,
     private auth: AuthProvider,
     private mapProvider: MapProvider,
-    private afs: AngularFirestore
+    private afs: AngularFirestore,
+    public zone: NgZone,
   ) {
   }
 
@@ -88,7 +95,7 @@ export class HomePage {
   }
 
   uploadImageWithGeo() {
-    
+
   }
 
   /**
@@ -112,21 +119,18 @@ export class HomePage {
         maximumAge: 60000
       });
 
-      let location: Location = {
+      this.location = {
         uid: user.uid,
         lat: position.coords.latitude,
         lon: position.coords.longitude,
         timestamp: position.timestamp
       };
 
-      this.locSrvc.postMostRecentUserLocation(location);
-      this.locSrvc.postUserLocationHistory(location);
-
       let mapOptions: GoogleMapOptions = {
         camera: {
           target: {
-            lat: location.lat,
-            lng: location.lon
+            lat: this.location.lat,
+            lng: this.location.lon
           },
           zoom: 18,
           tilt: 0
@@ -134,24 +138,20 @@ export class HomePage {
       };
 
       this.map = GoogleMaps.create('map_canvas', mapOptions);
-      
-      
-      let marker: Marker = this.map.addMarkerSync({
+
+      this.marker = this.map.addMarkerSync({
         title: 'My Location',
         icon: '../../assets/icon/my_location.png',
         animation: 'DROP',
         position: {
-          lat: location.lat,
-          lng: location.lon
+          lat: this.location.lat,
+          lng: this.location.lon
         }
       });
-      
-      marker.on(GoogleMapsEvent.MARKER_CLICK).subscribe(() => {
-        // Do something here on marker click
-      });
-      
+
       this.map.on(GoogleMapsEvent.MAP_READY).subscribe(() => {
         this.displayAllUserMarkers();
+        this.displayMyMarker();
       });
 
     } catch (e) {
@@ -191,6 +191,27 @@ export class HomePage {
     }
   }
 
+  async displayMyMarker() {
+
+    this.subscription = this.geo.watchPosition().subscribe(position => {
+        var geoposition = (position as Geoposition);
+
+        console.log('Latitude: ' + geoposition.coords.latitude + ' - Longitude: ' + geoposition.coords.longitude);
+        let latlng = new LatLng(geoposition.coords.latitude, geoposition.coords.longitude);
+        this.marker.setPosition(latlng);
+
+        this.location.lat = geoposition.coords.latitude;
+        this.location.lon = geoposition.coords.longitude;
+        this.location.timestamp = position.timestamp;
+
+        console.log('ID' +  this.location.uid + 'Time' + this.location.timestamp);
+
+        this.locSrvc.postMostRecentUserLocation(this.location);
+        this.locSrvc.postUserLocationHistory(this.location);
+  });
+
+  }
+
   /* Combine all of them */
   displayAllFriendsMarkers() {
 
@@ -202,7 +223,7 @@ export class HomePage {
 
   async displayAllUserMarkers() {
 
-    let userID = await this.auth.getUserUID();  
+    let userID = await this.auth.getUserUID();
 
     try {
       this.userLocations$ = (await this.mapProvider.getAllUserLocations())
@@ -247,7 +268,7 @@ export class HomePage {
                       //alert('User Clicked');
                       // Do something here
                     });
-                    
+
                     this.userDict.set(userSnap.uid, marker);
                   })
                 })
