@@ -29,7 +29,7 @@
     </ion-grid>
 
     <div class="takeImage" *ngSwitchCase="'upload'">
-      <div *ngIf="!imageHolder" class="image-container">
+      <div class="image-container">
         <a>
           <img *ngIf="!imageHolder" src="https://via.placeholder.com/400x500">
           <img *ngIf="imageHolder" src="{{ imageHolder }}">
