@@ -28,10 +28,10 @@
       <img class="large-image" *ngIf="!profile.profileImage" src="../../assets/icon/profile_image_placeholder.svg">
       <img class="large-image" *ngIf="profile.profileImage" src="{{ profile.profileImage }}">
     </ion-avatar>
-    <h2>Brice Allard</h2>
+    <h2> {{ profile.firstName }} {{ profile.lastName }} </h2>
     <p>
       <ion-icon name="locate" item-start color="primary"></ion-icon>
-      Wichita Falls,  USA
+      {{ profile.city }},  USA
     </p>
   </div>
 
