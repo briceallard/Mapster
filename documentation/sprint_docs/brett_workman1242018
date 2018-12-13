@@ -1,0 +1,22 @@
+### Name: Brett Workman
+### Date: December 4, 2018
+
+## Files Worked On
+
+- https://github.com/briceallard/Mapster/blob/master/src/pages/friend-search/friend-search.html
+- https://github.com/briceallard/Mapster/blob/master/src/pages/friend-search/friend-search.module.ts
+- https://github.com/briceallard/Mapster/blob/master/src/pages/friends/friends.html
+-https://github.com/briceallard/Mapster/blob/master/src/pages/friends/friends.module.ts
+
+
+## Approximate Time Worked
+
+| Description                     | Hrs  |
+| :------------------------------ | ---: |
+| Working on code                |  4 |
+| Querying Firestore for location | 4 |
+| Total                           | 8 |
+
+## Description of Sprint
+
+Nothing much is done aside from research of figuring out how to impliment and use the firebase system to store and sendfriend requests. we struggled with the coding as well as have some issues with some computers. we dud what we could within the timeframe.
